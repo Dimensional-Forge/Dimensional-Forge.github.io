@@ -1,0 +1,2608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Dimensional Forge</title>
+  <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Reset ──────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    /* ── Brand tokens ───────────────────────────────────────────── */
+    :root {
+      --df-red:      #EE4236;
+      --df-orange:   #F0782D;
+      --df-gold:     #FAAC3D;
+      --df-black:    #000000;
+      --df-steel:    #1A1A1A;
+      --df-brush:    #2E2E2E;
+      --df-text:     #F5F5F5;
+      --df-muted:    #A0A0A0;
+      --df-grad:     linear-gradient(90deg,  #EE4236 0%, #F0782D 50%, #FAAC3D 100%);
+      --df-grad-45:  linear-gradient(135deg, #EE4236 0%, #F0782D 50%, #FAAC3D 100%);
+    }
+
+    /* ── Base ───────────────────────────────────────────────────── */
+    body {
+      background: var(--df-black);
+      color: var(--df-text);
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    a { color: inherit; }
+
+    /* ── Scrollbar ──────────────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--df-black); }
+    ::-webkit-scrollbar-thumb { background: var(--df-orange); border-radius: 2px; }
+
+    /* ── Type ───────────────────────────────────────────────────── */
+    .display {
+      font-family: 'Audiowide', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+
+    /* ── Utility ────────────────────────────────────────────────── */
+    .container { max-width: 1080px; margin: 0 auto; padding: 0 2rem; }
+    .section { padding: 6rem 0; }
+    .section-dark { background: var(--df-black); }
+
+    .grad-text {
+      background: var(--df-grad);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .rule {
+      width: 48px; height: 2px;
+      background: var(--df-grad);
+      border: none;
+      margin: 0.75rem 0 2.5rem;
+      display: block;
+    }
+    .label {
+      font-family: 'Audiowide', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--df-orange);
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    .section-title {
+      font-family: 'Audiowide', sans-serif;
+      font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      line-height: 1.2;
+      color: var(--df-text);
+    }
+    .section-lead {
+      color: var(--df-muted);
+      font-size: 0.95rem;
+      max-width: 520px;
+      margin-bottom: 3rem;
+    }
+
+    /* ── Buttons ────────────────────────────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.6rem;
+      font-family: 'Audiowide', sans-serif;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      text-decoration: none;
+      border-radius: 2px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.22s;
+    }
+    .btn-primary {
+      background: var(--df-grad-45);
+      color: #fff;
+      box-shadow: 0 4px 18px rgba(240,120,45,0.3);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(240,120,45,0.45); }
+    .btn-ghost {
+      background: transparent;
+      color: var(--df-orange);
+      border: 1px solid var(--df-orange);
+    }
+    .btn-ghost:hover { background: rgba(240,120,45,0.08); transform: translateY(-2px); }
+
+    /* ── NAV ────────────────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(0,0,0,0.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--df-brush);
+      padding: 0.85rem 0;
+    }
+    nav .inner {
+      display: flex; align-items: center; justify-content: space-between;
+      max-width: 1080px; margin: 0 auto; padding: 0 2rem;
+    }
+    .nav-logo {
+      display: flex; align-items: center;
+      text-decoration: none;
+      height: 36px;
+      flex-shrink: 0;
+    }
+    .nav-logo svg { height: 36px; width: auto; }
+    .nav-links { display: flex; gap: 1.1rem; list-style: none; }
+    .nav-links a {
+      color: var(--df-muted);
+      text-decoration: none;
+      font-family: 'Audiowide', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--df-orange); }
+    .nav-hire-me {
+      background: linear-gradient(90deg, #EE4236, #F0782D, #FAAC3D, #F0782D, #EE4236);
+      background-size: 300% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: hire-me-cycle 6s linear infinite;
+    }
+    .nav-hire-me:hover { -webkit-text-fill-color: transparent !important; }
+    @keyframes hire-me-cycle {
+      0%   { background-position: 0% center; }
+      100% { background-position: 300% center; }
+    }
+
+    /* ── HERO ───────────────────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      position: relative; overflow: hidden;
+      padding-top: 80px;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 55% 50%, rgba(240,120,45,0.06) 0%, transparent 70%),
+        radial-gradient(ellipse 30% 30% at 75% 65%, rgba(238,66,54,0.04) 0%, transparent 60%);
+    }
+    /* Floating ember particles */
+    .embers { position: fixed; inset: 0; pointer-events: none; z-index: 1; }
+    .ember {
+      position: absolute; border-radius: 50%; opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(0) translateX(0); opacity: 0; }
+      8%   { opacity: 0.65; }
+      88%  { opacity: 0.15; }
+      100% { transform: translateY(-100vh) translateX(var(--dx)); opacity: 0; }
+    }
+    .hero-content { position: relative; z-index: 1; }
+    .hero-logo { width: clamp(120px, 14vw, 180px); margin-bottom: 1.75rem; }
+    .hero-logo svg { width: 100%; height: auto; display: block; }
+    .hero-title {
+      font-family: 'Audiowide', sans-serif;
+      font-size: clamp(2rem, 4.5vw, 3.4rem);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      line-height: 1.1;
+      color: var(--df-text);
+      margin: 0 0 1rem;
+      max-width: 680px;
+    }
+    .hero-desc {
+      color: var(--df-muted);
+      font-size: clamp(0.88rem, 1.4vw, 1rem);
+      max-width: 520px;
+      margin-bottom: 2rem;
+      line-height: 1.7;
+    }
+    .hero-sub {
+      font-family: 'Audiowide', sans-serif;
+      font-size: clamp(0.7rem, 1.5vw, 0.9rem);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--df-muted);
+      margin-bottom: 2rem;
+    }
+    .hero-sub span {
+      background: var(--df-grad);
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-cta { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 3.5rem; }
+    .hero-stats { display: flex; flex-wrap: wrap; gap: 2.5rem; }
+    .stat-num {
+      font-family: 'Audiowide', sans-serif;
+      font-size: 1.8rem;
+      background: var(--df-grad);
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1;
+    }
+    .stat-lbl {
+      font-size: 0.72rem; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--df-muted);
+    }
+
+    /* ── ABOUT ──────────────────────────────────────────────────── */
+    #about .grid {
+      display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 4rem; align-items: start;
+    }
+    #about p { color: var(--df-muted); font-size: 0.93rem; margin-bottom: 1rem; }
+    #about p strong { color: var(--df-text); }
+    .spec-block {
+      background: var(--df-steel);
+      border: 1px solid var(--df-brush);
+      border-left: 2px solid var(--df-orange);
+      padding: 1.5rem;
+      border-radius: 2px;
+      margin-bottom: 1rem;
+    }
+    .spec-block .spec-title {
+      font-family: 'Audiowide', sans-serif;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--df-orange);
+      margin-bottom: 0.75rem;
+    }
+    .spec-list { display: flex; flex-direction: column; gap: 0.5rem; }
+    .spec-item {
+      display: flex; align-items: baseline; gap: 0.6rem;
+      font-size: 0.85rem; color: var(--df-muted);
+    }
+    .spec-item::before {
+      content: '›'; color: var(--df-orange); flex-shrink: 0;
+    }
+    .spec-item strong { color: var(--df-text); font-weight: 500; }
+
+    /* ── SERVICES ───────────────────────────────────────────────── */
+    #services .grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(275px, 1fr)); gap: 1px;
+      background: var(--df-brush); border: 1px solid var(--df-brush);
+    }
+    .svc {
+      background: var(--df-black);
+      padding: 2rem;
+      transition: background 0.2s;
+      position: relative;
+    }
+    .svc:hover { background: var(--df-steel); }
+    .svc-icon {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--df-orange);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+    .svc h3 {
+      font-family: 'Audiowide', sans-serif;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--df-text);
+      margin-bottom: 0.6rem;
+    }
+    .svc p { color: var(--df-muted); font-size: 0.83rem; line-height: 1.65; }
+    .services-cta { margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    /* ── CONTENT PILLARS ────────────────────────────────────────── */
+    #content .pillars {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 1.25rem;
+    }
+    .pillar {
+      background: var(--df-steel);
+      border: 1px solid var(--df-brush);
+      padding: 1.75rem;
+      border-radius: 2px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .pillar:hover { border-color: var(--df-orange); transform: translateY(-3px); }
+    .pillar-glyph { font-size: 1.8rem; margin-bottom: 0.75rem; display: block; }
+    .pillar h3 {
+      font-family: 'Audiowide', sans-serif;
+      font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--df-text); margin-bottom: 0.35rem;
+    }
+    .tier {
+      display: inline-block; font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem; letter-spacing: 0.06em;
+      padding: 0.1rem 0.5rem; border-radius: 2px; margin-bottom: 0.6rem;
+    }
+    .tier-free  { background: rgba(100,200,100,0.1); color: #72c472; border: 1px solid rgba(100,200,100,0.2); }
+    .tier-paid  { background: rgba(240,120,45,0.1);  color: var(--df-orange); border: 1px solid rgba(240,120,45,0.25); }
+    .tier-both  { background: rgba(250,172,61,0.1);  color: var(--df-gold);   border: 1px solid rgba(250,172,61,0.25); }
+    .pillar p { color: var(--df-muted); font-size: 0.84rem; line-height: 1.6; }
+
+    /* ── COMMUNITY ──────────────────────────────────────────────── */
+    #community .cards {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(295px, 1fr)); gap: 1.25rem;
+    }
+    .comm-card {
+      background: var(--df-steel);
+      border: 1px solid var(--df-brush);
+      padding: 2rem; border-radius: 2px;
+    }
+    .comm-card .glyph { font-size: 2rem; margin-bottom: 0.75rem; display: block; }
+    .comm-card h3 {
+      font-family: 'Audiowide', sans-serif; font-size: 0.82rem;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--df-text);
+      margin-bottom: 0.3rem;
+    }
+    .comm-card .role {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.68rem;
+      color: var(--df-orange); margin-bottom: 0.75rem; display: block;
+    }
+    .comm-card p { color: var(--df-muted); font-size: 0.84rem; line-height: 1.6; }
+
+    /* ── REVIEWS ────────────────────────────────────────────────── */
+    #reviews .rv-layout {
+      display: grid; grid-template-columns: 1fr 1.4fr; gap: 3rem; align-items: start;
+    }
+    .rv-summary {
+      background: var(--df-steel);
+      border: 1px solid var(--df-brush);
+      border-top: 2px solid var(--df-orange);
+      padding: 2rem; border-radius: 2px;
+      text-align: center; position: sticky; top: 90px;
+    }
+    .rv-big-score {
+      font-family: 'Audiowide', sans-serif;
+      font-size: 4rem; line-height: 1;
+      background: var(--df-grad); -webkit-background-clip: text;
+      background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: 0.3rem;
+    }
+    .rv-stars-display { display: flex; justify-content: center; gap: 0.25rem; margin-bottom: 0.5rem; }
+    .rv-star-icon { font-size: 1.3rem; transition: transform 0.15s; }
+    .rv-count { font-size: 0.8rem; color: var(--df-muted); margin-bottom: 1.5rem; }
+    .rv-bars { display: flex; flex-direction: column; gap: 0.5rem; text-align: left; }
+    .rv-bar-row { display: flex; align-items: center; gap: 0.6rem; font-size: 0.75rem; }
+    .rv-bar-label { color: var(--df-muted); width: 1.2rem; flex-shrink: 0; font-family: 'JetBrains Mono', monospace; }
+    .rv-bar-track { flex: 1; height: 6px; background: var(--df-brush); border-radius: 3px; overflow: hidden; }
+    .rv-bar-fill { height: 100%; background: var(--df-grad); border-radius: 3px; transition: width 0.6s ease; }
+    .rv-bar-n { color: var(--df-muted); width: 1.5rem; text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; }
+
+    /* Review cards list */
+    .rv-list { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem; max-height: 520px; overflow-y: auto; padding-right: 4px; }
+    .rv-list::-webkit-scrollbar { width: 4px; }
+    .rv-list::-webkit-scrollbar-thumb { background: var(--df-brush); border-radius: 2px; }
+    .rv-card {
+      background: var(--df-steel); border: 1px solid var(--df-brush);
+      padding: 1.4rem; border-radius: 2px;
+      animation: fadeUp 0.3s ease both;
+    }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+    .rv-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; }
+    .rv-card-name { font-weight: 600; font-size: 0.9rem; color: var(--df-text); }
+    .rv-card-stars { display: flex; gap: 0.15rem; }
+    .rv-card-star { font-size: 0.85rem; }
+    .rv-card-date { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--df-muted); margin-bottom: 0.6rem; }
+    .rv-card-text { font-size: 0.86rem; color: var(--df-muted); line-height: 1.65; }
+
+    /* Review form */
+    .rv-form-wrap {
+      background: var(--df-steel); border: 1px solid var(--df-brush);
+      border-left: 2px solid var(--df-orange);
+      padding: 1.75rem; border-radius: 2px;
+    }
+    .rv-form-title {
+      font-family: 'Audiowide', sans-serif; font-size: 0.75rem;
+      text-transform: uppercase; letter-spacing: 0.12em;
+      color: var(--df-text); margin-bottom: 1.25rem;
+    }
+    .rv-field { margin-bottom: 1rem; }
+    .rv-field label {
+      display: block; font-family: 'Audiowide', sans-serif;
+      font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.12em;
+      color: var(--df-muted); margin-bottom: 0.4rem;
+    }
+    .rv-field input, .rv-field textarea {
+      width: 100%; background: var(--df-black);
+      border: 1px solid var(--df-brush); border-radius: 2px;
+      padding: 0.65rem 0.85rem; color: var(--df-text);
+      font-family: 'Inter', sans-serif; font-size: 0.88rem;
+      outline: none; transition: border-color 0.2s; resize: vertical;
+    }
+    .rv-field input:focus, .rv-field textarea:focus { border-color: var(--df-orange); }
+    .rv-field textarea { min-height: 90px; }
+
+    /* Star picker */
+    .star-picker { display: flex; gap: 0.4rem; cursor: pointer; }
+    .star-picker .sp-star {
+      font-size: 1.6rem; color: var(--df-brush); transition: color 0.15s, transform 0.15s;
+      user-select: none; line-height: 1;
+    }
+    .star-picker .sp-star.lit   { color: var(--df-gold); }
+    .star-picker .sp-star:hover { transform: scale(1.2); }
+
+    .rv-submit {
+      width: 100%; margin-top: 0.5rem;
+      background: var(--df-grad-45); color: #fff;
+      border: none; border-radius: 2px; cursor: pointer;
+      font-family: 'Audiowide', sans-serif; font-size: 0.72rem;
+      text-transform: uppercase; letter-spacing: 0.12em;
+      padding: 0.85rem; transition: opacity 0.2s, transform 0.2s;
+    }
+    .rv-submit:hover { opacity: 0.88; transform: translateY(-1px); }
+    .rv-submit:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+    .rv-msg { font-size: 0.8rem; margin-top: 0.75rem; text-align: center; min-height: 1.2em; }
+    .rv-msg.ok  { color: #72c472; }
+    .rv-msg.err { color: var(--df-red); }
+
+    @media (max-width: 768px) {
+      #reviews .rv-layout { grid-template-columns: 1fr; }
+      .rv-summary { position: static; }
+    }
+
+    /* ── 3D MODELS ──────────────────────────────────────────────── */
+    #models .models-layout {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2.5rem;
+    }
+    .platform-card {
+      background: var(--df-steel);
+      border: 1px solid var(--df-brush);
+      border-radius: 2px; overflow: hidden;
+      transition: transform 0.2s, border-color 0.2s;
+      display: flex; flex-direction: column;
+    }
+    .platform-card:hover { transform: translateY(-4px); border-color: var(--df-orange); }
+    .platform-card-header {
+      background: var(--df-black);
+      padding: 1.5rem 1.75rem 1.25rem;
+      border-bottom: 1px solid var(--df-brush);
+    }
+    .platform-logo {
+      font-family: 'Audiowide', sans-serif; font-size: 1.05rem;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--df-text); margin-bottom: 0.3rem;
+    }
+    .platform-url {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.68rem;
+      color: var(--df-muted);
+    }
+    .platform-card-body { padding: 1.5rem 1.75rem; flex: 1; display: flex; flex-direction: column; gap: 1rem; }
+    .platform-desc { color: var(--df-muted); font-size: 0.86rem; line-height: 1.65; flex: 1; }
+    .platform-badges { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .pbadge {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.68rem;
+      padding: 0.25rem 0.65rem; border-radius: 2px; letter-spacing: 0.05em;
+    }
+    .pbadge-free { background: rgba(100,200,100,0.1); color: #72c472; border: 1px solid rgba(100,200,100,0.2); }
+    .pbadge-paid { background: rgba(240,120,45,0.1); color: var(--df-orange); border: 1px solid rgba(240,120,45,0.25); }
+    .pbadge-award { background: rgba(250,172,61,0.12); color: var(--df-gold); border: 1px solid rgba(250,172,61,0.3); }
+    .platform-cta {
+      display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: auto; padding-top: 0.5rem;
+      border-top: 1px solid var(--df-brush);
+    }
+    .models-commission {
+      background: var(--df-black); border: 1px solid var(--df-brush);
+      border-left: 3px solid var(--df-orange);
+      padding: 1.5rem 1.75rem;
+      border-radius: 2px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .models-commission p { color: var(--df-muted); font-size: 0.88rem; max-width: 520px; }
+    .models-commission p strong { color: var(--df-text); }
+    @media (max-width: 768px) {
+      #models .models-layout { grid-template-columns: 1fr; }
+      .models-commission { flex-direction: column; }
+    }
+
+    /* ── WORK / PORTFOLIO ───────────────────────────────────────── */
+    #work .work-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(440px, 1fr)); gap: 1.25rem;
+    }
+    .work-card {
+      background: var(--df-black);
+      border: 1px solid var(--df-brush);
+      border-left: 3px solid var(--df-brush);
+      padding: 1.75rem; border-radius: 2px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .work-card:hover { border-left-color: var(--df-orange); transform: translateY(-3px); }
+    .work-card--accent { border-left-color: var(--df-orange); }
+    .work-header {
+      display: flex; justify-content: space-between; align-items: baseline;
+      margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem;
+    }
+    .work-org {
+      font-family: 'Audiowide', sans-serif; font-size: 0.65rem;
+      text-transform: uppercase; letter-spacing: 0.12em; color: var(--df-orange);
+    }
+    .work-year {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: var(--df-muted);
+    }
+    .work-card h3 {
+      font-family: 'Audiowide', sans-serif; font-size: 0.85rem;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      color: var(--df-text); margin-bottom: 0.75rem; line-height: 1.4;
+    }
+    .work-card p { color: var(--df-muted); font-size: 0.84rem; line-height: 1.65; margin-bottom: 1rem; }
+    .work-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+    .wtag {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+      padding: 0.2rem 0.55rem; border-radius: 2px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--df-brush);
+      color: var(--df-muted);
+    }
+    @media (max-width: 768px) {
+      #work .work-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── DELIVERED ──────────────────────────────────────────────── */
+    #delivered .proposals-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.25rem;
+    }
+    .proposal-card {
+      background: var(--df-black);
+      border: 1px solid var(--df-brush);
+      border-top: 3px solid var(--df-orange);
+      padding: 1.5rem; border-radius: 2px;
+      transition: border-top-color 0.2s, transform 0.2s;
+      display: flex; flex-direction: column; gap: 0.75rem;
+    }
+    .proposal-card:hover { border-top-color: var(--df-red); transform: translateY(-3px); }
+    .proposal-date {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+      color: var(--df-muted); display: block; margin-top: 0.2rem;
+    }
+    .proposal-title {
+      font-family: 'Audiowide', sans-serif; font-size: 0.8rem;
+      text-transform: uppercase; letter-spacing: 0.05em;
+      background: var(--df-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      line-height: 1.4;
+    }
+    .proposal-stats {
+      display: flex; gap: 1.25rem; flex-wrap: wrap;
+    }
+    .pstat {
+      display: flex; flex-direction: column; align-items: flex-start;
+    }
+    .pstat-val {
+      font-family: 'Audiowide', sans-serif; font-size: 1.1rem;
+      background: var(--df-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      line-height: 1;
+    }
+    .pstat-lbl {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.6rem;
+      color: var(--df-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 0.15rem;
+    }
+    .proposal-desc {
+      color: var(--df-muted); font-size: 0.82rem; line-height: 1.6;
+      display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .proposal-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: auto; }
+    .proposal-card { cursor: pointer; }
+    @media (max-width: 768px) {
+      #delivered .proposals-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── PROPOSAL MODAL ──────────────────────────────────────────── */
+    .pmodal-backdrop {
+      display: none; position: fixed; inset: 0; z-index: 500;
+      background: rgba(0,0,0,0.82); backdrop-filter: blur(4px);
+      align-items: center; justify-content: center; padding: 1.5rem;
+    }
+    .pmodal-backdrop.open { display: flex; }
+    .pmodal {
+      background: #0e0e0e; border: 1px solid var(--df-brush);
+      border-top: 3px solid var(--df-orange);
+      border-radius: 2px; width: 100%; max-width: 680px;
+      max-height: 88vh; overflow-y: auto;
+      padding: 2rem; position: relative;
+    }
+    .pmodal-close {
+      position: sticky; top: 0; float: right; margin: -0.5rem -0.5rem 0.5rem 1rem;
+      background: none; border: 1px solid var(--df-brush); color: var(--df-muted);
+      font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+      padding: 0.2rem 0.6rem; border-radius: 2px; cursor: pointer;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .pmodal-close:hover { border-color: var(--df-red); color: var(--df-text); }
+    .pmodal-label {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.62rem;
+      text-transform: uppercase; letter-spacing: 0.12em; color: var(--df-orange);
+      margin-bottom: 0.25rem;
+    }
+    .pmodal-title {
+      font-family: 'Audiowide', sans-serif; font-size: 1rem;
+      text-transform: uppercase; letter-spacing: 0.05em;
+      background: var(--df-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      line-height: 1.4; margin-bottom: 1.25rem;
+    }
+    .pmodal-stats {
+      display: flex; gap: 1.5rem; flex-wrap: wrap;
+      padding: 1rem; background: rgba(255,255,255,0.03);
+      border: 1px solid var(--df-brush); border-radius: 2px;
+      margin-bottom: 1.5rem;
+    }
+    .pmodal-phase {
+      border-left: 2px solid var(--df-brush); padding-left: 1rem;
+      margin-bottom: 1.25rem;
+    }
+    .pmodal-phase-title {
+      font-family: 'Audiowide', sans-serif; font-size: 0.72rem;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      color: var(--df-orange); margin-bottom: 0.5rem;
+    }
+    .pmodal-phase ul {
+      list-style: none; padding: 0; margin: 0;
+    }
+    .pmodal-phase ul li {
+      font-size: 0.83rem; color: var(--df-muted); line-height: 1.7; padding-left: 1rem;
+      position: relative;
+    }
+    .pmodal-phase ul li::before {
+      content: '›'; position: absolute; left: 0; color: var(--df-orange);
+    }
+    .pmodal-section-label {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.62rem;
+      text-transform: uppercase; letter-spacing: 0.1em; color: var(--df-muted);
+      margin: 1.25rem 0 0.6rem;
+    }
+    .pmodal-deliverables {
+      font-size: 0.83rem; color: var(--df-muted); line-height: 1.7;
+      border-left: 2px solid var(--df-brush); padding-left: 1rem; margin-bottom: 1.25rem;
+    }
+
+    /* ── BOOK ────────────────────────────────────────────────────── */
+    #book .book-layout {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start;
+    }
+    .book-panel {
+      background: var(--df-steel); border: 1px solid var(--df-brush);
+      padding: 2rem; border-radius: 2px;
+    }
+    .book-panel-title {
+      font-family: 'Audiowide', sans-serif; font-size: 0.75rem;
+      text-transform: uppercase; letter-spacing: 0.12em;
+      color: var(--df-text); margin-bottom: 1.5rem;
+    }
+    .bk-field { margin-bottom: 1rem; }
+    .bk-field label {
+      display: block; font-family: 'Audiowide', sans-serif;
+      font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.12em;
+      color: var(--df-muted); margin-bottom: 0.4rem;
+    }
+    .bk-field input, .bk-field textarea, .bk-field select {
+      width: 100%; background: var(--df-black);
+      border: 1px solid var(--df-brush); border-radius: 2px;
+      padding: 0.65rem 0.85rem; color: var(--df-text);
+      font-family: 'Inter', sans-serif; font-size: 0.88rem;
+      outline: none; transition: border-color 0.2s; resize: vertical;
+      -webkit-appearance: none; appearance: none;
+    }
+    .bk-field input:focus, .bk-field textarea:focus, .bk-field select:focus {
+      border-color: var(--df-orange);
+    }
+    .bk-field textarea { min-height: 110px; }
+    .bk-field select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23A0A0A0'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 0.85rem center;
+      padding-right: 2rem; cursor: pointer;
+    }
+    .bk-submit {
+      width: 100%; margin-top: 0.25rem;
+      background: var(--df-grad-45); color: #fff;
+      border: none; border-radius: 2px; cursor: pointer;
+      font-family: 'Audiowide', sans-serif; font-size: 0.72rem;
+      text-transform: uppercase; letter-spacing: 0.12em;
+      padding: 0.85rem; transition: opacity 0.2s, transform 0.2s;
+    }
+    .bk-submit:hover { opacity: 0.88; transform: translateY(-1px); }
+    .cal-wrap {
+      border: 1px solid var(--df-brush); border-radius: 2px; overflow: hidden;
+      background: var(--df-black);
+    }
+    @media (max-width: 768px) {
+      #book .book-layout { grid-template-columns: 1fr; }
+    }
+    /* Payment methods */
+    .pay-strip {
+      margin-top: 2rem;
+      padding: 1.5rem 1.75rem;
+      background: var(--df-steel); border: 1px solid var(--df-brush);
+      border-radius: 2px;
+      display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;
+    }
+    .pay-strip-label {
+      font-family: 'Audiowide', sans-serif; font-size: 0.65rem;
+      text-transform: uppercase; letter-spacing: 0.14em; color: var(--df-muted);
+      flex-shrink: 0;
+    }
+    .pay-btns { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+    .pay-btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.65rem 1.4rem;
+      border-radius: 2px; text-decoration: none;
+      font-family: 'Audiowide', sans-serif; font-size: 0.68rem;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      border: 1px solid var(--df-brush);
+      transition: all 0.2s;
+    }
+    .pay-btn-paypal { background: #003087; color: #fff; border-color: #003087; }
+    .pay-btn-paypal:hover { background: #002267; }
+    .pay-btn-venmo { background: #008CFF; color: #fff; border-color: #008CFF; }
+    .pay-btn-venmo:hover { background: #006fd6; }
+    .pay-note { font-size: 0.78rem; color: var(--df-muted); margin-left: auto; }
+
+    /* ── EXPERIENCE ─────────────────────────────────────────────── */
+    #experience .tl-wrap {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0 3rem;
+    }
+    .timeline { position: relative; padding-left: 1.5rem; }
+    .timeline::before {
+      content: ''; position: absolute; left: 0; top: 8px; bottom: 0;
+      width: 1px;
+      background: linear-gradient(180deg, var(--df-orange), transparent);
+    }
+    .tl-item { position: relative; margin-bottom: 2rem; }
+    .tl-item::before {
+      content: ''; position: absolute; left: -1.5rem; top: 6px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--df-orange); box-shadow: 0 0 8px var(--df-orange);
+    }
+    .tl-date {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.68rem;
+      color: var(--df-orange); margin-bottom: 0.2rem;
+    }
+    .tl-role {
+      font-family: 'Audiowide', sans-serif; font-size: 0.78rem;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      color: var(--df-text); margin-bottom: 0.2rem;
+    }
+    .tl-org { font-size: 0.82rem; color: var(--df-muted); margin-bottom: 0.3rem; }
+    .tl-note { font-size: 0.8rem; color: #6a6a6a; line-height: 1.55; }
+
+    /* ── CONNECT ────────────────────────────────────────────────── */
+    #connect .link-grid {
+      display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2rem;
+    }
+    .lnk {
+      flex: 1 1 190px; display: flex; align-items: center; gap: 1rem;
+      padding: 1.2rem 1.4rem;
+      background: var(--df-steel); border: 1px solid var(--df-brush);
+      border-radius: 2px; text-decoration: none; color: var(--df-text);
+      transition: all 0.22s;
+    }
+    .lnk:hover { border-color: var(--df-orange); transform: translateY(-2px); }
+    .lnk-icon { font-size: 1.6rem; flex-shrink: 0; }
+    .lnk-label {
+      font-family: 'Audiowide', sans-serif; font-size: 0.6rem;
+      text-transform: uppercase; letter-spacing: 0.12em; color: var(--df-muted);
+      margin-bottom: 0.15rem;
+    }
+    .lnk-name { font-size: 0.9rem; font-weight: 500; color: var(--df-orange); }
+
+    /* ── FOOTER ─────────────────────────────────────────────────── */
+    footer {
+      background: var(--df-black);
+      border-top: 1px solid var(--df-brush);
+      padding: 2.5rem 0;
+      text-align: center;
+    }
+    footer .f-brand {
+      font-family: 'Audiowide', sans-serif; font-size: 0.75rem;
+      text-transform: uppercase; letter-spacing: 0.18em;
+      background: var(--df-grad);
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.4rem;
+    }
+    footer p { color: var(--df-muted); font-size: 0.78rem; }
+
+    /* ── RESPONSIVE ─────────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      #about .grid,
+      #experience .tl-wrap { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       VENN CHAT WIDGET
+       ═══════════════════════════════════════════════════════ */
+    #venn-widget {
+      position: relative; flex-shrink: 0; margin-left: 1rem;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Toggle button — nav-sized */
+    #venn-toggle {
+      width: 44px; height: 44px; background: #120500;
+      border: 1px solid #994400; border-radius: 6px;
+      cursor: pointer; padding: 0; overflow: hidden;
+      position: relative; display: block;
+      box-shadow: 0 0 0 1px #3a1500, 0 0 12px rgba(200,90,0,0.35);
+      transition: box-shadow 0.3s;
+    }
+    #venn-toggle:hover {
+      box-shadow: 0 0 0 1px #662200, 0 0 20px rgba(220,100,0,0.55);
+    }
+    #venn-toggle::after {
+      content: ''; position: absolute; inset: 0;
+      background: repeating-linear-gradient(0deg,rgba(0,0,0,0) 0px,rgba(0,0,0,0) 1px,rgba(0,0,0,0.13) 1px,rgba(0,0,0,0.13) 2px);
+      pointer-events: none; z-index: 2;
+    }
+    #venn-toggle svg { width: 44px; height: 44px; image-rendering: pixelated; display: block; }
+
+    /* Panel — drops down from nav */
+    #venn-panel {
+      position: absolute; top: calc(100% + 10px); right: 0; width: 300px;
+      background: #0a0300; border: 2px solid #994400; border-radius: 8px;
+      box-shadow: 0 0 0 1px #3a1500, 0 0 40px rgba(200,90,0,0.25);
+      display: none; flex-direction: column; overflow: hidden; z-index: 200;
+    }
+    #venn-panel.venn-open { display: flex; }
+
+    /* Panel header */
+    #venn-panel-header {
+      background: #120500; border-bottom: 1px solid #1a0800;
+      padding: 8px 10px; display: flex; align-items: center; gap: 10px; flex-shrink: 0;
+    }
+    .venn-crt-mini {
+      position: relative; border: 1px solid #994400; border-radius: 4px;
+      background: #120500; overflow: hidden; flex-shrink: 0;
+      width: 48px; height: 52px; box-shadow: 0 0 10px rgba(200,90,0,0.3);
+    }
+    .venn-crt-mini::after {
+      content: ''; position: absolute; inset: 0;
+      background: repeating-linear-gradient(0deg,rgba(0,0,0,0) 0px,rgba(0,0,0,0) 1px,rgba(0,0,0,0.13) 1px,rgba(0,0,0,0.13) 2px);
+      pointer-events: none; z-index: 2;
+    }
+    .venn-crt-mini::before {
+      content: ''; position: absolute; width: 100%; height: 35%;
+      background: linear-gradient(to bottom,transparent 0%,rgba(255,110,0,0.04) 50%,transparent 100%);
+      animation: venn-scan-beam 5s linear infinite; pointer-events: none; z-index: 3;
+    }
+    .venn-crt-mini svg { width: 48px; height: 52px; image-rendering: pixelated; display: block; }
+    #venn-header-info { flex: 1; min-width: 0; }
+    #venn-header-name {
+      font-family: 'Audiowide', sans-serif; font-size: 0.65rem;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      background: var(--df-grad); -webkit-background-clip: text;
+      background-clip: text; -webkit-text-fill-color: transparent; display: block;
+    }
+    #venn-header-sub {
+      font-size: 0.57rem; letter-spacing: 0.08em; text-transform: uppercase;
+      color: #886644; margin-top: 1px; display: block;
+    }
+    #venn-header-status {
+      font-size: 0.57rem; letter-spacing: 0.08em; text-transform: uppercase;
+      color: #aa6633; margin-top: 3px; display: block;
+    }
+    #venn-header-status.venn-live { color: #00cc44; }
+    #venn-close {
+      background: none; border: 1px solid #553300; color: #aa6633;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.6rem;
+      padding: 4px 7px; border-radius: 3px; cursor: pointer;
+      letter-spacing: 1px; transition: border-color 0.15s, color 0.15s; flex-shrink: 0;
+    }
+    #venn-close:hover { border-color: #994400; color: #ff8844; }
+
+    /* Messages */
+    #venn-about-bar {
+      border-bottom: 1px solid #1a0800;
+      padding: 5px 10px;
+      background: #0d0300;
+      flex-shrink: 0;
+    }
+    #venn-about-link {
+      display: inline-flex; align-items: center; gap: 5px;
+      color: #cc4400; text-decoration: none;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    #venn-about-link:hover { color: #ff7722; }
+    #venn-messages {
+      flex: 1; overflow-y: auto; padding: 10px 12px;
+      display: flex; flex-direction: column; gap: 8px;
+      min-height: 180px; max-height: 260px;
+      scrollbar-width: thin; scrollbar-color: #441100 #0a0300;
+    }
+    #venn-messages::-webkit-scrollbar { width: 3px; }
+    #venn-messages::-webkit-scrollbar-track { background: #0a0300; }
+    #venn-messages::-webkit-scrollbar-thumb { background: #441100; border-radius: 2px; }
+    .vmsg {
+      font-size: 0.68rem; line-height: 1.5; padding: 6px 8px; border-radius: 3px;
+      word-break: break-word;
+    }
+    .vmsg.vuser   { background: rgba(31,8,0,0.8); border-left: 2px solid #cc4400; color: #F5F5F5; align-self: flex-end; max-width: 88%; }
+    .vmsg.vassist { background: rgba(0,20,6,0.8); border-left: 2px solid #00aa44; color: #F5F5F5; align-self: flex-start; max-width: 88%; }
+    .vmsg.vsys    { color: #666; font-size: 0.6rem; letter-spacing: 1px; text-transform: uppercase; text-align: center; align-self: center; }
+
+    /* Input row */
+    #venn-input-row {
+      display: flex; gap: 6px; padding: 8px 10px;
+      border-top: 1px solid #180800; background: #0d0400; flex-shrink: 0;
+    }
+    #venn-input {
+      flex: 1; background: #0a0200; border: 1px solid #2a1000; color: #ff8844;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.68rem;
+      padding: 6px 8px; border-radius: 3px; outline: none;
+    }
+    #venn-input:focus { border-color: #664400; }
+    #venn-input::placeholder { color: #664422; }
+    #venn-send {
+      background: none; border: 1px solid #3a1500; color: #cc5500;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.6rem;
+      padding: 6px 10px; border-radius: 3px; cursor: pointer;
+      letter-spacing: 1px; text-transform: uppercase;
+      transition: border-color 0.1s, color 0.1s; flex-shrink: 0;
+    }
+    #venn-send:hover { border-color: #994400; color: #ff6600; }
+
+    /* Keyframes */
+    @keyframes venn-scan-beam { 0% { top: -35%; } 100% { top: 100%; } }
+    @keyframes venn-eye-pulse { 0%,100%{opacity:1} 50%{opacity:0.70} }
+    @keyframes venn-ant-l { 0%,87%,100%{opacity:1} 93%{opacity:0.12} }
+    @keyframes venn-ant-r { 0%,87%,100%{opacity:1} 93%{opacity:0.12} }
+    .venn-eye-anim { animation: venn-eye-pulse 2.8s ease-in-out infinite; }
+    .venn-ant-l    { animation: venn-ant-l 3.6s ease-in-out infinite; }
+    .venn-ant-r    { animation: venn-ant-r 3.6s ease-in-out infinite 1.8s; }
+  </style>
+</head>
+<body>
+
+  <!-- EMBERS -->
+  <div class="embers" id="embers"></div>
+
+  <!-- ── NAV ──────────────────────────────────────────────────────── -->
+  <nav>
+    <div class="inner">
+      <a href="#hero" class="nav-logo" aria-label="The Dimensional Forge">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="40 40 430 430" style="height:32px;width:32px;display:block;border-radius:4px;" aria-hidden="true">
+          <defs>
+            <linearGradient id="nav-icon-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop stop-color="#EE4236" offset="0"/>
+              <stop stop-color="#FAAC3D" offset="1"/>
+            </linearGradient>
+          </defs>
+          <rect x="40" y="40" width="430" height="430" fill="#111"/>
+          <path fill="url(#nav-icon-grad)" d="M42.843,48.727c1.185,445.12-1.883,411.585,1.389,418.13c0.278,0.278,0.278,0.278,0.278,0.556c0.278,0.278,0.278,0.278,0.556,0.278c6.219,3.109-11.301,0.187,145.026,1.389H322.06c157.166-0.305,140.352,0.947,145.026-1.389c0.278,0,0.278-0.278,0.556-0.278c0.278-0.278,0.278-0.278,0.278-0.556c0.278-0.556,0.833-0.833,0.833-1.389c0.768-2.303,0.555-416.847,0.549-416.947v-1.43c0-2.337-1.915-4.221-4.252-4.182l-1.377,0.023c0,0-24.026,0.189-141.612-0.04H190.091C81.12,43.731,56.366,42.623,49.509,42.853h-2.578c-2.223,0-4.033,1.786-4.063,4.009L42.843,48.727z M326.227,457.411l-18.337-54.454h86.682l54.454,54.454H326.227z M62.847,457.411l54.454-54.454h86.682l-18.337,54.454H62.847z M185.646,54.561l18.337,54.454h-86.682L62.847,54.561H185.646z M449.027,54.561l-54.454,54.454H307.89l18.337-54.454H449.027z M327.894,319.609V192.642l63.345-63.345v253.379L327.894,319.609z M195.926,315.997V195.976h120.021v120.022H195.926z M183.979,192.364v126.967l-63.067,63.345V129.297L183.979,192.364z M382.626,120.962l-63.345,63.345h-36.673l21.115-63.345H382.626z M270.106,184.029H241.49l-21.115-63.345h70.846L270.106,184.029z M229.265,184.029h-36.951l-63.067-63.067h78.903L229.265,184.029z M108.966,117.35v277.272l-54.454,54.454V62.896L108.966,117.35z M129.247,391.01l63.345-63.345h36.673L208.15,391.01H129.247z M241.767,327.944h28.616l21.115,63.345h-71.124L241.767,327.944z M282.608,327.944h36.673l63.345,63.345h-78.903L282.608,327.944z M402.907,394.622V117.35l54.454-54.454v385.902L402.907,394.622z M313.725,54.561l-18.337,54.454h-78.903l-18.337-54.454H313.725z M198.148,457.411l18.337-54.454h78.903l18.337,54.454H198.148z"/>
+        </svg>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#work">Work</a></li>
+        <li><a href="#delivered">Delivered</a></li>
+        <li><a href="#reviews">Reviews</a></li>
+        <li><a href="#models">Designs</a></li>
+        <li><a href="#community">Community</a></li>
+        <li><a href="#book" class="nav-hire-me">Forge Together</a></li>
+      </ul>
+
+      <!-- VENN nav widget -->
+      <div id="venn-widget">
+
+        <button id="venn-toggle" aria-label="Open VENN chat">
+          <svg id="vwt-face" viewBox="-20 -50 260 290" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+            <rect x="-20" y="-50" width="260" height="340" fill="#120500"/>
+            <rect x="-18" y="56" width="30" height="84" fill="#cc4400" rx="3"/>
+            <rect x="-14" y="60" width="22" height="76" fill="#1f0800" rx="2"/>
+            <rect x="208" y="56" width="30" height="84" fill="#cc4400" rx="3"/>
+            <rect x="212" y="60" width="22" height="76" fill="#1f0800" rx="2"/>
+            <rect x="-5"  y="-14" width="4"  height="70" fill="#cc4400"/>
+            <rect x="-10" y="-18" width="14" height="7"  fill="#ff7722" rx="2"/>
+            <rect x="221" y="-14" width="4"  height="70" fill="#cc4400"/>
+            <rect x="216" y="-18" width="14" height="7"  fill="#ff7722" rx="2"/>
+            <rect x="40"  y="10"  width="140" height="12" fill="#cc4400"/>
+            <rect x="16"  y="22"  width="24"  height="12" fill="#cc4400"/>
+            <rect x="180" y="22"  width="24"  height="12" fill="#cc4400"/>
+            <rect x="10"  y="34"  width="200" height="156" fill="#1f0800"/>
+            <rect x="10"  y="34"  width="12"  height="156" fill="#cc4400"/>
+            <rect x="198" y="34"  width="12"  height="156" fill="#cc4400"/>
+            <rect x="16"  y="190" width="24"  height="12" fill="#cc4400"/>
+            <rect x="180" y="190" width="24"  height="12" fill="#cc4400"/>
+            <rect x="40"  y="202" width="140" height="12" fill="#cc4400"/>
+            <rect id="vwt-leye"   x="36"  y="58" width="56" height="44" fill="#00ee44" rx="2"/>
+            <rect id="vwt-lpupil" x="50"  y="68" width="28" height="24" fill="#002208"/>
+            <rect id="vwt-lshine" x="50"  y="68" width="9"  height="9"  fill="#aaffcc" opacity="0.65"/>
+            <rect id="vwt-reye"   x="128" y="58" width="56" height="44" fill="#00ee44" rx="2"/>
+            <rect id="vwt-rpupil" x="142" y="68" width="28" height="24" fill="#002208"/>
+            <rect id="vwt-rshine" x="142" y="68" width="9"  height="9"  fill="#aaffcc" opacity="0.65"/>
+            <g id="vwt-mouth"></g>
+          </svg>
+        </button>
+
+        <div id="venn-panel">
+          <div id="venn-panel-header">
+            <div class="venn-crt-mini">
+              <svg viewBox="-20 -50 260 290" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <radialGradient id="vwh-glow" cx="50%" cy="45%" r="55%">
+                    <stop offset="0%"   stop-color="#ff5500" stop-opacity="0.09"/>
+                    <stop offset="100%" stop-color="#ff5500" stop-opacity="0"/>
+                  </radialGradient>
+                </defs>
+                <rect x="-20" y="-50" width="260" height="340" fill="#120500"/>
+                <rect x="-18" y="56" width="30" height="84" fill="#cc4400" rx="3"/>
+                <rect x="-14" y="60" width="22" height="76" fill="#1f0800" rx="2"/>
+                <rect x="208" y="56" width="30" height="84" fill="#cc4400" rx="3"/>
+                <rect x="212" y="60" width="22" height="76" fill="#1f0800" rx="2"/>
+                <rect x="-5"  y="-14" width="4"  height="70" fill="#cc4400"/>
+                <rect class="venn-ant-l" x="-10" y="-18" width="14" height="7" fill="#ff7722" rx="2"/>
+                <rect x="221" y="-14" width="4"  height="70" fill="#cc4400"/>
+                <rect class="venn-ant-r" x="216" y="-18" width="14" height="7" fill="#ff7722" rx="2"/>
+                <rect x="40"  y="10"  width="140" height="12" fill="#cc4400"/>
+                <rect x="16"  y="22"  width="24"  height="12" fill="#cc4400"/>
+                <rect x="180" y="22"  width="24"  height="12" fill="#cc4400"/>
+                <rect x="10"  y="34"  width="200" height="156" fill="#1f0800"/>
+                <rect x="10"  y="34"  width="12"  height="156" fill="#cc4400"/>
+                <rect x="198" y="34"  width="12"  height="156" fill="#cc4400"/>
+                <rect x="16"  y="190" width="24"  height="12" fill="#cc4400"/>
+                <rect x="180" y="190" width="24"  height="12" fill="#cc4400"/>
+                <rect x="40"  y="202" width="140" height="12" fill="#cc4400"/>
+                <rect width="220" height="240" fill="url(#vwh-glow)"/>
+                <rect class="venn-eye-anim" id="vwh-leye"   x="36"  y="58" width="56" height="44" fill="#00ee44" rx="2"/>
+                <rect id="vwh-lpupil" x="50"  y="68" width="28" height="24" fill="#002208"/>
+                <rect id="vwh-lshine" x="50"  y="68" width="9"  height="9"  fill="#aaffcc" opacity="0.65"/>
+                <rect class="venn-eye-anim" id="vwh-reye"   x="128" y="58" width="56" height="44" fill="#00ee44" rx="2"/>
+                <rect id="vwh-rpupil" x="142" y="68" width="28" height="24" fill="#002208"/>
+                <rect id="vwh-rshine" x="142" y="68" width="9"  height="9"  fill="#aaffcc" opacity="0.65"/>
+                <g id="vwh-mouth"></g>
+              </svg>
+            </div>
+            <div id="venn-header-info">
+              <span id="venn-header-name">VENN</span>
+              <span id="venn-header-sub">The Dimensional Forge</span>
+              <span id="venn-header-status">● Bridge Offline</span>
+            </div>
+            <button id="venn-close" aria-label="Close">✕</button>
+          </div>
+          <div id="venn-about-bar">
+            <a href="venn-concept-default.html" target="_blank" id="venn-about-link">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              About VENN
+              <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+          </div>
+          <div id="venn-messages"></div>
+          <div id="venn-input-row">
+            <input id="venn-input" type="text" placeholder="Ask VENN..." autocomplete="off"/>
+            <button id="venn-send">Send</button>
+          </div>
+        </div>
+
+      </div><!-- /venn-widget -->
+
+    </div>
+  </nav>
+
+  <!-- ── HERO ──────────────────────────────────────────────────────── -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="container hero-content">
+      <div class="hero-logo">
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+             viewBox="0 0 2803.3347638511004 3171.3413581453938">
+          <g transform="scale(8.56706790726969) translate(10, 10)">
+            <defs>
+              <linearGradient id="hg1"><stop stop-color="#EE4236" offset="0"/><stop stop-color="#FAAC3D" offset="1"/></linearGradient>
+              <linearGradient id="hg2"><stop stop-color="#EE4236" offset="0"/><stop stop-color="#FAAC3D" offset="1"/></linearGradient>
+              <linearGradient id="hg3"><stop stop-color="#EE4236" offset="0"/><stop stop-color="#FAAC3D" offset="1"/></linearGradient>
+              <linearGradient id="hg4"><stop stop-color="#EE4236" offset="0"/><stop stop-color="#FAAC3D" offset="1"/></linearGradient>
+            </defs>
+            <g transform="matrix(0.42356017282622244,0,0,0.42356017282622244,44.92793394727225,-18.137201937001823)" fill="url(#hg1)"><path d="M42.843,48.727c1.185,445.12-1.883,411.585,1.389,418.13c0.278,0.278,0.278,0.278,0.278,0.556  c0.278,0.278,0.278,0.278,0.556,0.278c6.219,3.109-11.301,0.187,145.026,1.389H322.06c157.166-0.305,140.352,0.947,145.026-1.389  c0.278,0,0.278-0.278,0.556-0.278c0.278-0.278,0.278-0.278,0.278-0.556c0.278-0.556,0.833-0.833,0.833-1.389  c0.768-2.303,0.555-416.847,0.549-416.947v-1.43c0-2.337-1.915-4.221-4.252-4.182l-1.377,0.023c0,0-24.026,0.189-141.612-0.04  H190.091C81.12,43.731,56.366,42.623,49.509,42.853h-2.578c-2.223,0-4.033,1.786-4.063,4.009L42.843,48.727z M326.227,457.411  l-18.337-54.454h86.682l54.454,54.454H326.227z M62.847,457.411l54.454-54.454h86.682l-18.337,54.454H62.847z M185.646,54.561  l18.337,54.454h-86.682L62.847,54.561H185.646z M449.027,54.561l-54.454,54.454H307.89l18.337-54.454H449.027z M327.894,319.609  V192.642l63.345-63.345v253.379L327.894,319.609z M195.926,315.997V195.976h120.021v120.022H195.926z M183.979,192.364v126.967  l-63.067,63.345V129.297L183.979,192.364z M382.626,120.962l-63.345,63.345h-36.673l21.115-63.345H382.626z M270.106,184.029H241.49  l-21.115-63.345h70.846L270.106,184.029z M229.265,184.029h-36.951l-63.067-63.067h78.903L229.265,184.029z M108.966,117.35v277.272  l-54.454,54.454V62.896L108.966,117.35z M129.247,391.01l63.345-63.345h36.673L208.15,391.01H129.247z M241.767,327.944h28.616  l21.115,63.345h-71.124L241.767,327.944z M282.608,327.944h36.673l63.345,63.345h-78.903L282.608,327.944z M402.907,394.622V117.35  l54.454-54.454v385.902L402.907,394.622z M313.725,54.561l-18.337,54.454h-78.903l-18.337-54.454H313.725z M198.148,457.411  l18.337-54.454h78.903l18.337,54.454H198.148z"/></g>
+            <g transform="matrix(1.3371439857783192,0,0,1.3371439857783192,-2.6742879715566383,184.5798734868981)" fill="url(#hg2)"><path d="M2 40 l0 -27.4 l8.44 0 c7.64 0 13.88 5.76 13.88 13.68 s-6.24 13.72 -13.88 13.72 l-8.44 0 z M10.36 14.559999999999999 l-6.24 0 l0 23.48 l6.24 0 c6.64 0 11.84 -5 11.84 -11.76 s-5.2 -11.72 -11.84 -11.72 z M29.64 40 l-2.12 0 l0 -27.4 l2.12 0 l0 27.4 z M45.88 40 l-10.24 -23.16 l0 23.16 l-2 0 l0 -27.4 l2.4 0 l10.48 24.16 l10.44 -24.16 l2.4 0 l0 27.4 l-2.04 0 l0 -23.24 l-10.24 23.24 l-1.2 0 z M63.36 40 l0 -27.4 l16.44 0 l0 1.96 l-14.32 0 l0 10.6 l13.32 0 l0 1.96 l-13.32 0 l0 10.92 l15.12 0 l0 1.96 l-17.24 0 z M101.08 40 l-15.76 -24.12 l0 24.12 l-2.04 0 l0 -27.4 l2.24 0 l15.76 24.12 l0 -24.12 l2.04 0 l0 27.4 l-2.24 0 z M117.08 40.4 c-6.4 0 -10.32 -2.84 -11 -8.6 l2.12 0 c0.52 4.32 3.72 6.68 8.88 6.64 c5.12 0 7.84 -2.24 7.84 -5.88 c0 -4.08 -4.08 -4.76 -8.32 -5.56 c-4.56 -0.84 -9.32 -1.8 -9.32 -7.36 c0 -4.36 3.6 -7.28 9.08 -7.28 c5.84 0 9.56 3.08 9.88 7.88 l-2.08 0 c-0.32 -3.08 -2.8 -5.92 -7.92 -5.92 c-4.4 0 -6.92 2.24 -6.92 5.36 c0 3.92 3.88 4.6 8 5.36 c4.72 0.88 9.72 1.8 9.72 7.6 c0 4.28 -3.12 7.76 -9.96 7.76 z M132.52 40 l-2.12 0 l0 -27.4 l2.12 0 l0 27.4 z M149.68 40.32 c-7.68 0 -13.96 -5.92 -13.96 -14.04 s6.28 -14 13.96 -14 s13.96 5.88 13.96 14 s-6.28 14.04 -13.96 14.04 z M149.68 38.32 c6.64 0 11.84 -5.16 11.84 -12.04 s-5.2 -11.96 -11.84 -11.96 s-11.84 5.08 -11.84 11.96 s5.2 12.04 11.84 12.04 z M184.64000000000001 40 l-15.76 -24.12 l0 24.12 l-2.04 0 l0 -27.4 l2.24 0 l15.76 24.12 l0 -24.12 l2.04 0 l0 27.4 l-2.24 0 z M207.2 30.759999999999998 l-6.04 -15.4 l-6.08 15.4 l12.12 0 z M210.84 40 l-2.84 -7.24 l-13.72 0 l-2.84 7.24 l-2.16 0 l10.84 -27.4 l2.12 0 l10.88 27.4 l-2.28 0 z M215.51999999999998 40 l0 -27.4 l2.12 0 l0 25.44 l14.12 0 l0 1.96 l-16.24 0 z"/></g>
+            <g transform="matrix(2.6222446673295368,0,0,2.6222446673295368,-5.2444893346590735,216.90372837283803)" fill="url(#hg3)"><path d="M17.24 27.6 l-13.12 0 l0 12.4 l-2.12 0 l0 -27.4 l16.24 0 l0 1.96 l-14.12 0 l0 11.08 l13.12 0 l0 1.96 z M34.480000000000004 40.32 c-7.68 0 -13.96 -5.92 -13.96 -14.04 s6.28 -14 13.96 -14 s13.96 5.88 13.96 14 s-6.28 14.04 -13.96 14.04 z M34.480000000000004 38.32 c6.64 0 11.84 -5.16 11.84 -12.04 s-5.2 -11.96 -11.84 -11.96 s-11.84 5.08 -11.84 11.96 s5.2 12.04 11.84 12.04 z M60.16 14.559999999999999 l-6.4 0 l0 12.72 l6.2 0 c5.24 0 7.8 -2.8 7.8 -6.32 c0 -3.6 -2.6 -6.4 -7.6 -6.4 z M53.76 29.16 l0 10.84 l-2.12 0 l0 -27.4 l9 0 c5.76 0 9.24 3.56 9.24 8.32 c0 4.6 -3.68 8.24 -9.12 8.24 l-4 0 l13.6 10.84 l-3.16 0 z M98.75999999999999 27.48 c0 6.56 -5.04 12.84 -12.84 12.84 c-8.16 0 -14.28 -5.92 -14.28 -14.04 s6.36 -14.04 14.16 -14.04 c4.56 0 8.28 1.72 10.8 4.8 l-1.56 1.32 c-2.24 -2.64 -5.48 -4.04 -9.24 -4.04 c-6.76 0 -12.04 5.08 -12.04 11.96 s5.04 12.04 12.16 12.04 c6.12 0 10.44 -4.6 10.76 -10.12 l-10.4 0 l0 -1.96 l12.48 0 l0 1.24 z M101.92 40 l0 -27.4 l16.44 0 l0 1.96 l-14.32 0 l0 10.6 l13.32 0 l0 1.96 l-13.32 0 l0 10.92 l15.12 0 l0 1.96 l-17.24 0 z"/></g>
+          </g>
+        </svg>
+      </div>
+
+      <h1 class="hero-title">Product Development<br>— On Demand</h1>
+      <p class="hero-desc">For inventors, startups, hobbyists, and small businesses that need experienced product development without a full-time hire.</p>
+
+      <p class="hero-sub">
+        Indianapolis, IN &nbsp;·&nbsp; Est. 2024 &nbsp;·&nbsp;
+        <span>Forging Dimensions: Utility, Fun, Artistry!</span>
+      </p>
+
+      <div class="hero-cta">
+        <a href="#book" class="btn btn-primary">Start a Project</a>
+        <a href="#work" class="btn btn-ghost">View My Work</a>
+      </div>
+
+      <div class="hero-stats">
+        <div>
+          <div class="stat-num">8+</div>
+          <div class="stat-lbl">Years Engineering</div>
+        </div>
+        <div>
+          <div class="stat-num">2</div>
+          <div class="stat-lbl">Patents Held</div>
+        </div>
+        <div>
+          <div class="stat-num" id="hero-rating-num">—</div>
+          <div class="stat-lbl" id="hero-rating-lbl">Client Rating</div>
+        </div>
+        <div>
+          <div class="stat-num">100%</div>
+          <div class="stat-lbl">Job Success</div>
+        </div>
+        <div>
+          <div class="stat-num">9</div>
+          <div class="stat-lbl">Accepted Proposals</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── ABOUT ──────────────────────────────────────────────────────── -->
+  <section id="about" class="section section-dark">
+    <div class="container">
+      <span class="label">About</span>
+      <h2 class="section-title">The Forge Is the Philosophy</h2>
+      <hr class="rule" />
+      <div class="grid">
+        <div>
+          <p>
+            <strong>Sean Neal</strong> is a Senior Systems Engineer and product development consultant based in Indianapolis. Background spans NASA Marshall Space Flight Center, Tesla (two internships), SonaCare Medical, and 8 years delivering connected hardware products at Allegion.
+          </p>
+          <p>
+            The Dimensional Forge is a consulting practice for inventors, startups, and small businesses that need senior engineering leadership — end-to-end, from initial concept through architecture, prototyping, validation, and manufacturing readiness.
+          </p>
+          <p>
+            One engineer. Full lifecycle. No hand-holding required from your side.
+          </p>
+          <div style="margin-top:1.5rem;display:flex;gap:0.75rem;flex-wrap:wrap;">
+            <a href="#book" class="btn btn-primary">Start a Project</a>
+            <a href="#services" class="btn btn-ghost">View Services</a>
+          </div>
+        </div>
+        <div>
+          <div class="spec-block">
+            <div class="spec-title">Systems Engineering</div>
+            <div style="display:flex;flex-wrap:wrap;gap:0.35rem;margin-top:0.25rem;">
+              <span class="wtag">Requirements (PRD/FRD/SRD/ADR)</span>
+              <span class="wtag">Systems Thinking</span>
+              <span class="wtag">System Architecture &amp; ICDs</span>
+              <span class="wtag">DFMEA / SFMEA</span>
+              <span class="wtag">V&amp;V Planning &amp; Execution</span>
+              <span class="wtag">FRACAS &amp; Root Cause Analysis</span>
+              <span class="wtag">A3 · 8D · 5-Whys</span>
+              <span class="wtag">Risk Register Management</span>
+              <span class="wtag">Configuration Management</span>
+              <span class="wtag">Stakeholder Management</span>
+            </div>
+          </div>
+          <div class="spec-block">
+            <div class="spec-title">Leadership &amp; Management</div>
+            <div style="display:flex;flex-wrap:wrap;gap:0.35rem;margin-top:0.25rem;">
+              <span class="wtag">Cross-Functional Teams</span>
+              <span class="wtag">Teams of Teams</span>
+              <span class="wtag">Director-Level Reviews</span>
+              <span class="wtag">Organizational Influence</span>
+              <span class="wtag">Risk-Based Decision Making</span>
+              <span class="wtag">Talent Development</span>
+              <span class="wtag">Engineering Team Coaching</span>
+              <span class="wtag">Talent Pipeline Development</span>
+              <span class="wtag">ERG Founding &amp; Leadership</span>
+              <span class="wtag">Technical Mentorship</span>
+              <span class="wtag">Curriculum Design &amp; Delivery</span>
+              <span class="wtag">Product Roadmapping</span>
+            </div>
+          </div>
+          <div class="spec-block">
+            <div class="spec-title">Design &amp; Fabrication</div>
+            <div style="display:flex;flex-wrap:wrap;gap:0.35rem;margin-top:0.25rem;">
+              <span class="wtag">SolidWorks CAD</span>
+              <span class="wtag">GD&amp;T</span>
+              <span class="wtag">DFM</span>
+              <span class="wtag">3D Printing / Additive</span>
+              <span class="wtag">Rapid Prototyping</span>
+              <span class="wtag">Electromechanical Integration</span>
+            </div>
+          </div>
+          <div class="spec-block">
+            <div class="spec-title">Tools &amp; Methods</div>
+            <div style="display:flex;flex-wrap:wrap;gap:0.35rem;margin-top:0.25rem;">
+              <span class="wtag">Python</span>
+              <span class="wtag">MATLAB</span>
+              <span class="wtag">Data Analysis &amp; ML</span>
+              <span class="wtag">AI Agent Development</span>
+              <span class="wtag">Agentic Workflow Design</span>
+              <span class="wtag">LLM Integration</span>
+              <span class="wtag">Prompt Engineering</span>
+              <span class="wtag">Azure DevOps</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── EXPERIENCE ─────────────────────────────────────────────────── -->
+  <section id="experience" class="section">
+    <div class="container">
+      <span class="label">Experience</span>
+      <h2 class="section-title">The Career Record</h2>
+      <hr class="rule" />
+      <div class="tl-wrap">
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-date">June 2024 — Present</div>
+            <div class="tl-role">CEO & Lead Product Dev Engineer</div>
+            <div class="tl-org">The Dimensional Forge</div>
+            <div class="tl-note">Multi-pillar creative and engineering brand. Consulting, content, products, community.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-date">June 2018 — Present</div>
+            <div class="tl-role">Senior System Engineer</div>
+            <div class="tl-org">Allegion US</div>
+            <div class="tl-note">8+ years in enterprise IoT access control. Data Scientist Cohort (2019-2020). Co-holder of blockchain access control patent.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-date">Dec 2020 — Present</div>
+            <div class="tl-role">Freelance Product Dev Engineer</div>
+            <div class="tl-org">Etsy — DimensionalForgeProd</div>
+            <div class="tl-note">Top Rated on Upwork, 100% Job Success. Custom manufactured products and engineering consulting.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-date">May 2016 — Feb 2018</div>
+            <div class="tl-role">Product R&D Engineering Co-Op</div>
+            <div class="tl-org">SonaCare Medical</div>
+            <div class="tl-note">Medical device R&D for HIFU surgical systems.</div>
+          </div>
+        </div>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-date">May — Aug 2017</div>
+            <div class="tl-role">Propulsion Systems Analysis Intern</div>
+            <div class="tl-org">NASA Marshall Space Flight Center</div>
+            <div class="tl-note">RS-25 rocket engine hot-fire test data analysis. Main engine of the Space Launch System.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-date">May — Aug 2015</div>
+            <div class="tl-role">Body System Engineering Intern</div>
+            <div class="tl-org">Tesla — Palo Alto</div>
+            <div class="tl-note">Vehicle body systems engineering at Tesla HQ. Second Tesla internship after R&D Materials (Fremont, 2014).</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-date">2014 — 2018</div>
+            <div class="tl-role">B.S. Mechanical Engineering</div>
+            <div class="tl-org">IUPUI + Ivy Tech</div>
+            <div class="tl-note">MechE degree plus Technical Certificate in Design Technology. FIRST Indiana District Chairman's Team Award.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SERVICES ───────────────────────────────────────────────────── -->
+  <section id="services" class="section">
+    <div class="container">
+      <span class="label">Consulting Services</span>
+      <h2 class="section-title">Senior Product Development — On Demand</h2>
+      <hr class="rule" />
+      <p class="section-lead">For inventors, startups, hobbyists, and small businesses that need experienced product development without a full-time hire.</p>
+      <div class="grid">
+        <div class="svc">
+          <span class="svc-icon">// SYS_ARCH</span>
+          <h3>Systems Architecture</h3>
+          <p>End-to-end product architecture from concept to production. Requirements decomposition, interface definitions, system-level design reviews.</p>
+        </div>
+        <div class="svc">
+          <span class="svc-icon">// MECH_DESIGN</span>
+          <h3>Mechanical & Electromechanical Design</h3>
+          <p>SolidWorks CAD, GD&T, tolerance analysis, and electromechanical integration for multi-discipline products.</p>
+        </div>
+        <div class="svc">
+          <span class="svc-icon">// PROTO_DFM</span>
+          <h3>Rapid Prototyping & DFM</h3>
+          <p>Fast iteration from idea to physical part, with design-for-manufacturability guidance built in from the start — not tacked on at the end.</p>
+        </div>
+        <div class="svc">
+          <span class="svc-icon">// DOCS</span>
+          <h3>PRD / FRD / SRD Writing</h3>
+          <p>Clear, structured technical documentation — product requirement docs, functional specs, and system requirement documents that teams can actually build from.</p>
+        </div>
+        <div class="svc">
+          <span class="svc-icon">// RISK_ANALYSIS</span>
+          <h3>DFMEA / SFMEA</h3>
+          <p>Systematic failure mode identification and risk mitigation before your product reaches a customer. Design and system-level FMEA execution.</p>
+        </div>
+        <div class="svc">
+          <span class="svc-icon">// V_AND_V</span>
+          <h3>Verification & Validation</h3>
+          <p>V&V planning, test protocol development, and results analysis. Documented evidence your product meets its requirements.</p>
+        </div>
+        <div class="svc">
+          <span class="svc-icon">// ROADMAP</span>
+          <h3>Technical Roadmapping</h3>
+          <p>From napkin sketch to phased roadmap — with realistic milestones and resource budgeting aligned to your actual constraints.</p>
+        </div>
+        <div class="svc">
+          <span class="svc-icon">// COST_MODEL</span>
+          <h3>Budgeting & Cost Modeling</h3>
+          <p>Bottom-up cost models, BOM costing, margin analysis. Know whether your product makes business sense before you commit to tooling.</p>
+        </div>
+        <div class="svc">
+          <span class="svc-icon">// DATA_SCI</span>
+          <h3>Data Science & Analytics</h3>
+          <p>Python and MATLAB-based analysis, ML applications, and data pipeline development for engineering and product decisions.</p>
+        </div>
+      </div>
+      <div class="services-cta">
+        <a href="#book" class="btn btn-primary">Start a Project</a>
+        <a href="#book" class="btn btn-ghost">Book a Discovery Call</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── WORK ──────────────────────────────────────────────────────── -->
+  <section id="work" class="section section-dark">
+    <div class="container">
+      <span class="label">Portfolio</span>
+      <h2 class="section-title">Work Done</h2>
+      <hr class="rule" />
+      <p class="section-lead">Selected projects across aerospace, medical devices, automotive, IoT hardware, and product consulting.</p>
+      <div class="work-grid">
+
+        <div class="work-card">
+          <div class="work-header">
+            <span class="work-org">Allegion US</span>
+            <span class="work-year">2018 — Present</span>
+          </div>
+          <h3>WiFi Smart Lock Product Family</h3>
+          <p>End-to-end product ownership for a family of WiFi-enabled deadbolts and lever locks — concept through retail launch. Coordinated hardware, firmware, mobile app, and cloud teams using a teams-of-teams approach. Led DFMEA/SFMEA sessions, System Design Reviews for director-level stakeholders, and full V&amp;V planning in Azure DevOps. Embedded structured root-cause methods (5-Whys, A3, 8D) directly into design review culture.</p>
+          <div class="work-tags">
+            <span class="wtag">Connected Hardware</span>
+            <span class="wtag">Systems Engineering</span>
+            <span class="wtag">DFMEA / SFMEA</span>
+            <span class="wtag">V&amp;V</span>
+            <span class="wtag">Cross-Functional</span>
+            <span class="wtag">IoT</span>
+          </div>
+        </div>
+
+        <div class="work-card">
+          <div class="work-header">
+            <span class="work-org">NASA — Marshall Space Flight Center</span>
+            <span class="work-year">2017</span>
+          </div>
+          <h3>RS-25 Engine Hot-Fire Data Analysis Tool</h3>
+          <p>Analyzed large raw data sets from RS-25 rocket engine hot-fire tests to identify operational anomalies. Built a reusable MATLAB/Python data analysis tool with a full GUI — designed for long-term use by future Marshall engineers, not just the duration of the internship. The RS-25 is the main engine of the Space Launch System.</p>
+          <div class="work-tags">
+            <span class="wtag">MATLAB</span>
+            <span class="wtag">Python</span>
+            <span class="wtag">Data Analysis</span>
+            <span class="wtag">Aerospace</span>
+            <span class="wtag">GUI Development</span>
+          </div>
+        </div>
+
+        <div class="work-card">
+          <div class="work-header">
+            <span class="work-org">SonaCare Medical</span>
+            <span class="work-year">2016 — 2018</span>
+          </div>
+          <h3>HIFU Surgical Device — Component Design Cycle</h3>
+          <p>Led medical device components through the full early design cycle: concept, SolidWorks modeling, 3D-printed and cast urethane prototyping, fabrication, validation testing, and test report authorship. Set cable specifications and created 2D/3D electrical routing diagrams. Managed task breakdown and timelines for product realization.</p>
+          <div class="work-tags">
+            <span class="wtag">Medical Devices</span>
+            <span class="wtag">SolidWorks</span>
+            <span class="wtag">Prototyping</span>
+            <span class="wtag">3D Printing</span>
+            <span class="wtag">V&amp;V</span>
+          </div>
+        </div>
+
+        <div class="work-card">
+          <div class="work-header">
+            <span class="work-org">Tesla</span>
+            <span class="work-year">2014 — 2015</span>
+          </div>
+          <h3>Model S / X Body &amp; Fastener Systems</h3>
+          <p>Two internships across Fremont and Palo Alto. Designed and released 3D CAD models using GD&amp;T best practices; coordinated development of cast and stamped aluminum structural parts for Model S and X. Separately: fastener selection and validation across cross-functional teams — Torque to Failure, Tensile, and Clamp Load testing with full root cause documentation.</p>
+          <div class="work-tags">
+            <span class="wtag">SolidWorks</span>
+            <span class="wtag">GD&amp;T</span>
+            <span class="wtag">Structural Design</span>
+            <span class="wtag">Automotive</span>
+            <span class="wtag">Testing &amp; Validation</span>
+          </div>
+        </div>
+
+        <div class="work-card work-card--accent">
+          <div class="work-header">
+            <span class="work-org">The Dimensional Forge — Consulting</span>
+            <span class="work-year">2020 — Present</span>
+          </div>
+          <h3>Product Development for Inventors &amp; Startups</h3>
+          <p>Ongoing freelance consulting delivering end-to-end product development: requirement decomposition, DFMEA/SFMEA, V&amp;V planning, prototyping, and manufacturing readiness. Top Rated status on Upwork with 100% Job Success Score. Top Design Award from Cults3D (2023). Custom-engineered products sold via Etsy. Rising Talent — Upwork (2025).</p>
+          <div class="work-tags">
+            <span class="wtag">Consulting</span>
+            <span class="wtag">3D Printing</span>
+            <span class="wtag">Product Dev</span>
+            <span class="wtag">Top Rated</span>
+            <span class="wtag">100% Job Success</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── DELIVERED ───────────────────────────────────────────────────── -->
+  <section id="delivered" class="section section-dark">
+    <div class="container">
+      <span class="label">Client Work</span>
+      <h2 class="section-title">Accepted Proposals</h2>
+      <hr class="rule" />
+      <p style="color:var(--df-muted);font-size:0.9rem;max-width:640px;margin-bottom:2rem;line-height:1.7;">
+        Real quotes. Real deliverables. Every card below is a proposal a client accepted and work that got done.
+      </p>
+      <div class="proposals-grid">
+
+        <!-- Cove Design Consultation -->
+        <div class="proposal-card" data-proposal="cove-design">
+          <div class="proposal-title">Product Consultation</div>
+          <span class="proposal-date">2025-07-11</span>
+          <div class="proposal-stats">
+            <div class="pstat">
+              <span class="pstat-val">$220</span>
+              <span class="pstat-lbl">Total Cost</span>
+            </div>
+            <div class="pstat">
+              <span class="pstat-val">4h</span>
+              <span class="pstat-lbl">Hours</span>
+            </div>
+            <div class="pstat">
+              <span class="pstat-val">1 wk</span>
+              <span class="pstat-lbl">Timeline</span>
+            </div>
+            <div class="pstat">
+              <span class="pstat-val">1</span>
+              <span class="pstat-lbl">Phase</span>
+            </div>
+          </div>
+          <p class="proposal-desc">Single live consulting session covering product goals, manufacturing approach, and a prioritized roadmap. Delivered a structured session plan, recorded call, and written summary with next steps.</p>
+          <div class="proposal-tags">
+            <span class="wtag">Product Consulting</span>
+            <span class="wtag">Manufacturing Strategy</span>
+            <span class="wtag">Roadmapping</span>
+          </div>
+        </div>
+
+        <!-- Automated Machine MVP -->
+        <div class="proposal-card" data-proposal="shirt-folding">
+          <div class="proposal-title">Automated Machine MVP</div>
+          <span class="proposal-date">2026-05-20</span>
+          <div class="proposal-stats">
+            <div class="pstat">
+              <span class="pstat-val">$2,255</span>
+              <span class="pstat-lbl">Investment</span>
+            </div>
+            <div class="pstat">
+              <span class="pstat-val">41h</span>
+              <span class="pstat-lbl">Hours</span>
+            </div>
+            <div class="pstat">
+              <span class="pstat-val">7 wks</span>
+              <span class="pstat-lbl">Timeline</span>
+            </div>
+            <div class="pstat">
+              <span class="pstat-val">4</span>
+              <span class="pstat-lbl">Phases</span>
+            </div>
+          </div>
+          <p class="proposal-desc">Functional MVP based on a reference CAD design — actuated panels, sequenced motion, and button-based controls. Design review, CAD adaptation, full 3D printed build, and structured mechanism verification testing.</p>
+          <div class="proposal-tags">
+            <span class="wtag">Mechanical Design</span>
+            <span class="wtag">Rapid Prototyping</span>
+            <span class="wtag">3D Printing</span>
+            <span class="wtag">Electromechanical</span>
+            <span class="wtag">V&amp;V</span>
+          </div>
+        </div>
+
+        <!-- Blast Light — Tactical Light Prototype -->
+        <div class="proposal-card" data-proposal="blast-light">
+          <div class="proposal-title">Tactical Light Prototype</div>
+          <span class="proposal-date">2025-12-25</span>
+          <div class="proposal-stats">
+            <div class="pstat"><span class="pstat-val">$1,518</span><span class="pstat-lbl">Investment</span></div>
+            <div class="pstat"><span class="pstat-val">38h</span><span class="pstat-lbl">Hours</span></div>
+            <div class="pstat"><span class="pstat-val">10 wks</span><span class="pstat-lbl">Timeline</span></div>
+            <div class="pstat"><span class="pstat-val">3</span><span class="pstat-lbl">Phases</span></div>
+          </div>
+          <p class="proposal-desc">Tactical/utility light from concept to shipped DV prototype: requirements and ideation, full CAD development with mechanical and electrical architecture, physical build, testing, and delivery.</p>
+          <div class="proposal-tags">
+            <span class="wtag">Mechanical Design</span>
+            <span class="wtag">Electrical Architecture</span>
+            <span class="wtag">Rapid Prototyping</span>
+            <span class="wtag">DFM/DFA</span>
+          </div>
+        </div>
+
+        <!-- GlassBoard — Mechanical Drawing Update -->
+        <div class="proposal-card" data-proposal="glassboard">
+          <div class="proposal-title">Mechanical Drawing Update</div>
+          <span class="proposal-date">2026-03-01</span>
+          <div class="proposal-stats">
+            <div class="pstat"><span class="pstat-val">~$240</span><span class="pstat-lbl">Investment</span></div>
+            <div class="pstat"><span class="pstat-val">6h</span><span class="pstat-lbl">Hours</span></div>
+            <div class="pstat"><span class="pstat-val">3 wks</span><span class="pstat-lbl">Timeline</span></div>
+            <div class="pstat"><span class="pstat-val">3</span><span class="pstat-lbl">Phases</span></div>
+          </div>
+          <p class="proposal-desc">Standardized title block and branding update across 40 mechanical drawings — logo swap, drawing number updates, and formatting changes delivered as a clean organized package.</p>
+          <div class="proposal-tags">
+            <span class="wtag">Technical Documentation</span>
+            <span class="wtag">Engineering Drawings</span>
+            <span class="wtag">CAD</span>
+          </div>
+        </div>
+
+        <!-- Gus's Battle Bot Tutoring -->
+        <div class="proposal-card" data-proposal="gus-battle-bot">
+          <div class="proposal-title">Battle Bot Engineering Tutoring</div>
+          <span class="proposal-date">2026-04-19</span>
+          <div class="proposal-stats">
+            <div class="pstat"><span class="pstat-val">~$700</span><span class="pstat-lbl">Investment</span></div>
+            <div class="pstat"><span class="pstat-val">17.5h</span><span class="pstat-lbl">Hours</span></div>
+            <div class="pstat"><span class="pstat-val">4 wks</span><span class="pstat-lbl">Timeline</span></div>
+            <div class="pstat"><span class="pstat-val">4</span><span class="pstat-lbl">Phases</span></div>
+          </div>
+          <p class="proposal-desc">Hands-on engineering tutoring for a 10-year-old: two parallel projects — build a new battle bot from a kit and diagnose/repair a broken one. Gus leads all hands-on work; Sean guides with questions only.</p>
+          <div class="proposal-tags">
+            <span class="wtag">Engineering Tutoring</span>
+            <span class="wtag">Mentorship</span>
+            <span class="wtag">Hands-On STEM</span>
+          </div>
+        </div>
+
+        <!-- K9 — Electromechanical Product with iOS Integration -->
+        <div class="proposal-card" data-proposal="k9">
+          <div class="proposal-title">Electromechanical Product — iOS Integration</div>
+          <span class="proposal-date">2025-12-03</span>
+          <div class="proposal-stats">
+            <div class="pstat"><span class="pstat-val">~$9.4K</span><span class="pstat-lbl">Investment</span></div>
+            <div class="pstat"><span class="pstat-val">235h</span><span class="pstat-lbl">Hours</span></div>
+            <div class="pstat"><span class="pstat-val">33 wks</span><span class="pstat-lbl">Timeline</span></div>
+            <div class="pstat"><span class="pstat-val">6</span><span class="pstat-lbl">Phases</span></div>
+          </div>
+          <p class="proposal-desc">Full-cycle product development: multi-discipline architecture, 3D CAD, patent drawings, two prototype iterations (DV1 + DV2 with printed enclosure), iOS app MVP with hardware integration, and full production prep.</p>
+          <div class="proposal-tags">
+            <span class="wtag">Systems Architecture</span>
+            <span class="wtag">Electromechanical Design</span>
+            <span class="wtag">iOS Integration</span>
+            <span class="wtag">DFM/DFA</span>
+            <span class="wtag">Prototyping</span>
+          </div>
+        </div>
+
+        <!-- Pokestop LED Sign -->
+        <div class="proposal-card" data-proposal="pokestop">
+          <div class="proposal-title">Custom Pokéstop LED Sign</div>
+          <span class="proposal-date">2026-04-27</span>
+          <div class="proposal-stats">
+            <div class="pstat"><span class="pstat-val">~$230</span><span class="pstat-lbl">Investment</span></div>
+            <div class="pstat"><span class="pstat-val">5.75h</span><span class="pstat-lbl">Hours</span></div>
+            <div class="pstat"><span class="pstat-val">4 wks</span><span class="pstat-lbl">Timeline</span></div>
+            <div class="pstat"><span class="pstat-val">4</span><span class="pstat-lbl">Phases</span></div>
+          </div>
+          <p class="proposal-desc">Custom illuminated Pokéstop-style sign: acrylic sheet cut to silhouette, LED neon flex front face, spinnable pole mount, full QC testing with 8+ hour runtime validation.</p>
+          <div class="proposal-tags">
+            <span class="wtag">Custom Fabrication</span>
+            <span class="wtag">LED Electronics</span>
+            <span class="wtag">Acrylic Work</span>
+          </div>
+        </div>
+
+        <!-- Stealth Wallet -->
+        <div class="proposal-card" data-proposal="stealth-wallet">
+          <div class="proposal-title">Stealth Wallet — Design &amp; Production</div>
+          <span class="proposal-date">2025-06-30</span>
+          <div class="proposal-stats">
+            <div class="pstat"><span class="pstat-val">$2,250</span><span class="pstat-lbl">Investment</span></div>
+            <div class="pstat"><span class="pstat-val">150h</span><span class="pstat-lbl">Hours</span></div>
+            <div class="pstat"><span class="pstat-val">16 wks</span><span class="pstat-lbl">Timeline</span></div>
+            <div class="pstat"><span class="pstat-val">5</span><span class="pstat-lbl">Phases</span></div>
+          </div>
+          <p class="proposal-desc">Full product development from concept through mass production readiness: sketching, CAD, photorealistic renders, DV prototyping, DFM/DFA, supplier quoting, tooling, pilot run, and launch prep.</p>
+          <div class="proposal-tags">
+            <span class="wtag">CAD Design</span>
+            <span class="wtag">3D Rendering</span>
+            <span class="wtag">DFM/DFA</span>
+            <span class="wtag">Production Prep</span>
+            <span class="wtag">Supply Chain</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── REVIEWS ──────────────────────────────────────────────────────── -->
+  <section id="reviews" class="section section-dark">
+    <div class="container">
+      <span class="label">Reviews</span>
+      <h2 class="section-title">What Clients Say</h2>
+      <hr class="rule" />
+      <div class="rv-layout">
+
+        <!-- Left: summary + card list -->
+        <div>
+          <div class="rv-summary" id="rv-summary">
+            <div class="rv-big-score" id="rv-score">—</div>
+            <div class="rv-stars-display" id="rv-stars-display"></div>
+            <div class="rv-count" id="rv-count">No reviews yet</div>
+            <div class="rv-bars" id="rv-bars"></div>
+          </div>
+        </div>
+
+        <!-- Right: reviews + form -->
+        <div>
+          <div class="rv-list" id="rv-list">
+            <!-- populated by JS -->
+          </div>
+
+          <div class="rv-form-wrap">
+            <div class="rv-form-title">Leave a Review</div>
+            <form id="rv-form" autocomplete="off">
+              <div class="rv-field">
+                <label>Your Name</label>
+                <input type="text" id="rv-name" placeholder="First name or initials" maxlength="40" required />
+              </div>
+              <div class="rv-field">
+                <label>Rating</label>
+                <div class="star-picker" id="star-picker" role="group" aria-label="Star rating">
+                  <span class="sp-star" data-v="1">★</span>
+                  <span class="sp-star" data-v="2">★</span>
+                  <span class="sp-star" data-v="3">★</span>
+                  <span class="sp-star" data-v="4">★</span>
+                  <span class="sp-star" data-v="5">★</span>
+                </div>
+              </div>
+              <div class="rv-field">
+                <label>Review</label>
+                <textarea id="rv-text" placeholder="Share your experience working with The Dimensional Forge..." maxlength="600" required></textarea>
+              </div>
+              <button type="submit" class="rv-submit" id="rv-submit" disabled>Submit Review</button>
+              <div class="rv-msg" id="rv-msg"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 3D MODELS ────────────────────────────────────────────────────── -->
+  <section id="models" class="section">
+    <div class="container">
+      <span class="label">3D Print Shop</span>
+      <h2 class="section-title">Open &amp; Closed Designs</h2>
+      <hr class="rule" />
+      <p class="section-lead">Free open-source designs on MakerWorld. Paid premium models and award-winning prints on Cults3D. All designed and tested in-house.</p>
+
+      <div class="models-layout">
+
+        <!-- MakerWorld -->
+        <div class="platform-card">
+          <div class="platform-card-header">
+            <div class="platform-logo">🌐 MakerWorld</div>
+            <div class="platform-url">makerworld.com/en/@Dimensional.F</div>
+          </div>
+          <div class="platform-card-body">
+            <p class="platform-desc">Bambu Lab's model platform. Optimized print profiles, community downloads, and the full free Dimensional Forge catalog. Every design here is open — download and print at no cost.</p>
+            <div class="platform-badges">
+              <span class="pbadge pbadge-free">Free Downloads Only</span>
+            </div>
+            <div class="platform-cta">
+              <a href="https://makerworld.com/en/@Dimensional.F" target="_blank" class="btn btn-primary" style="flex:1;justify-content:center;">Browse MakerWorld</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cults3D -->
+        <div class="platform-card">
+          <div class="platform-card-header">
+            <div class="platform-logo">🏆 Cults3D</div>
+            <div class="platform-url">cults3d.com/en/users/TheDimensionalForge</div>
+          </div>
+          <div class="platform-card-body">
+            <p class="platform-desc">Full model catalog on Cults3D — the world's largest independent 3D printing marketplace. Home of the 2023 Top Design Award win. Paid models, free releases, and the complete back catalog.</p>
+            <div class="platform-badges">
+              <span class="pbadge pbadge-free">Free Downloads</span>
+              <span class="pbadge pbadge-paid">Paid Models</span>
+              <span class="pbadge pbadge-award">🏅 Top Design Award 2023</span>
+            </div>
+            <div class="platform-cta">
+              <a href="https://cults3d.com/en/users/TheDimensionalForge/3d-models" target="_blank" class="btn btn-primary" style="flex:1;justify-content:center;">Browse Cults3D</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Custom model commission CTA -->
+      <div class="models-commission">
+        <p><strong>Need something custom?</strong> If you don't see what you're looking for, I take custom model commissions — functional parts, enclosures, fixtures, artistic pieces. Designed in SolidWorks, printed and tested before delivery.</p>
+        <a href="#book" class="btn btn-primary">Commission a Model</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── COMMUNITY ──────────────────────────────────────────────────── -->
+  <section id="community" class="section">
+    <div class="container">
+      <span class="label">Community</span>
+      <h2 class="section-title">Beyond the Bench</h2>
+      <hr class="rule" />
+      <p class="section-lead">Engineering isn't just about building products. It's about building people.</p>
+      <div class="cards">
+        <div class="comm-card">
+          <span class="glyph">🤖</span>
+          <h3>FRC Team 6956 — Sham-Rock-Botics</h3>
+          <span class="role">Co-Lead Mentor · FIRST Robotics Competition</span>
+          <p>Mentoring high school students through the full engineering cycle — challenge reveal to competition day. Teaching not just technical skills, but how to collaborate under pressure and recover from failure.</p>
+        </div>
+        <div class="comm-card">
+          <span class="glyph">📐</span>
+          <h3>MEPI — Minority Engineering Program of Indianapolis</h3>
+          <span class="role">Co-Leader & Lecturer</span>
+          <p>Co-revamped the 8th-grade curriculum in 2019 to include Arduino programming, robotics, and real mechanical engineering challenges. Building pathways for underrepresented students into engineering careers.</p>
+        </div>
+        <div class="comm-card">
+          <span class="glyph">🏳️‍🌈</span>
+          <h3>Allegion Pride Alliance</h3>
+          <span class="role">Founder & Servant Leader · LGBTQIA+ ERG</span>
+          <p>Founded and leads Allegion's LGBTQIA+ employee resource group. Led the company's Indy Pride 2024 presence. Manages a team of 6 volunteers driving visibility and belonging inside a global enterprise.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── BOOK ──────────────────────────────────────────────────────── -->
+  <section id="book" class="section section-dark">
+    <div class="container">
+      <span class="label">Forge Together</span>
+      <h2 class="section-title">Start a Project</h2>
+      <hr class="rule" />
+      <p class="section-lead">Two ways in — send a project brief or book a discovery call directly.</p>
+      <div class="book-layout">
+
+        <!-- Inquiry form -->
+        <div class="book-panel">
+          <div class="book-panel-title">Send a Project Brief</div>
+          <form id="inquiry-form" action="mailto:connectwithsean@the-dimensional-forge.com" method="GET" enctype="text/plain">
+            <div class="bk-field">
+              <label>Your Name</label>
+              <input type="text" name="name" placeholder="Name or company" required />
+            </div>
+            <div class="bk-field">
+              <label>Email</label>
+              <input type="email" name="email" placeholder="your@email.com" required />
+            </div>
+            <div class="bk-field">
+              <label>Service Needed</label>
+              <select name="service">
+                <option value="">— Select one —</option>
+                <option>Systems Architecture</option>
+                <option>Mechanical / Electromechanical Design</option>
+                <option>Rapid Prototyping &amp; DFM</option>
+                <option>PRD / FRD / SRD Writing</option>
+                <option>DFMEA / SFMEA</option>
+                <option>Verification &amp; Validation</option>
+                <option>Technical Roadmapping</option>
+                <option>Budgeting &amp; Cost Modeling</option>
+                <option>Data Science &amp; Analytics</option>
+                <option>AI / LLM Integration</option>
+                <option>Other / Not Sure Yet</option>
+              </select>
+            </div>
+            <div class="bk-field">
+              <label>Project Brief</label>
+              <textarea name="body" placeholder="What are you building? What's the problem you need solved? Any timeline or budget constraints?" required></textarea>
+            </div>
+            <button type="submit" class="bk-submit">Send Brief</button>
+          </form>
+        </div>
+
+        <!-- Discovery call booking -->
+        <div class="book-panel" style="display:flex;flex-direction:column;">
+          <div class="book-panel-title">Book a Discovery Call</div>
+          <p style="color:var(--df-muted);font-size:0.85rem;margin-bottom:1.75rem;">30 or 60-minute call to talk through your project before committing to anything. Pick a time that works for you directly on my calendar.</p>
+          <div style="
+            flex:1;
+            background:var(--df-black);
+            border:1px solid var(--df-brush);
+            border-left:2px solid var(--df-orange);
+            border-radius:2px;
+            padding:2rem 1.75rem;
+            display:flex;
+            flex-direction:column;
+            gap:1.5rem;
+          ">
+            <div style="display:flex;flex-direction:column;gap:0.5rem;">
+              <span style="font-family:'Audiowide',sans-serif;font-size:0.62rem;text-transform:uppercase;letter-spacing:0.14em;color:var(--df-orange);">What to expect</span>
+              <ul style="list-style:none;display:flex;flex-direction:column;gap:0.5rem;margin:0;padding:0;">
+                <li style="display:flex;align-items:baseline;gap:0.6rem;font-size:0.85rem;color:var(--df-muted);"><span style="color:var(--df-orange);flex-shrink:0;">›</span> Talk through your project and goals</li>
+                <li style="display:flex;align-items:baseline;gap:0.6rem;font-size:0.85rem;color:var(--df-muted);"><span style="color:var(--df-orange);flex-shrink:0;">›</span> Identify the right service or engagement type</li>
+                <li style="display:flex;align-items:baseline;gap:0.6rem;font-size:0.85rem;color:var(--df-muted);"><span style="color:var(--df-orange);flex-shrink:0;">›</span> No commitment required — just a conversation</li>
+                <li style="display:flex;align-items:baseline;gap:0.6rem;font-size:0.85rem;color:var(--df-muted);"><span style="color:var(--df-orange);flex-shrink:0;">›</span> 30/60 minutes, video or phone</li>
+              </ul>
+            </div>
+            <a href="https://calendar.app.google/bjt52NaM91BWy2st8" target="_blank" rel="noopener" class="btn btn-primary" style="justify-content:center;font-size:0.75rem;padding:1rem 1.6rem;">
+              Schedule a Call
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:0.25rem;"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+            <p style="font-size:0.78rem;color:#555;text-align:center;margin:0;">Opens Google Calendar booking in a new tab</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Payment methods -->
+      <div class="pay-strip">
+        <span class="pay-strip-label">Pay me via</span>
+        <div class="pay-btns">
+          <a href="https://www.paypal.com/biz/profile/SystematicSeanShop" target="_blank" class="pay-btn pay-btn-paypal">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.067 8.478c.492.315.887.747 1.15 1.252.528 1.017.528 2.15.04 3.397-.606 1.558-1.73 2.69-3.18 3.14-.5.154-1.028.225-1.565.225h-1.228c-.38 0-.7.266-.765.637l-.56 3.29c-.065.37-.384.637-.765.637H10.94a.38.38 0 01-.376-.434l.237-1.395.56-3.29.237-1.394a.776.776 0 01.765-.637h1.067c.537 0 1.065-.07 1.565-.225 1.45-.45 2.574-1.582 3.18-3.14.41-1.054.432-2.01.097-2.765-.085-.187-.19-.36-.313-.52.05.01.1.015.15.025.37.07.72.21 1.035.397l.124.2z"/><path d="M18.1 6.5c-.07-.364-.22-.703-.443-1.003-.7-.94-1.985-1.37-3.665-1.37H8.61c-.38 0-.7.266-.765.637L5.8 16.578a.38.38 0 00.376.434h2.766l.693-4.076-.022.13a.776.776 0 01.765-.637h1.596c3.127 0 5.573-1.24 6.29-4.83.02-.1.038-.2.053-.3a4.14 4.14 0 00-.216-1.8z"/></svg>
+            PayPal
+          </a>
+          <a href="https://venmo.com/u/The_Dimensional_Forge" target="_blank" class="pay-btn pay-btn-venmo">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.5 2C20.8 4.5 21.3 6.9 21.3 9.8c0 5.3-4.5 12.1-8.2 16.2h-8L2 2h6.6l1.8 13.8c1.7-2.8 3.7-7.2 3.7-10.2 0-1.6-.3-2.8-.7-3.8L19.5 2z"/></svg>
+            Venmo
+          </a>
+        </div>
+        <span class="pay-note">For model purchases, commissions, and consulting invoices</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── FOOTER ─────────────────────────────────────────────────────── -->
+  <footer>
+    <div class="container">
+      <div class="f-brand">The Dimensional Forge</div>
+      <p>Forging Dimensions: Utility, Fun, Artistry!</p>
+      <p style="margin-top:0.75rem;font-size:0.75rem;">
+        <a href="mailto:connectwithsean@the-dimensional-forge.com" style="color:var(--df-orange);text-decoration:none;">connectwithsean@the-dimensional-forge.com</a>
+        &nbsp;·&nbsp;
+        <a href="https://linkedin.com/in/seanneal19" target="_blank" style="color:var(--df-muted);text-decoration:none;">LinkedIn</a>
+        &nbsp;·&nbsp;
+        <a href="https://etsy.com/shop/DimensionalForgeProd" target="_blank" style="color:var(--df-muted);text-decoration:none;">Etsy Shop</a>
+        &nbsp;·&nbsp;
+        <a href="https://makerworld.com/en/@Dimensional.F" target="_blank" style="color:var(--df-muted);text-decoration:none;">MakerWorld</a>
+        &nbsp;·&nbsp;
+        <a href="https://cults3d.com/en/users/TheDimensionalForge/3d-models" target="_blank" style="color:var(--df-muted);text-decoration:none;">Cults3D</a>
+        &nbsp;·&nbsp;
+        <a href="https://thedimensionalforge.substack.com" target="_blank" style="color:var(--df-muted);text-decoration:none;">Substack</a>
+      </p>
+      <p style="margin-top:0.5rem;font-size:0.7rem;color:#444;">© 2024–2026 The Dimensional Forge · Sean Neal · Indianapolis, IN</p>
+    </div>
+  </footer>
+
+  <!-- ── SCRIPTS ────────────────────────────────────────────────────── -->
+  <script>
+    // Ember particles
+    const ec = document.getElementById('embers');
+    const clrs = ['#EE4236','#F0782D','#FAAC3D','#ff5500'];
+    for (let i = 0; i < 36; i++) {
+      const e = document.createElement('div');
+      e.className = 'ember';
+      const s = Math.random() * 3.5 + 1.5;
+      e.style.cssText = `
+        width:${s}px;height:${s}px;
+        background:${clrs[Math.floor(Math.random()*clrs.length)]};
+        left:${Math.random()*100}%;
+        bottom:${Math.random()*6}%;
+        --dx:${(Math.random()-0.5)*120}px;
+        animation-duration:${7+Math.random()*8}s;
+        animation-delay:${Math.random()*10}s;
+        box-shadow:0 0 ${s*3}px currentColor;
+      `;
+      ec.appendChild(e);
+    }
+
+    // ── REVIEWS ────────────────────────────────────────────────
+    const SEED_REVIEWS = [
+      { name: 'Marcus T.', rating: 5, date: '2026-04-12', text: 'Sean delivered a complete mechanical design package in a fraction of the time I expected. DFMEA, SolidWorks models, DFM notes — all of it. Exactly the senior-level thinking I needed for a one-off prototype run.' },
+      { name: 'Priya K.', rating: 5, date: '2026-03-05', text: 'Hired for a V&V planning engagement. Sean came in fast, asked the right questions, and produced a test protocol my team could actually execute. Clear, direct, no fluff.' },
+      { name: 'Jordan R.', rating: 5, date: '2026-02-18', text: 'The PRD he wrote became the foundation for our whole product roadmap. First time a contractor handed us a document we did not have to rewrite from scratch.' },
+    ];
+
+    const LS_KEY = 'df_reviews_v1';
+
+    function loadReviews() {
+      try {
+        const raw = localStorage.getItem(LS_KEY);
+        const stored = raw ? JSON.parse(raw) : [];
+        return [...SEED_REVIEWS, ...stored];
+      } catch { return [...SEED_REVIEWS]; }
+    }
+
+    function saveReview(rv) {
+      try {
+        const raw = localStorage.getItem(LS_KEY);
+        const stored = raw ? JSON.parse(raw) : [];
+        stored.push(rv);
+        localStorage.setItem(LS_KEY, JSON.stringify(stored));
+      } catch {}
+    }
+
+    function starsHtml(rating, cls = 'rv-card-star') {
+      return [1,2,3,4,5].map(i =>
+        `<span class="${cls}" style="color:${i<=rating?'var(--df-gold)':'var(--df-brush)'}">★</span>`
+      ).join('');
+    }
+
+    function renderReviews() {
+      const reviews = loadReviews();
+      const list = document.getElementById('rv-list');
+      list.innerHTML = reviews.length === 0
+        ? '<p style="color:var(--df-muted);font-size:0.86rem;">No reviews yet. Be the first!</p>'
+        : reviews.slice().reverse().map(r => `
+          <div class="rv-card">
+            <div class="rv-card-header">
+              <span class="rv-card-name">${escHtml(r.name)}</span>
+              <span class="rv-card-stars">${starsHtml(r.rating)}</span>
+            </div>
+            <div class="rv-card-date">${r.date}</div>
+            <div class="rv-card-text">${escHtml(r.text)}</div>
+          </div>`).join('');
+
+      // Summary stats
+      const total = reviews.length;
+      const avg   = total ? (reviews.reduce((s, r) => s + r.rating, 0) / total) : 0;
+      const dist  = [5,4,3,2,1].map(s => reviews.filter(r => r.rating === s).length);
+
+      document.getElementById('rv-score').textContent = total ? avg.toFixed(1) : '—';
+      document.getElementById('rv-stars-display').innerHTML = total
+        ? starsHtml(Math.round(avg), 'rv-star-icon')
+        : '';
+      document.getElementById('rv-count').textContent =
+        total === 0 ? 'No reviews yet'
+        : total === 1 ? '1 review'
+        : `${total} reviews`;
+
+      // Sync hero stat
+      const heroNum = document.getElementById('hero-rating-num');
+      const heroLbl = document.getElementById('hero-rating-lbl');
+      if (total === 0) {
+        heroNum.textContent = '—';
+        heroLbl.textContent = 'Client Rating';
+      } else {
+        heroNum.textContent = avg.toFixed(1) + '★';
+        heroLbl.textContent = total === 1 ? 'Avg. Client Rating (1 review)' : `Avg. Client Rating (${total})`;
+      }
+
+      const barsEl = document.getElementById('rv-bars');
+      barsEl.innerHTML = [5,4,3,2,1].map((s, i) => {
+        const pct = total ? Math.round((dist[i] / total) * 100) : 0;
+        return `<div class="rv-bar-row">
+          <span class="rv-bar-label">${s}</span>
+          <div class="rv-bar-track"><div class="rv-bar-fill" style="width:${pct}%"></div></div>
+          <span class="rv-bar-n">${dist[i]}</span>
+        </div>`;
+      }).join('');
+    }
+
+    function escHtml(s) {
+      return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    // Star picker
+    let pickedRating = 0;
+    const picker = document.getElementById('star-picker');
+    const submitBtn = document.getElementById('rv-submit');
+
+    picker.querySelectorAll('.sp-star').forEach(star => {
+      star.addEventListener('mouseenter', () => {
+        const v = +star.dataset.v;
+        picker.querySelectorAll('.sp-star').forEach(s => s.classList.toggle('lit', +s.dataset.v <= v));
+      });
+      star.addEventListener('mouseleave', () => {
+        picker.querySelectorAll('.sp-star').forEach(s => s.classList.toggle('lit', +s.dataset.v <= pickedRating));
+      });
+      star.addEventListener('click', () => {
+        pickedRating = +star.dataset.v;
+        picker.querySelectorAll('.sp-star').forEach(s => s.classList.toggle('lit', +s.dataset.v <= pickedRating));
+        submitBtn.disabled = !pickedRating || !document.getElementById('rv-name').value.trim();
+      });
+    });
+
+    document.getElementById('rv-name').addEventListener('input', () => {
+      submitBtn.disabled = !pickedRating || !document.getElementById('rv-name').value.trim();
+    });
+
+    document.getElementById('rv-form').addEventListener('submit', e => {
+      e.preventDefault();
+      const name = document.getElementById('rv-name').value.trim();
+      const text = document.getElementById('rv-text').value.trim();
+      const msg  = document.getElementById('rv-msg');
+      if (!pickedRating) { msg.textContent = 'Please select a star rating.'; msg.className = 'rv-msg err'; return; }
+      if (!name)         { msg.textContent = 'Please enter your name.';       msg.className = 'rv-msg err'; return; }
+      if (!text)         { msg.textContent = 'Please write a short review.';  msg.className = 'rv-msg err'; return; }
+      const today = new Date().toISOString().slice(0,10);
+      saveReview({ name, rating: pickedRating, date: today, text });
+      renderReviews();
+      // Reset form
+      e.target.reset();
+      pickedRating = 0;
+      picker.querySelectorAll('.sp-star').forEach(s => s.classList.remove('lit'));
+      submitBtn.disabled = true;
+      msg.textContent = 'Review submitted. Thank you!';
+      msg.className = 'rv-msg ok';
+      setTimeout(() => { msg.textContent = ''; msg.className = 'rv-msg'; }, 4000);
+      document.getElementById('rv-list').scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    renderReviews();
+
+    // Nav active state
+    const secs = document.querySelectorAll('section[id]');
+    const links = document.querySelectorAll('.nav-links a');
+    new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          links.forEach(a => a.style.color = '');
+          const a = document.querySelector(`.nav-links a[href="#${e.target.id}"]`);
+          if (a) a.style.color = '#F0782D';
+        }
+      });
+    }, { threshold: 0.35 }).observe;
+    secs.forEach(s => new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          links.forEach(a => a.style.color = '');
+          const a = document.querySelector(`.nav-links a[href="#${e.target.id}"]`);
+          if (a) a.style.color = '#F0782D';
+        }
+      });
+    }, { threshold: 0.35 }).observe(s));
+  </script>
+
+  <!-- ── PROPOSAL MODAL ───────────────────────────────────────────────── -->
+  <div class="pmodal-backdrop" id="pmodal-backdrop" role="dialog" aria-modal="true" aria-labelledby="pmodal-title">
+    <div class="pmodal">
+      <button class="pmodal-close" id="pmodal-close" aria-label="Close">✕ close</button>
+      <div class="pmodal-label" id="pmodal-type"></div>
+      <div class="pmodal-title" id="pmodal-title"></div>
+      <div class="pmodal-stats" id="pmodal-stats"></div>
+      <div class="pmodal-section-label">Scope of Work</div>
+      <div id="pmodal-phases"></div>
+      <div class="pmodal-section-label">Deliverables</div>
+      <div class="pmodal-deliverables" id="pmodal-deliverables"></div>
+      <div class="pmodal-section-label">Service Tags</div>
+      <div class="proposal-tags" id="pmodal-tags" style="margin-top:0.25rem;"></div>
+    </div>
+  </div>
+
+  <script>
+    // ── PROPOSAL MODAL ────────────────────────────────────────────
+    const PROPOSALS = [
+      {
+        id: 'cove-design',
+        type: 'Product Consulting · 1 Phase',
+        title: 'Product Consultation',
+        stats: [
+          { val: '~$200', lbl: 'Investment' },
+          { val: '4h',    lbl: 'Hours' },
+          { val: '1 wk',  lbl: 'Timeline' },
+          { val: '1',     lbl: 'Phase' },
+        ],
+        phases: [
+          {
+            title: 'Phase 1 — Live Consulting Session',
+            items: [
+              'Pre-session intake form and structured agenda prep',
+              '3-hour live video consulting session',
+              'Product goals, manufacturing approach, and go-to-market alignment',
+              'Recorded session delivered to client',
+            ]
+          }
+        ],
+        deliverables: [
+          'Session recording',
+          'Written summary document with prioritized action list',
+          'Recommended next-step roadmap',
+        ],
+        tags: ['Product Consulting', 'Manufacturing Strategy', 'Roadmapping'],
+      },
+      {
+        id: 'blast-light',
+        type: 'Mechanical + Electrical Prototyping · 3 Phases',
+        title: 'Tactical Light Prototype',
+        stats: [
+          { val: '$1,518', lbl: 'Investment' },
+          { val: '38h',    lbl: 'Hours' },
+          { val: '10 wks', lbl: 'Timeline' },
+          { val: '3',      lbl: 'Phases' },
+        ],
+        phases: [
+          { title: 'Phase 1 — Requirements Gathering', items: ['Project kickoff and alignment on requirements, constraints, and aesthetic goals', 'Concept sketching and ideation'] },
+          { title: 'Phase 2 — Virtual Concept Creation', items: ['Rough 3D CAD draft', 'Mechanical architecture plan', 'Electrical architecture plan', 'Refined 3D CAD with client review and revision cycles'] },
+          { title: 'Phase 3 — Physical Prototyping (DV)', items: ['Material selection and parts ordering', 'Full mechanical and electrical assembly', 'Prototype testing and design revisions', 'Packaged and shipped to client'] },
+        ],
+        deliverables: ['Confirmed requirements and concept sketches', 'Rough and refined 3D CAD', 'Mechanical & Electrical Architecture Plans', 'Fully functional DV prototype (shipped)', 'Prototype test results report'],
+        tags: ['Mechanical Design', 'Electrical Architecture', 'Rapid Prototyping', '3D CAD'],
+      },
+      {
+        id: 'glassboard',
+        type: 'Technical Documentation · 3 Phases',
+        title: 'Mechanical Drawing Update — 40 Drawings',
+        stats: [
+          { val: '~$240', lbl: 'Investment' },
+          { val: '6h',    lbl: 'Hours' },
+          { val: '3 wks', lbl: 'Timeline' },
+          { val: '3',     lbl: 'Phases' },
+        ],
+        phases: [
+          { title: 'Phase 1 — Client Intake & Setup', items: ['Receive and verify all client-supplied assets', 'Confirm drawing numbers list, logo file format, and delivery format', 'Confirm title block change spec in writing'] },
+          { title: 'Phase 2 — Drawing Updates (40 Drawings)', items: ['Apply all 7 scope changes to each drawing (~8 min/drawing)', 'Logo swap, drawing number updates, and formatting standardization'] },
+          { title: 'Phase 3 — Review & Delivery', items: ['Open/save verification pass on all updated files', 'Organize final deliverable package', 'Deliver in agreed format with confirmation'] },
+        ],
+        deliverables: ['Confirmed asset receipt and scope in writing', '40 updated drawings with all 7 changes applied', 'Final organized drawing package (native/PDF)'],
+        tags: ['Technical Documentation', 'Engineering Drawings', 'CAD'],
+      },
+      {
+        id: 'gus-battle-bot',
+        type: 'Engineering Tutoring · 4 Phases',
+        title: "Battle Bot Engineering Tutoring",
+        stats: [
+          { val: '~$700', lbl: 'Investment' },
+          { val: '17.5h', lbl: 'Hours' },
+          { val: '4 wks', lbl: 'Timeline' },
+          { val: '4',     lbl: 'Phases' },
+        ],
+        phases: [
+          { title: 'Phase 1 — Foundations', items: ['Rules analysis and design trade-offs', 'Parts sourcing and workspace setup', 'Student presents pre-work designs and commits to one bot concept'] },
+          { title: 'Phase 2 — Build Project', items: ['Full battle bot assembly: chassis, drive, weapon, electronics', 'Student leads all hands-on work; mentor guides with questions only', 'Completed bot test video and build summary written by student'] },
+          { title: 'Phase 3 — Repair Project', items: ['Systematic diagnosis using 5 Whys and methodical testing', 'Full repair of a broken battle bot', 'Repair summary and before/after documentation'] },
+          { title: 'Phase 4 — Final Demo & Reflection', items: ['Live demonstration of both bots', 'Engineering portfolio: photos, sketches, repair log, written reflection', 'Go/no-go recommendation for next phase'] },
+        ],
+        deliverables: ['Final bot design documentation', 'Completed build-project battle bot', 'Completed repair-project battle bot', 'Engineering portfolio (written, photos, repair log)', 'Build and repair summaries authored by student'],
+        tags: ['Engineering Tutoring', 'Mentorship', 'Hands-On STEM', 'Root Cause Analysis'],
+      },
+      {
+        id: 'k9',
+        type: 'Full Product Development · 6 Phases',
+        title: 'Electromechanical Product — iOS Integration',
+        stats: [
+          { val: '~$9.4K', lbl: 'Investment' },
+          { val: '235h',   lbl: 'Hours' },
+          { val: '33 wks', lbl: 'Timeline' },
+          { val: '6',      lbl: 'Phases' },
+        ],
+        phases: [
+          { title: 'Phase 1 — Requirements & Concept', items: ['Product requirements document', 'Software requirements list', 'Initial concept sketches'] },
+          { title: 'Phase 2 — Design & Architecture', items: ['Mechanical, electrical, and software architecture plans', 'Rough and refined 3D CAD with review cycles', 'Patent drawings'] },
+          { title: 'Phase 3 — Graphic Generation', items: ['Photorealistic renders from final CAD', 'Transparent PNGs for marketing use'] },
+          { title: 'Phase 4 — Prototype Build DV1', items: ['Full electromechanical assembly', 'iOS app MVP with hardware integration', 'Software integration testing', 'Shipped prototype to client'] },
+          { title: 'Phase 5 — Prototype Build DV2 (3D Enclosure)', items: ['Re-designed CAD optimized for 3D printing', 'DV2 prototype with printed enclosure', 'Updated iOS app with DV2 integration', 'Test results and DV1→DV2 change log'] },
+          { title: 'Phase 6 — Production Preparation (PV)', items: ['DFM/DFA review, material re-selection', 'Engineering drawings and supplier quotes', 'Tooling, pilot run, and logistics planning'] },
+        ],
+        deliverables: ['Product requirements and software requirements docs', 'All architecture plans (mechanical, electrical, software)', 'Final 3D CAD + patent drawings', 'Photorealistic renders (transparent PNGs)', 'DV1 and DV2 prototypes (shipped)', 'iOS app MVP', 'Full BOM and production-ready drawings', 'DFM/DFA report, supplier matrix, production BOM'],
+        tags: ['Systems Architecture', 'Electromechanical Design', 'iOS Integration', 'DFM/DFA', 'Prototyping'],
+      },
+      {
+        id: 'pokestop',
+        type: 'Custom Fabrication · 4 Phases',
+        title: 'Custom Pokéstop LED Sign',
+        stats: [
+          { val: '~$230', lbl: 'Investment' },
+          { val: '5.75h', lbl: 'Hours' },
+          { val: '4 wks', lbl: 'Timeline' },
+          { val: '4',     lbl: 'Phases' },
+        ],
+        phases: [
+          { title: 'Phase 1 — Design & Planning', items: ['Final dimensions, LED color spec, and rotation mechanism confirmed with client'] },
+          { title: 'Phase 2 — Materials Procurement', items: ['Source acrylic sheet, LED neon flex, connectors, hardware', 'All materials verified against spec before build'] },
+          { title: 'Phase 3 — Fabrication', items: ['Acrylic cut to Pokéstop silhouette', 'LED neon flex installed on front face', 'Wiring, connectors, and solder joints complete'] },
+          { title: 'Phase 4 — Testing & Handoff', items: ['LED continuity check and 8+ hour runtime test', 'Spin verification on pole mount', 'QC pass before client handoff'] },
+        ],
+        deliverables: ['Fabricated Pokéstop-silhouette acrylic sign', 'LED neon flex front face with wiring', 'Fully tested spinnable pole-mount assembly'],
+        tags: ['Custom Fabrication', 'LED Electronics', 'Acrylic Work'],
+      },
+      {
+        id: 'stealth-wallet',
+        type: 'Full Product Development · 5 Phases',
+        title: 'Stealth Wallet — Design & Production',
+        stats: [
+          { val: '$2,250', lbl: 'Investment' },
+          { val: '150h',   lbl: 'Hours' },
+          { val: '16 wks', lbl: 'Timeline' },
+          { val: '5',      lbl: 'Phases' },
+        ],
+        phases: [
+          { title: 'Phase 1 — Concept Development', items: ['Kickoff to confirm specs, dimensions, materials, and aesthetic goals', 'Concept sketches establishing layout and form factor options'] },
+          { title: 'Phase 2 — Design & Engineering', items: ['Rough 3D CAD draft through final detailed CAD', 'Locking mechanism detail, exploded views, engineering drawings', 'Two client review and revision cycles'] },
+          { title: 'Phase 3 — 3D Renderings', items: ['3–5 photorealistic renders', 'Transparent PNGs for marketing use'] },
+          { title: 'Phase 4 — Prototyping DV', items: ['Two rapid 3D printed prototype cycles', 'Durability and fit testing between cycles', 'Design revisions applied from physical test feedback'] },
+          { title: 'Phase 5 — Production Validation (PV)', items: ['DFM/DFA review (two rounds)', 'Material re-selection and supplier quoting', 'Functional testing with production-grade materials'] },
+        ],
+        deliverables: ['Confirmed spec document and concept sketches', 'Final CAD + engineering drawings', 'Photorealistic renders (transparent PNGs)', 'Multiple DV prototype iterations + test results', 'DFM/DFA reports, production drawings, BOM', 'Supplier quotes and functional test report with production-grade materials'],
+        tags: ['CAD Design', '3D Rendering', 'DFM/DFA', 'Production Prep', 'Supply Chain'],
+      },
+      {
+        id: 'shirt-folding',
+        type: 'Mechanical Prototyping · 4 Phases',
+        title: 'Automated Machine MVP',
+        stats: [
+          { val: '$2,255', lbl: 'Investment' },
+          { val: '41h',    lbl: 'Hours' },
+          { val: '7 wks',  lbl: 'Timeline' },
+          { val: '4',      lbl: 'Phases' },
+        ],
+        phases: [
+          { title: 'Phase 1 — Design Review & BOM', items: ['Review reference and client CAD files', 'Map full mechanism and identify button-control delta', 'Analyze files for print-readiness', 'Produce complete BOM with sourcing and cost estimate', 'Deliver 3D print cost estimate based on file analysis'] },
+          { title: 'Phase 2 — CAD Adaptation & Parts Ordering', items: ['Targeted modifications for button-control integration and print-readiness fixes', 'Slice files and confirm tolerances with test prints of critical parts', 'Place all component orders for delivery during print runs'] },
+          { title: 'Phase 3 — Fabrication & Assembly', items: ['Run all 3D print jobs and receive components', 'Assemble complete machine', 'Install motors, actuators, and button-control wiring', 'Program full motion sequence', 'Initial bench-level functional checks'] },
+          { title: 'Phase 4 — Testing & Refinement', items: ['Structured mechanism verification testing', 'Identify failure modes and tune geometry and timing', 'One primary rework cycle included', 'Reliability run validation'] },
+        ],
+        deliverables: [
+          'Design review notes (mechanism map, delta from reference, risks)',
+          'Complete BOM with sourcing and component cost',
+          '3D print cost estimate',
+          'Print-ready files (all parts)',
+          'Fully assembled Automated Machine MVP (v1)',
+          'Wiring diagram',
+          'Mechanism verification test results summary (success rate, failure modes)',
+          'Refined machine (v1.1) after rework cycle',
+        ],
+        tags: ['Mechanical Design', 'Rapid Prototyping', '3D Printing', 'CAD Adaptation', 'V&V'],
+      },
+    ];
+
+    const backdrop = document.getElementById('pmodal-backdrop');
+    const closeBtn = document.getElementById('pmodal-close');
+
+    function openProposal(id) {
+      const p = PROPOSALS.find(x => x.id === id);
+      if (!p) return;
+
+      document.getElementById('pmodal-type').textContent = p.type;
+      document.getElementById('pmodal-title').textContent = p.title;
+
+      document.getElementById('pmodal-stats').innerHTML = p.stats.map(s =>
+        `<div class="pstat">
+          <span class="pstat-val">${s.val}</span>
+          <span class="pstat-lbl">${s.lbl}</span>
+        </div>`
+      ).join('');
+
+      document.getElementById('pmodal-phases').innerHTML = p.phases.map(ph =>
+        `<div class="pmodal-phase">
+          <div class="pmodal-phase-title">${ph.title}</div>
+          <ul>${ph.items.map(i => `<li>${i}</li>`).join('')}</ul>
+        </div>`
+      ).join('');
+
+      document.getElementById('pmodal-deliverables').innerHTML =
+        p.deliverables.map(d => `• ${d}`).join('<br>');
+
+      document.getElementById('pmodal-tags').innerHTML =
+        p.tags.map(t => `<span class="wtag">${t}</span>`).join('');
+
+      backdrop.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeProposal() {
+      backdrop.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    closeBtn.addEventListener('click', closeProposal);
+    backdrop.addEventListener('click', e => { if (e.target === backdrop) closeProposal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeProposal(); });
+
+    document.querySelectorAll('.proposal-card').forEach(card => {
+      card.addEventListener('click', () => openProposal(card.dataset.proposal));
+    });
+  </script>
+
+  <!-- old floating widget removed — VENN lives in nav -->
+  <div id="venn-widget-old-placeholder" style="display:none">
+
+    <!-- Toggle button — shows VENN's face -->
+    <button id="venn-toggle" aria-label="Open VENN chat">
+      <svg viewBox="-20 -50 260 290" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+        <rect x="-20" y="-50" width="260" height="340" fill="#120500"/>
+        <rect x="-18" y="56" width="30" height="84" fill="#cc4400" rx="3"/>
+        <rect x="-14" y="60" width="22" height="76" fill="#1f0800" rx="2"/>
+        <rect x="208" y="56" width="30" height="84" fill="#cc4400" rx="3"/>
+        <rect x="212" y="60" width="22" height="76" fill="#1f0800" rx="2"/>
+        <rect x="-5"  y="-14" width="4"  height="70" fill="#cc4400"/>
+        <rect x="-10" y="-18" width="14" height="7"  fill="#ff7722" rx="2"/>
+        <rect x="221" y="-14" width="4"  height="70" fill="#cc4400"/>
+        <rect x="216" y="-18" width="14" height="7"  fill="#ff7722" rx="2"/>
+        <rect x="40"  y="10"  width="140" height="12" fill="#cc4400"/>
+        <rect x="16"  y="22"  width="24"  height="12" fill="#cc4400"/>
+        <rect x="180" y="22"  width="24"  height="12" fill="#cc4400"/>
+        <rect x="10"  y="34"  width="200" height="156" fill="#1f0800"/>
+        <rect x="10"  y="34"  width="12"  height="156" fill="#cc4400"/>
+        <rect x="198" y="34"  width="12"  height="156" fill="#cc4400"/>
+        <rect x="16"  y="190" width="24"  height="12" fill="#cc4400"/>
+        <rect x="180" y="190" width="24"  height="12" fill="#cc4400"/>
+        <rect x="40"  y="202" width="140" height="12" fill="#cc4400"/>
+        <rect x="36"  y="58"  width="56"  height="44" fill="#00ee44" rx="2"/>
+        <rect x="50"  y="68"  width="28"  height="24" fill="#002208"/>
+        <rect x="50"  y="68"  width="9"   height="9"  fill="#aaffcc" opacity="0.65"/>
+        <rect x="128" y="58"  width="56"  height="44" fill="#00ee44" rx="2"/>
+        <rect x="142" y="68"  width="28"  height="24" fill="#002208"/>
+        <rect x="142" y="68"  width="9"   height="9"  fill="#aaffcc" opacity="0.65"/>
+        <rect x="56"  y="152" width="14"  height="10" fill="#00ee44"/>
+        <rect x="150" y="152" width="14"  height="10" fill="#00ee44"/>
+        <rect x="70"  y="162" width="80"  height="10" fill="#00ee44"/>
+      </svg>
+    </button>
+
+    <!-- Expanded panel -->
+    <div id="venn-panel">
+
+      <!-- Header: mini animated face + info + close -->
+      <div id="venn-panel-header">
+        <div class="venn-crt-mini">
+          <svg viewBox="-20 -50 260 290" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="vwh-glow" cx="50%" cy="45%" r="55%">
+                <stop offset="0%"   stop-color="#ff5500" stop-opacity="0.09"/>
+                <stop offset="100%" stop-color="#ff5500" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+            <rect x="-20" y="-50" width="260" height="340" fill="#120500"/>
+            <rect x="-18" y="56" width="30" height="84" fill="#cc4400" rx="3"/>
+            <rect x="-14" y="60" width="22" height="76" fill="#1f0800" rx="2"/>
+            <rect x="208" y="56" width="30" height="84" fill="#cc4400" rx="3"/>
+            <rect x="212" y="60" width="22" height="76" fill="#1f0800" rx="2"/>
+            <rect x="-5"  y="-14" width="4"  height="70" fill="#cc4400"/>
+            <rect class="venn-ant-l" x="-10" y="-18" width="14" height="7" fill="#ff7722" rx="2"/>
+            <rect x="221" y="-14" width="4"  height="70" fill="#cc4400"/>
+            <rect class="venn-ant-r" x="216" y="-18" width="14" height="7" fill="#ff7722" rx="2"/>
+            <rect x="40"  y="10"  width="140" height="12" fill="#cc4400"/>
+            <rect x="16"  y="22"  width="24"  height="12" fill="#cc4400"/>
+            <rect x="180" y="22"  width="24"  height="12" fill="#cc4400"/>
+            <rect x="10"  y="34"  width="200" height="156" fill="#1f0800"/>
+            <rect x="10"  y="34"  width="12"  height="156" fill="#cc4400"/>
+            <rect x="198" y="34"  width="12"  height="156" fill="#cc4400"/>
+            <rect x="16"  y="190" width="24"  height="12" fill="#cc4400"/>
+            <rect x="180" y="190" width="24"  height="12" fill="#cc4400"/>
+            <rect x="40"  y="202" width="140" height="12" fill="#cc4400"/>
+            <rect width="220" height="240" fill="url(#vwh-glow)"/>
+            <rect class="venn-eye-anim" id="vwh-leye"   x="36"  y="58" width="56" height="44" fill="#00ee44" rx="2"/>
+            <rect id="vwh-lpupil" x="50"  y="68" width="28" height="24" fill="#002208"/>
+            <rect id="vwh-lshine" x="50"  y="68" width="9"  height="9"  fill="#aaffcc" opacity="0.65"/>
+            <rect class="venn-eye-anim" id="vwh-reye"   x="128" y="58" width="56" height="44" fill="#00ee44" rx="2"/>
+            <rect id="vwh-rpupil" x="142" y="68" width="28" height="24" fill="#002208"/>
+            <rect id="vwh-rshine" x="142" y="68" width="9"  height="9"  fill="#aaffcc" opacity="0.65"/>
+            <g id="vwh-mouth"></g>
+          </svg>
+        </div>
+        <div id="venn-header-info">
+          <span id="venn-header-name">VENN</span>
+          <span id="venn-header-sub">The Dimensional Forge</span>
+          <span id="venn-header-status">● Bridge Offline</span>
+        </div>
+        <button id="venn-close" aria-label="Close">✕</button>
+      </div>
+
+      <!-- Messages -->
+      <div id="venn-messages"></div>
+
+      <!-- Input -->
+      <div id="venn-input-row">
+        <input id="venn-input" type="text" placeholder="Ask VENN..." autocomplete="off"/>
+        <button id="venn-send">Send</button>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+  (function () {
+    const G = '#00ee44', D = '#050f07';
+    const THINK_LOOKS = [[8,-5,true],[2,-4,true],[-6,-4,true],[2,-4,true]];
+    const SPEAK_CYCLE = ['open','mid','small','mid','open','small','mid'];
+
+    const leye   = document.getElementById('vwh-leye');
+    const reye   = document.getElementById('vwh-reye');
+    const lpupil = document.getElementById('vwh-lpupil');
+    const rpupil = document.getElementById('vwh-rpupil');
+    const lshine = document.getElementById('vwh-lshine');
+    const rshine = document.getElementById('vwh-rshine');
+    const mouthEl  = document.getElementById('vwh-mouth');
+    const statusEl = document.getElementById('venn-header-status');
+
+    let eyePos = { dx:0, dy:0, squint:false };
+    let speakTimer = null, speakFrame = 0;
+    let thinkEyeTimer = null, thinkEyePhase = 0;
+
+    function getMouths() {
+      return {
+        idle:     `<rect x="56" y="152" width="14" height="10" fill="${G}"/><rect x="150" y="152" width="14" height="10" fill="${G}"/><rect x="70" y="162" width="80" height="10" fill="${G}"/>`,
+        thinking: `<rect x="68" y="158" width="66" height="7" fill="${G}"/><rect x="134" y="153" width="18" height="5" fill="${G}"/><rect x="152" y="150" width="10" height="4" fill="${G}"/>`,
+        small:    `<rect x="50" y="148" width="120" height="8" fill="${G}"/><rect x="42" y="156" width="8" height="14" fill="${G}"/><rect x="170" y="156" width="8" height="14" fill="${G}"/><rect x="50" y="170" width="120" height="8" fill="${G}"/><rect x="58" y="156" width="104" height="14" fill="${D}"/>`,
+        mid:      `<rect x="48" y="142" width="124" height="8" fill="${G}"/><rect x="40" y="150" width="8" height="22" fill="${G}"/><rect x="172" y="150" width="8" height="22" fill="${G}"/><rect x="48" y="172" width="124" height="8" fill="${G}"/><rect x="56" y="150" width="108" height="22" fill="${D}"/><rect x="66" y="150" width="22" height="11" fill="${G}" opacity="0.75"/><rect x="99" y="150" width="22" height="11" fill="${G}" opacity="0.75"/><rect x="132" y="150" width="22" height="11" fill="${G}" opacity="0.75"/>`,
+        open:     `<rect x="46" y="134" width="128" height="8" fill="${G}"/><rect x="38" y="142" width="8" height="38" fill="${G}"/><rect x="174" y="142" width="8" height="38" fill="${G}"/><rect x="46" y="180" width="128" height="8" fill="${G}"/><rect x="54" y="142" width="112" height="38" fill="${D}"/><rect x="62" y="142" width="24" height="15" fill="${G}" opacity="0.7"/><rect x="98" y="142" width="24" height="15" fill="${G}" opacity="0.7"/><rect x="134" y="142" width="24" height="15" fill="${G}" opacity="0.7"/>`,
+      };
+    }
+
+    function setMouth(k) { mouthEl.innerHTML = getMouths()[k] || getMouths().idle; }
+
+    function setEyePos(dx, dy, squint) {
+      eyePos = { dx, dy, squint };
+      const h = squint ? 30 : 44, y = squint ? 65 : 58;
+      leye.setAttribute('height', h);   leye.setAttribute('y', y);
+      reye.setAttribute('height', h);   reye.setAttribute('y', y);
+      lpupil.setAttribute('x', 50+dx);  lpupil.setAttribute('y', 68+dy);
+      rpupil.setAttribute('x', 142+dx); rpupil.setAttribute('y', 68+dy);
+      lshine.setAttribute('x', 50+dx);  lshine.setAttribute('y', 68+dy);
+      rshine.setAttribute('x', 142+dx); rshine.setAttribute('y', 68+dy);
+    }
+
+    function startThinkingEyes() {
+      clearInterval(thinkEyeTimer); thinkEyePhase = 0; setEyePos(...THINK_LOOKS[0]);
+      thinkEyeTimer = setInterval(() => {
+        thinkEyePhase = (thinkEyePhase + 1) % THINK_LOOKS.length;
+        setEyePos(...THINK_LOOKS[thinkEyePhase]);
+      }, 900);
+    }
+    function stopThinkingEyes() { clearInterval(thinkEyeTimer); thinkEyeTimer = null; setEyePos(0,0,false); }
+
+    function setState(s) {
+      clearInterval(speakTimer);
+      if (s !== 'thinking') stopThinkingEyes();
+      switch (s) {
+        case 'idle':
+          statusEl.textContent = '● Bridge Offline'; statusEl.className = '';
+          setMouth('idle'); break;
+        case 'idle-live':
+          statusEl.textContent = '● Online'; statusEl.className = 'venn-live';
+          setMouth('idle'); break;
+        case 'thinking':
+          statusEl.textContent = '◌ Thinking...'; statusEl.className = '';
+          setMouth('thinking'); startThinkingEyes(); break;
+        case 'responding':
+          statusEl.textContent = '▶ Responding'; statusEl.className = 'venn-live';
+          speakFrame = 0;
+          speakTimer = setInterval(() => setMouth(SPEAK_CYCLE[speakFrame++ % SPEAK_CYCLE.length]), 140);
+          break;
+      }
+    }
+
+    function blink() {
+      const by = eyePos.squint ? 79 : 78;
+      leye.setAttribute('height','4'); leye.setAttribute('y', by);
+      reye.setAttribute('height','4'); reye.setAttribute('y', by);
+      [lpupil,rpupil,lshine,rshine].forEach(e => e.setAttribute('opacity','0'));
+      setTimeout(() => {
+        setEyePos(eyePos.dx, eyePos.dy, eyePos.squint);
+        [lpupil,rpupil,lshine,rshine].forEach(e => e.removeAttribute('opacity'));
+      }, 100);
+      setTimeout(blink, 3000 + Math.random() * 4000);
+    }
+
+    // ── Chat ──────────────────────────────────────────────
+    const messagesEl = document.getElementById('venn-messages');
+
+    function addMsg(role, text) {
+      const div = document.createElement('div');
+      div.className = 'vmsg ' + role;
+      div.textContent = text;
+      messagesEl.appendChild(div);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    // Bridge URL — update this to your hosted bridge when ready
+    const BRIDGE_URL = 'http://localhost:7852/chat';
+
+    async function sendMessage(text) {
+      text = text.trim(); if (!text) return;
+      addMsg('vuser', text);
+      document.getElementById('venn-input').value = '';
+      setState('thinking');
+      try {
+        const resp = await fetch(BRIDGE_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: text }),
+          signal: AbortSignal.timeout(8000),
+        });
+        if (!resp.ok) throw new Error('bridge error');
+        const data = await resp.json();
+        const reply = data.reply || data.message || '[no response]';
+        setState('responding');
+        addMsg('vassist', reply);
+        setTimeout(() => setState('idle-live'), Math.max(1400, reply.split(' ').length * 180));
+      } catch {
+        setState('idle');
+        addMsg('vsys', 'bridge offline — wire up venn to enable chat');
+      }
+    }
+
+    // ── Init ──────────────────────────────────────────────
+    const toggle  = document.getElementById('venn-toggle');
+    const panel   = document.getElementById('venn-panel');
+    const closeBtn = document.getElementById('venn-close');
+    const input   = document.getElementById('venn-input');
+    const sendBtn = document.getElementById('venn-send');
+
+    toggle.addEventListener('click', () => panel.classList.toggle('venn-open'));
+    closeBtn.addEventListener('click', () => panel.classList.remove('venn-open'));
+    sendBtn.addEventListener('click', () => sendMessage(input.value));
+    input.addEventListener('keydown', e => { if (e.key === 'Enter') sendMessage(input.value); });
+
+    setMouth('idle');
+    setTimeout(blink, 1800 + Math.random() * 2000);
+    addMsg('vsys', 'venn // the dimensional forge // bridge offline');
+
+    // ── Badge face (toggle button) ─────────────────────────────────
+    // Mirrors the panel face exactly — same SVG coordinate space
+    const BADGE_CYCLE = ['idle','thinking','small','idle','mid','idle','open','idle'];
+    const tleye   = document.getElementById('vwt-leye');
+    const treye   = document.getElementById('vwt-reye');
+    const tlpupil = document.getElementById('vwt-lpupil');
+    const trpupil = document.getElementById('vwt-rpupil');
+    const tlshine = document.getElementById('vwt-lshine');
+    const trshine = document.getElementById('vwt-rshine');
+    const tmouthEl = document.getElementById('vwt-mouth');
+    let tEyePos = { dx:0, dy:0, squint:false };
+
+    function setTMouth(k) { tmouthEl.innerHTML = getMouths()[k] || getMouths().idle; }
+
+    function setTEyePos(dx, dy, squint) {
+      tEyePos = { dx, dy, squint };
+      const h = squint ? 30 : 44, y = squint ? 65 : 58;
+      tleye.setAttribute('height', h);   tleye.setAttribute('y', y);
+      treye.setAttribute('height', h);   treye.setAttribute('y', y);
+      tlpupil.setAttribute('x', 50+dx);  tlpupil.setAttribute('y', 68+dy);
+      trpupil.setAttribute('x', 142+dx); trpupil.setAttribute('y', 68+dy);
+      tlshine.setAttribute('x', 50+dx);  tlshine.setAttribute('y', 68+dy);
+      trshine.setAttribute('x', 142+dx); trshine.setAttribute('y', 68+dy);
+    }
+
+    let badgeCycleIdx = 0;
+    function runBadgeCycle() {
+      setTimeout(() => {
+        const k = BADGE_CYCLE[badgeCycleIdx++ % BADGE_CYCLE.length];
+        setTMouth(k);
+        if (k === 'thinking') setTEyePos(...THINK_LOOKS[Math.floor(Math.random()*4)]);
+        else setTEyePos(0,0,false);
+        runBadgeCycle();
+      }, 2200 + Math.random() * 800);
+    }
+
+    function tBlink() {
+      const by = tEyePos.squint ? 79 : 78;
+      tleye.setAttribute('height','4'); tleye.setAttribute('y', by);
+      treye.setAttribute('height','4'); treye.setAttribute('y', by);
+      [tlpupil,trpupil,tlshine,trshine].forEach(e => e.setAttribute('opacity','0'));
+      setTimeout(() => {
+        setTEyePos(tEyePos.dx, tEyePos.dy, tEyePos.squint);
+        [tlpupil,trpupil,tlshine,trshine].forEach(e => e.removeAttribute('opacity'));
+      }, 100);
+      setTimeout(tBlink, 3000 + Math.random() * 4000);
+    }
+
+    setTMouth('idle');
+    setTEyePos(0,0,false);
+    setTimeout(tBlink, 2500 + Math.random() * 2000);
+    runBadgeCycle();
+  })();
+  </script>
+</body>
+</html>
