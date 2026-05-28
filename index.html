@@ -1897,39 +1897,12 @@
     }
 
     // ── REVIEWS ────────────────────────────────────────────────
-    const SEED_REVIEWS = [
-      { name: 'Marcus T.', rating: 5, date: '2026-04-12', text: 'Sean delivered a complete mechanical design package in a fraction of the time I expected. DFMEA, SolidWorks models, DFM notes — all of it. Exactly the senior-level thinking I needed for a one-off prototype run.' },
-      { name: 'Priya K.', rating: 5, date: '2026-03-05', text: 'Hired for a V&V planning engagement. Sean came in fast, asked the right questions, and produced a test protocol my team could actually execute. Clear, direct, no fluff.' },
-      { name: 'Jordan R.', rating: 5, date: '2026-02-18', text: 'The PRD he wrote became the foundation for our whole product roadmap. First time a contractor handed us a document we did not have to rewrite from scratch.' },
-      { name: 'Shakira', rating: 5, date: '2026-05-27', project: 'Electromechanical Product — iOS Integration', text: 'I had a great experience working with Sean. He was highly communicative, professional, and consistently stayed on schedule throughout the project. He was easy to reach whenever I had questions and always took the time to explain technical details clearly and thoroughly. His knowledge, attention to detail, and passion for the work were evident during the entire process. He was friendly, informative, and genuinely invested in helping bring the project to life. I appreciated his reliability, problem-solving ability, and willingness to collaborate throughout development. I look forward to continuing to work with him again in the future and would highly recommend him to anyone looking for a skilled and dependable engineer.' },
-      { name: 'Kevin', rating: 5, date: '2025-01-16', project: 'Pokémon Go Plus+ Protective Case', text: 'Anyone who would like to protect their Pokémon Go Plus+ this is a product I would highly recommend! The product arrives as shown, with the high quality one would expect from a 3D print these days, and with very kind help from the Seller I was able to easily snap it in place. It looks great!' },
-      { name: 'No', rating: 5, date: '2022-07-13', project: '3D Model — The Hang', text: 'Great 3d model as expected from a professional like Sean. He was very helpful in clearing some things for me and getting this stl into reality. Keep up the good work brother. Cheers' },
-      { name: 'Ed', rating: 5, date: '2022-04-26', project: 'Custom Blemished Parts Order', text: 'Sean is a cool dude. He made sure I was taken care of. I appreciate him.' },
-      { name: 'Clayface', rating: 5, date: '2022-03-10', project: 'AirTag Bicycle Mount — The Track', text: 'Fantastically simple and perfect design for adding a bit of security to your bike.' },
-      { name: 'Allen', rating: 5, date: '2022-06-06', project: '3D Model — The Bend', text: 'Nice design, wide range of compatibility.' },
-      { name: 'Eric', rating: 5, date: '2021-11-01', project: 'Double Bottle Adapter Mount — The Shield', text: 'Amazing quality, and Sean was great to work with.' },
-      { name: 'Amy', rating: 5, date: '2021-11-29', project: 'Custom Project Request', text: 'Sean was super responsive and helpful, and the final product is high quality and exactly what I needed! 10/10 would buy from again :)' },
-      { name: 'Matthew', rating: 5, date: '2021-07-09', project: 'Bikepacking Cargo Cage — The Bend', text: "I'm really happy with these cargo cages. I love their low profile — every mass produced cage I looked at jutted wayyy off the frame. I was a little nervous about the strength of 3D printed plastic, but I'm happy to report my fears have proved unfounded. They are firm but have just enough flexibility. If I had it to do over again, I would definitely still buy these cages!" },
-      { name: 'Andre', rating: 5, date: '2021-06-15', project: 'AirTag Bicycle Mount — The Track', text: 'Great customer service from Sean. The airtag holder is of quality and as advertised. I would recommend this product.' },
-    ];
+    const REVIEWS_API = 'https://script.google.com/macros/s/AKfycbxXXt5HtzjyGq_44WJbHuxVcjllRCSoJasuNIBgnvnvMVXO0m16w-LkcJOyDy5phoiG/exec';
 
-    const LS_KEY = 'df_reviews_v1';
-
-    function loadReviews() {
-      try {
-        const raw = localStorage.getItem(LS_KEY);
-        const stored = raw ? JSON.parse(raw) : [];
-        return [...SEED_REVIEWS, ...stored];
-      } catch { return [...SEED_REVIEWS]; }
-    }
-
-    function saveReview(rv) {
-      try {
-        const raw = localStorage.getItem(LS_KEY);
-        const stored = raw ? JSON.parse(raw) : [];
-        stored.push(rv);
-        localStorage.setItem(LS_KEY, JSON.stringify(stored));
-      } catch {}
+    async function fetchSheetReviews() {
+      const res = await fetch(REVIEWS_API);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return res.json();
     }
 
     function starsHtml(rating, cls = 'rv-card-star') {
@@ -1938,8 +1911,7 @@
       ).join('');
     }
 
-    function renderReviews() {
-      const reviews = loadReviews();
+    function renderReviews(reviews) {
       const list = document.getElementById('rv-list');
       list.innerHTML = reviews.length === 0
         ? '<p style="color:var(--df-muted);font-size:0.86rem;">No reviews yet. Be the first!</p>'
@@ -1953,7 +1925,6 @@
             <div class="rv-card-text">${escHtml(r.text)}</div>
           </div>`).join('');
 
-      // Summary stats
       const total = reviews.length;
       const avg   = total ? (reviews.reduce((s, r) => s + r.rating, 0) / total) : 0;
       const dist  = [5,4,3,2,1].map(s => reviews.filter(r => r.rating === s).length);
@@ -1967,7 +1938,6 @@
         : total === 1 ? '1 review'
         : `${total} reviews`;
 
-      // Sync hero stat
       const heroNum = document.getElementById('hero-rating-num');
       const heroLbl = document.getElementById('hero-rating-lbl');
       if (total === 0) {
@@ -1990,10 +1960,18 @@
     }
 
     function escHtml(s) {
-      return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+      return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
     }
 
-    renderReviews();
+    document.getElementById('rv-list').innerHTML =
+      '<p style="color:var(--df-muted);font-size:0.86rem;">Loading reviews…</p>';
+    fetchSheetReviews()
+      .then(renderReviews)
+      .catch(err => {
+        console.error('[reviews] fetch failed:', err);
+        document.getElementById('rv-list').innerHTML =
+          '<p style="color:var(--df-muted);font-size:0.86rem;">Could not load reviews.</p>';
+      });
 
     // Nav active state
     const secs = document.querySelectorAll('section[id]');
