@@ -1900,7 +1900,7 @@
     const REVIEWS_API = 'https://script.google.com/macros/s/AKfycbxXXt5HtzjyGq_44WJbHuxVcjllRCSoJasuNIBgnvnvMVXO0m16w-LkcJOyDy5phoiG/exec';
 
     async function fetchSheetReviews() {
-      const res = await fetch(REVIEWS_API);
+      const res = await fetch(REVIEWS_API + '?t=' + Date.now());
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       return res.json();
     }
