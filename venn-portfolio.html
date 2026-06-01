@@ -109,7 +109,7 @@ body {
 .center-row { display: flex; align-items: stretch; gap: 20px; flex-shrink: 0; }
 
 /* Annotation columns */
-.ann-col { width: 140px; display: flex; flex-direction: column; justify-content: space-around; padding: 16px 0; }
+.ann-col { width: 150px; display: flex; flex-direction: column; justify-content: space-around; padding: 16px 0; }
 .ann-item { display: flex; align-items: center; gap: 6px; }
 .ann-col.left  .ann-item { flex-direction: row; }
 .ann-col.right .ann-item { flex-direction: row-reverse; }
@@ -156,11 +156,11 @@ body {
 
 /* Spec panel */
 .spec-col {
-  width: 124px; display: flex; flex-direction: column; justify-content: space-around;
-  padding: 16px 0 16px 16px; border-left: 1px solid var(--brush);
+  width: 150px; display: flex; flex-direction: column; justify-content: space-around;
+  padding: 16px 0 16px 18px; border-left: 1px solid var(--brush);
 }
-.spec-key { font-size: 6.5px; letter-spacing: 3px; text-transform: uppercase; color: #444; margin-bottom: 2px; }
-.spec-val { font-size: 9.5px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--orange); }
+.spec-key { font-size: 6.5px; letter-spacing: 3px; text-transform: uppercase; color: #444; margin-bottom: 5px; line-height: 1.3; }
+.spec-val { font-size: 9.5px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--orange); line-height: 1.45; }
 .spec-val.hi { color: var(--gold); }
 
 /* Status strip */
@@ -210,6 +210,23 @@ body {
   width: 18px; height: 10px; fill: none;
   stroke: var(--orange); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round;
 }
+
+/* In-flow cue linking each section to the next */
+.section-cue {
+  display: flex; flex-direction: column; align-items: center; gap: 5px;
+  margin: 8px auto 0; padding: 8px 0;
+  text-decoration: none; color: inherit; width: max-content;
+  animation: scroll-bounce-flow 2.2s ease-in-out infinite;
+  opacity: 0.55; transition: opacity 0.3s;
+}
+.section-cue:hover { opacity: 1; }
+/* bounce variant without the translateX(-50%) the hero uses */
+@keyframes scroll-bounce-flow {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(5px); }
+}
+/* up-pointing chevron for the Back-to-Top cue */
+.section-cue.up .scroll-chevron { transform: rotate(180deg); }
 
 /* Face animations */
 @keyframes eye-pulse { 0%,100%{opacity:1} 50%{opacity:0.70} }
@@ -316,6 +333,25 @@ body {
   padding: 2px 7px; border-radius: 2px;
 }
 
+/* Bridge group label rows (mirror VENN UI groupings) */
+.bridge-group-hd {
+  display: flex; align-items: baseline; gap: 12px;
+  margin: 30px 0 12px;
+  padding-left: 10px;
+  border-left: 2px solid var(--orange);
+}
+.bridge-group-hd:first-of-type { margin-top: 0; }
+.bridge-group-name {
+  font-family: 'Sora', sans-serif; font-weight: 300;
+  font-size: 13px; letter-spacing: 3px; text-transform: uppercase;
+  background: var(--grad);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.bridge-group-sub {
+  font-size: 7px; letter-spacing: 2px; text-transform: uppercase; color: #444;
+}
+.bridge-grid + .bridge-group-hd { margin-top: 30px; }
+
 /* ===== TOKEN ECONOMICS ===== */
 .econ-grid {
   display: grid; grid-template-columns: 1fr 1fr; gap: 28px;
@@ -394,6 +430,9 @@ body {
 .log-mod.obsidian { color: #FAAC3D; }
 .log-mod.bridge   { color: #00DD55; }
 .log-mod.stats    { color: #00DD55; }
+.log-mod.security { color: #EE4236; }
+.log-mod.heart    { color: #EE4236; }
+.log-mod.project  { color: #CC8833; }
 .log-msg   { color: #555; }
 .log-msg .ok    { color: #00dd55; }
 .log-msg .warn  { color: #FAAC3D; }
@@ -1054,7 +1093,7 @@ body {
   <div class="center-row">
     <div class="ann-col left">
       <div class="ann-item">
-        <div class="ann-txt"><b>Architecture</b>Single-file<br>frontend</div>
+        <div class="ann-txt"><b>Frontend</b>Single-file<br>PWA</div>
         <div class="ann-dash"></div><div class="ann-dot"></div>
       </div>
       <div class="ann-item">
@@ -1062,7 +1101,7 @@ body {
         <div class="ann-dash"></div><div class="ann-dot"></div>
       </div>
       <div class="ann-item">
-        <div class="ann-txt"><b>Bridge API</b>15 modules<br>extensible</div>
+        <div class="ann-txt"><b>Framework</b>Adaptable AI<br>multi-tool</div>
         <div class="ann-dash"></div><div class="ann-dot"></div>
       </div>
     </div>
@@ -1136,10 +1175,10 @@ body {
     <div class="spec-col">
       <div><div class="spec-key">Designation</div><div class="spec-val hi">VENN-1</div></div>
       <div><div class="spec-key">Build</div><div class="spec-val">REV 2.0</div></div>
-      <div><div class="spec-key">Brain</div><div class="spec-val">Any LLM API</div></div>
-      <div><div class="spec-key">Voice</div><div class="spec-val">SAM + Piper</div></div>
-      <div><div class="spec-key">Bridges</div><div class="spec-val">15 Modules</div></div>
-      <div><div class="spec-key">Platform</div><div class="spec-val">Android / PC / Pi</div></div>
+      <div><div class="spec-key">Brain</div><div class="spec-val">Dynamic Orchestrator</div></div>
+      <div><div class="spec-key">Reach</div><div class="spec-val">Cloud to Bits &amp; Bytes</div></div>
+      <div><div class="spec-key">Extensibility</div><div class="spec-val">Endless Bridge Expansion</div></div>
+      <div><div class="spec-key">Hardware I/O</div><div class="spec-val">ESP32 / Flipper / Serial</div></div>
       <div><div class="spec-key">Status</div><div class="spec-val hi"><span class="live">&#x25CF;</span> NOMINAL</div></div>
     </div>
   </div>
@@ -1149,11 +1188,13 @@ body {
   <div class="status-strip">
     <span class="live">&#x25CF; NOMINAL</span>
     <span>///</span>
-    <span>LOCAL OR CLOUD LLM</span>
+    <span>ADAPTABLE AI MULTI-TOOL</span>
     <span>///</span>
-    <span>15 BRIDGES READY</span>
+    <span>CLOUD TO BITS &amp; BYTES REACH</span>
     <span>///</span>
-    <span>ANDROID / PC / LINUX NATIVE</span>
+    <span>EXPANDABLE BRIDGE ARCHITECTURE</span>
+    <span>///</span>
+    <span>HARDWARE I/O READY</span>
   </div>
 
   <div class="footer">
@@ -1180,11 +1221,11 @@ body {
   <div class="sec-hd">
     <div class="sec-label">System Design</div>
     <div class="sec-title">Architecture</div>
-    <div class="sec-sub">Single-file frontend &nbsp;·&nbsp; 15 modules (master + 14 child) &nbsp;·&nbsp; Any LLM endpoint &nbsp;·&nbsp; No framework</div>
+    <div class="sec-sub">Single-file PWA &nbsp;·&nbsp; 18 modules (master + 17 child) &nbsp;·&nbsp; + browser-side wake-word &amp; skills &nbsp;·&nbsp; Dynamic LLM orchestrator &nbsp;·&nbsp; Cloud to bits &amp; bytes</div>
   </div>
 
   <div class="arch-wrap">
-  <svg class="arch-svg" viewBox="0 -22 900 502" xmlns="http://www.w3.org/2000/svg">
+  <svg class="arch-svg" viewBox="0 -22 900 565" xmlns="http://www.w3.org/2000/svg">
     <defs>
       <linearGradient id="ag" x1="0" y1="0" x2="1" y2="0">
         <stop offset="0%" stop-color="#EE4236"/>
@@ -1254,8 +1295,6 @@ body {
     <line x1="764" y1="30" x2="764" y2="52" stroke="#cc4400" stroke-width="1.2" class="arch-flow-d" marker-end="url(#arr-o)"/>
     <!-- Horizontal bus -->
     <line x1="57" y1="52" x2="764" y2="52" stroke="#cc4400" stroke-width="1.5" class="arch-flow-d"/>
-    <!-- Bus label -->
-    <text x="450" y="63" text-anchor="middle" font-family="JetBrains Mono" font-size="6.5" letter-spacing="3" fill="#252525">6 LLM ENDPOINTS  ·  ANY OPENAI-COMPAT API</text>
     <!-- Trunk: bus center → VENN.HTML top (18px — matches Master Control trunk length) -->
     <line x1="450" y1="52" x2="450" y2="70" stroke="#cc4400" stroke-width="1.5" class="arch-flow-pulse"/>
 
@@ -1268,14 +1307,14 @@ body {
     <!-- VENN.HTML label -->
     <text x="190" y="101" font-family="Sora" font-size="20" font-weight="200" letter-spacing="7" fill="url(#ag)">VENN.HTML</text>
     <!-- subtitle -->
-    <text x="190" y="116" font-family="JetBrains Mono" font-size="7" letter-spacing="2" fill="#4A3020">ANY LLM  ·  ANY TOOL  ·  ANY DEVICE  ·  ZERO INSTALL</text>
+    <text x="190" y="116" font-family="JetBrains Mono" font-size="7" letter-spacing="2" fill="#4A3020">MULTI-TOOL  ·  CLOUD REACH  ·  HARDWARE I/O  ·  ZERO INSTALL</text>
 
     <!-- 4 internal pills -->
     <rect x="120" y="128" width="144" height="24" rx="3" fill="#0A0200" stroke="rgba(240,120,45,0.25)" stroke-width="1"/>
     <text x="192" y="144" text-anchor="middle" font-family="JetBrains Mono" font-size="7" letter-spacing="1" fill="#cc5500">HOT-SWAP LLM</text>
 
     <rect x="274" y="128" width="154" height="24" rx="3" fill="#0A0200" stroke="rgba(240,120,45,0.25)" stroke-width="1"/>
-    <text x="351" y="144" text-anchor="middle" font-family="JetBrains Mono" font-size="7" letter-spacing="1" fill="#cc5500">BRIDGE-EXTENSIBLE</text>
+    <text x="351" y="144" text-anchor="middle" font-family="JetBrains Mono" font-size="7" letter-spacing="1" fill="#cc5500">EXPANDABLE BRIDGES</text>
 
     <rect x="438" y="128" width="110" height="24" rx="3" fill="#0A0200" stroke="rgba(240,120,45,0.25)" stroke-width="1"/>
     <text x="493" y="144" text-anchor="middle" font-family="JetBrains Mono" font-size="7" letter-spacing="1" fill="#cc5500">PHONE · PC · PI</text>
@@ -1290,7 +1329,6 @@ body {
 
     <!-- ── CONNECTOR: venn.html → Master Control ──────── -->
     <line x1="450" y1="165" x2="450" y2="200" stroke="#cc4400" stroke-width="1.5" marker-end="url(#arr-o)" class="arch-flow-pulse"/>
-    <text x="456" y="185" font-family="JetBrains Mono" font-size="6" letter-spacing="1.5" fill="#2A1808">GET /tools · POST /execute</text>
 
     <!-- ── MASTER CONTROL BRIDGE ──────────────────────── -->
     <rect x="278" y="202" width="344" height="48" rx="4" fill="#0C0200" stroke="#cc4400" stroke-width="1.5" filter="url(#glow-sm)"/>
@@ -1301,104 +1339,107 @@ body {
     <!-- Trunk from Master Control bottom to bus -->
     <line x1="450" y1="250" x2="450" y2="268" stroke="#cc4400" stroke-width="1.5" class="arch-flow-d"/>
     <!-- Horizontal bus line (animated) -->
-    <line x1="72"  y1="268" x2="828" y2="268" stroke="#cc4400" stroke-width="1.5" class="arch-flow-d"/>
-    <text x="450" y="280" text-anchor="middle" font-family="JetBrains Mono" font-size="6.5" letter-spacing="3" fill="#252525">14 CHILD BRIDGES  ·  localhost:7853–7867</text>
+    <line x1="130" y1="268" x2="820" y2="268" stroke="#cc4400" stroke-width="1.5" class="arch-flow-d"/>
 
-    <!-- Vertical drops from bus to group header labels (animated) -->
-    <line x1="76"  y1="268" x2="76"  y2="290" stroke="#cc4400" stroke-width="1.2" class="arch-flow-d" marker-end="url(#arr-o)"/>
-    <line x1="236" y1="268" x2="236" y2="290" stroke="#cc4400" stroke-width="1.2" class="arch-flow-d" marker-end="url(#arr-o)"/>
-    <line x1="450" y1="268" x2="450" y2="290" stroke="#cc4400" stroke-width="1.2" class="arch-flow-d" marker-end="url(#arr-o)"/>
-    <line x1="660" y1="268" x2="660" y2="290" stroke="#cc4400" stroke-width="1.2" class="arch-flow-d" marker-end="url(#arr-o)"/>
-    <line x1="822" y1="268" x2="822" y2="290" stroke="#cc4400" stroke-width="1.2" class="arch-flow-d" marker-end="url(#arr-o)"/>
+    <!-- Vertical drops from bus to the 4 group columns (animated) -->
+    <line x1="130" y1="268" x2="130" y2="290" stroke="#cc4400" stroke-width="1.2" class="arch-flow-d" marker-end="url(#arr-o)"/>
+    <line x1="360" y1="268" x2="360" y2="290" stroke="#cc4400" stroke-width="1.2" class="arch-flow-d" marker-end="url(#arr-o)"/>
+    <line x1="590" y1="268" x2="590" y2="290" stroke="#cc4400" stroke-width="1.2" class="arch-flow-d" marker-end="url(#arr-o)"/>
+    <line x1="820" y1="268" x2="820" y2="290" stroke="#cc4400" stroke-width="1.2" class="arch-flow-d" marker-end="url(#arr-o)"/>
 
-    <!-- ── HARDWARE CLUSTER (cx=76) ───────────────────── -->
-    <text x="76" y="299" text-anchor="middle" font-family="JetBrains Mono" font-size="6.5" letter-spacing="2.5" fill="#F0782D">HARDWARE</text>
-    <!-- vertical spine -->
-    <line x1="76" y1="302" x2="76" y2="426" stroke="#cc4400" stroke-width="1" class="arch-flow-d"/>
+    <!-- ── EDGE HARDWARE (cx=130) ─────────────────────── -->
+    <text x="130" y="299" text-anchor="middle" font-family="JetBrains Mono" font-size="6.5" letter-spacing="2.5" fill="#F0782D">EDGE HARDWARE</text>
+    <line x1="130" y1="302" x2="130" y2="456" stroke="#cc4400" stroke-width="1" class="arch-flow-d"/>
+    <!-- IDE -->
+    <rect x="68"  y="306" width="124" height="30" rx="3" fill="#090200" stroke="rgba(240,120,45,0.35)" stroke-width="1"/>
+    <text x="130" y="320" text-anchor="middle" font-family="JetBrains Mono" font-size="8" letter-spacing="1.5" fill="#F0782D">IDE BRIDGE</text>
+    <text x="130" y="330" text-anchor="middle" font-family="JetBrains Mono" font-size="6.5" fill="#3A2010">:7853 · R/W/LIST/RUN · 4 TOOLS</text>
     <!-- ESP32 -->
-    <rect x="14"  y="306" width="124" height="30" rx="3" fill="#090200" stroke="rgba(240,120,45,0.35)" stroke-width="1"/>
-    <text x="76"  y="320" text-anchor="middle" font-family="JetBrains Mono" font-size="8" letter-spacing="1.5" fill="#F0782D">ESP32</text>
-    <text x="76"  y="330" text-anchor="middle" font-family="JetBrains Mono" font-size="6.5" fill="#3A2010">:7854 · UART 115200 · GPIO</text>
-    <!-- Flipper Zero -->
-    <rect x="14"  y="346" width="124" height="30" rx="3" fill="#090200" stroke="rgba(240,120,45,0.35)" stroke-width="1"/>
-    <text x="76"  y="360" text-anchor="middle" font-family="JetBrains Mono" font-size="8" letter-spacing="1.5" fill="#F0782D">FLIPPER ZERO</text>
-    <text x="76"  y="370" text-anchor="middle" font-family="JetBrains Mono" font-size="6.5" fill="#3A2010">:7860 · USB-CDC · 22 TOOLS</text>
+    <rect x="68"  y="346" width="124" height="30" rx="3" fill="#090200" stroke="rgba(240,120,45,0.35)" stroke-width="1"/>
+    <text x="130" y="360" text-anchor="middle" font-family="JetBrains Mono" font-size="8" letter-spacing="1.5" fill="#F0782D">ESP32</text>
+    <text x="130" y="370" text-anchor="middle" font-family="JetBrains Mono" font-size="6.5" fill="#3A2010">:7854 · UART 115200 · GPIO</text>
     <!-- Android -->
-    <rect x="14"  y="386" width="124" height="30" rx="3" fill="#090200" stroke="rgba(240,120,45,0.35)" stroke-width="1"/>
-    <text x="76"  y="400" text-anchor="middle" font-family="JetBrains Mono" font-size="8" letter-spacing="1.5" fill="#F0782D">ANDROID</text>
-    <text x="76"  y="410" text-anchor="middle" font-family="JetBrains Mono" font-size="6.5" fill="#3A2010">:7855 · TERMUX · SHIZUKU</text>
+    <rect x="68"  y="386" width="124" height="30" rx="3" fill="#090200" stroke="rgba(240,120,45,0.35)" stroke-width="1"/>
+    <text x="130" y="400" text-anchor="middle" font-family="JetBrains Mono" font-size="8" letter-spacing="1.5" fill="#F0782D">ANDROID</text>
+    <text x="130" y="410" text-anchor="middle" font-family="JetBrains Mono" font-size="6.5" fill="#3A2010">:7855 · TERMUX · SHIZUKU</text>
+    <!-- Flipper Zero -->
+    <rect x="68"  y="426" width="124" height="30" rx="3" fill="#090200" stroke="rgba(240,120,45,0.35)" stroke-width="1"/>
+    <text x="130" y="440" text-anchor="middle" font-family="JetBrains Mono" font-size="8" letter-spacing="1.5" fill="#F0782D">FLIPPER ZERO</text>
+    <text x="130" y="450" text-anchor="middle" font-family="JetBrains Mono" font-size="6.5" fill="#3A2010">:7860 · USB-CDC · 22 TOOLS</text>
 
-    <!-- ── I/O CLUSTER (cx=236) ───────────────────────── -->
-    <text x="236" y="299" text-anchor="middle" font-family="JetBrains Mono" font-size="6.5" letter-spacing="2.5" fill="#FAAC3D">I / O</text>
-    <line x1="236" y1="302" x2="236" y2="426" stroke="#cc4400" stroke-width="1" class="arch-flow-d"/>
-    <!-- Google -->
-    <rect x="174" y="306" width="124" height="30" rx="3" fill="#080300" stroke="rgba(250,172,61,0.35)" stroke-width="1"/>
-    <text x="236" y="320" text-anchor="middle" font-family="JetBrains Mono" font-size="8" letter-spacing="1.5" fill="#FAAC3D">GOOGLE</text>
-    <text x="236" y="330" text-anchor="middle" font-family="JetBrains Mono" font-size="6.5" fill="#3A2A00">:7865 · OAUTH2 · CAL + GMAIL</text>
-    <!-- Obsidian -->
-    <rect x="174" y="346" width="124" height="30" rx="3" fill="#080300" stroke="rgba(250,172,61,0.35)" stroke-width="1"/>
-    <text x="236" y="360" text-anchor="middle" font-family="JetBrains Mono" font-size="8" letter-spacing="1.5" fill="#FAAC3D">OBSIDIAN</text>
-    <text x="236" y="370" text-anchor="middle" font-family="JetBrains Mono" font-size="6.5" fill="#3A2A00">:7863 · VAULT · 11 TOOLS</text>
-    <!-- IDE/Shell -->
-    <rect x="174" y="386" width="124" height="30" rx="3" fill="#080300" stroke="rgba(250,172,61,0.35)" stroke-width="1"/>
-    <text x="236" y="400" text-anchor="middle" font-family="JetBrains Mono" font-size="8" letter-spacing="1.5" fill="#FAAC3D">IDE BRIDGE</text>
-    <text x="236" y="410" text-anchor="middle" font-family="JetBrains Mono" font-size="6.5" fill="#3A2A00">:7853 · R/W/LIST/RUN · 4 TOOLS</text>
-
-    <!-- ── INTELLIGENCE CLUSTER (cx=450) ──────────────── -->
-    <text x="450" y="299" text-anchor="middle" font-family="JetBrains Mono" font-size="6.5" letter-spacing="2.5" fill="#EE4236">INTELLIGENCE</text>
-    <line x1="450" y1="302" x2="450" y2="386" stroke="#cc4400" stroke-width="1" class="arch-flow-d"/>
+    <!-- ── THE AGENTIC CORE (cx=360) ──────────────────── -->
+    <text x="360" y="299" text-anchor="middle" font-family="JetBrains Mono" font-size="6.5" letter-spacing="2.5" fill="#EE4236">THE AGENTIC CORE</text>
+    <line x1="360" y1="302" x2="360" y2="496" stroke="#cc4400" stroke-width="1" class="arch-flow-d"/>
     <!-- Memory -->
-    <rect x="388" y="306" width="124" height="30" rx="3" fill="#0A0000" stroke="rgba(238,66,54,0.35)" stroke-width="1"/>
-    <text x="450" y="320" text-anchor="middle" font-family="JetBrains Mono" font-size="8" letter-spacing="1.5" fill="#EE4236">MEMORY</text>
-    <text x="450" y="330" text-anchor="middle" font-family="JetBrains Mono" font-size="6.5" fill="#3A1010">:7858 · 280 TOK CEILING</text>
-    <!-- Reflection -->
-    <rect x="388" y="346" width="124" height="30" rx="3" fill="#0A0000" stroke="rgba(238,66,54,0.35)" stroke-width="1"/>
-    <text x="450" y="360" text-anchor="middle" font-family="JetBrains Mono" font-size="8" letter-spacing="1.5" fill="#EE4236">REFLECTION</text>
-    <text x="450" y="370" text-anchor="middle" font-family="JetBrains Mono" font-size="6.5" fill="#3A1010">:7864 · IDENTITY · APPROVAL REQ.</text>
-
-    <!-- ── VOICE CLUSTER (cx=660) ─────────────────────── -->
-    <text x="660" y="299" text-anchor="middle" font-family="JetBrains Mono" font-size="6.5" letter-spacing="2.5" fill="#CC8833">VOICE</text>
-    <line x1="660" y1="302" x2="660" y2="386" stroke="#cc4400" stroke-width="1" class="arch-flow-d"/>
-    <!-- SAM -->
-    <rect x="598" y="306" width="124" height="30" rx="3" fill="#090400" stroke="rgba(204,136,51,0.35)" stroke-width="1"/>
-    <text x="660" y="320" text-anchor="middle" font-family="JetBrains Mono" font-size="8" letter-spacing="1.5" fill="#CC8833">VOICE SAM</text>
-    <text x="660" y="330" text-anchor="middle" font-family="JetBrains Mono" font-size="6.5" fill="#3A2800">:7856 · SAM 1982 · RETRO TTS</text>
-    <!-- Piper -->
-    <rect x="598" y="346" width="124" height="30" rx="3" fill="#090400" stroke="rgba(204,136,51,0.35)" stroke-width="1"/>
-    <text x="660" y="360" text-anchor="middle" font-family="JetBrains Mono" font-size="8" letter-spacing="1.5" fill="#CC8833">VOICE PIPER</text>
-    <text x="660" y="370" text-anchor="middle" font-family="JetBrains Mono" font-size="6.5" fill="#3A2800">:7857 · LOCAL MODELS · HI-QUAL</text>
-
-    <!-- ── PIPELINE CLUSTER (cx=822) ────────────────────── -->
-    <text x="822" y="299" text-anchor="middle" font-family="JetBrains Mono" font-size="6.5" letter-spacing="2.5" fill="#AA8866">PIPELINE</text>
-    <line x1="822" y1="302" x2="822" y2="456" stroke="#cc4400" stroke-width="1" class="arch-flow-d"/>
+    <rect x="298" y="306" width="124" height="30" rx="3" fill="#0A0000" stroke="rgba(238,66,54,0.35)" stroke-width="1"/>
+    <text x="360" y="320" text-anchor="middle" font-family="JetBrains Mono" font-size="8" letter-spacing="1.5" fill="#EE4236">MEMORY</text>
+    <text x="360" y="330" text-anchor="middle" font-family="JetBrains Mono" font-size="6.5" fill="#3A1010">:7858 · 280 TOK CEILING</text>
     <!-- Knowledge -->
-    <rect x="760" y="306" width="124" height="30" rx="3" fill="#080400" stroke="rgba(170,136,102,0.35)" stroke-width="1"/>
-    <text x="822" y="320" text-anchor="middle" font-family="JetBrains Mono" font-size="8" letter-spacing="1.5" fill="#AA8866">KNOWLEDGE</text>
-    <text x="822" y="330" text-anchor="middle" font-family="JetBrains Mono" font-size="6.5" fill="#3A2818">:7861 · BM25 + RAG · 4 TOOLS</text>
-    <!-- Telegram -->
-    <rect x="760" y="346" width="124" height="30" rx="3" fill="#080400" stroke="rgba(170,136,102,0.35)" stroke-width="1"/>
-    <text x="822" y="360" text-anchor="middle" font-family="JetBrains Mono" font-size="8" letter-spacing="1.5" fill="#AA8866">TELEGRAM</text>
-    <text x="822" y="370" text-anchor="middle" font-family="JetBrains Mono" font-size="6.5" fill="#3A2818">:7862 · BOT · FILE ROUTING</text>
-    <!-- Timeline -->
-    <rect x="760" y="386" width="124" height="30" rx="3" fill="#080400" stroke="rgba(170,136,102,0.35)" stroke-width="1"/>
-    <text x="822" y="400" text-anchor="middle" font-family="JetBrains Mono" font-size="8" letter-spacing="1.5" fill="#AA8866">TIMELINE</text>
-    <text x="822" y="410" text-anchor="middle" font-family="JetBrains Mono" font-size="6.5" fill="#3A2818">:7866 · GANTT · HTML OUTPUT</text>
-    <!-- Print Estimator -->
-    <rect x="760" y="426" width="124" height="30" rx="3" fill="#080400" stroke="rgba(170,136,102,0.35)" stroke-width="1"/>
-    <text x="822" y="440" text-anchor="middle" font-family="JetBrains Mono" font-size="8" letter-spacing="1.5" fill="#AA8866">PRINT EST.</text>
-    <text x="822" y="450" text-anchor="middle" font-family="JetBrains Mono" font-size="6.5" fill="#3A2818">:7867 · STL PARSE · 6 TOOLS</text>
+    <rect x="298" y="346" width="124" height="30" rx="3" fill="#0A0000" stroke="rgba(238,66,54,0.35)" stroke-width="1"/>
+    <text x="360" y="360" text-anchor="middle" font-family="JetBrains Mono" font-size="8" letter-spacing="1.5" fill="#EE4236">KNOWLEDGE</text>
+    <text x="360" y="370" text-anchor="middle" font-family="JetBrains Mono" font-size="6.5" fill="#3A1010">:7861 · BM25 + RAG · 4 TOOLS</text>
+    <!-- Obsidian -->
+    <rect x="298" y="386" width="124" height="30" rx="3" fill="#0A0000" stroke="rgba(238,66,54,0.35)" stroke-width="1"/>
+    <text x="360" y="400" text-anchor="middle" font-family="JetBrains Mono" font-size="8" letter-spacing="1.5" fill="#EE4236">OBSIDIAN</text>
+    <text x="360" y="410" text-anchor="middle" font-family="JetBrains Mono" font-size="6.5" fill="#3A1010">:7863 · VAULT · 11 TOOLS</text>
+    <!-- Reflection -->
+    <rect x="298" y="426" width="124" height="30" rx="3" fill="#0A0000" stroke="rgba(238,66,54,0.35)" stroke-width="1"/>
+    <text x="360" y="440" text-anchor="middle" font-family="JetBrains Mono" font-size="8" letter-spacing="1.5" fill="#EE4236">REFLECTION</text>
+    <text x="360" y="450" text-anchor="middle" font-family="JetBrains Mono" font-size="6.5" fill="#3A1010">:7864 · IDENTITY · APPROVAL</text>
+    <!-- Heart -->
+    <rect x="298" y="466" width="124" height="30" rx="3" fill="#0A0000" stroke="rgba(238,66,54,0.35)" stroke-width="1"/>
+    <text x="360" y="480" text-anchor="middle" font-family="JetBrains Mono" font-size="8" letter-spacing="1.5" fill="#EE4236">HEART</text>
+    <text x="360" y="490" text-anchor="middle" font-family="JetBrains Mono" font-size="6.5" fill="#3A1010">:7870 · PULSE · SCHEDULER</text>
 
-    <!-- ── DATA FLOW ARROWS (right margin callout) ──── -->
-    <!-- User → VENN label on right -->
-    <text x="890" y="108" text-anchor="end" font-family="JetBrains Mono" font-size="6" letter-spacing="1.5" fill="#1E1E1E">USER</text>
-    <line x1="895" y1="112" x2="895" y2="158" stroke="#1E1E1E" stroke-width="0.8" stroke-dasharray="2 2"/>
-    <text x="900" y="170" text-anchor="end" font-family="JetBrains Mono" font-size="5.5" letter-spacing="1" fill="#1A1A1A">QUERY ↓</text>
-    <text x="900" y="180" text-anchor="end" font-family="JetBrains Mono" font-size="5.5" letter-spacing="1" fill="#1A1A1A">REPLY ↑</text>
+    <!-- ── PRESENCE & OBSERVABILITY (cx=590) ──────────── -->
+    <text x="590" y="299" text-anchor="middle" font-family="JetBrains Mono" font-size="6.5" letter-spacing="2" fill="#FAAC3D">PRESENCE · OBSERVABILITY</text>
+    <line x1="590" y1="302" x2="590" y2="496" stroke="#cc4400" stroke-width="1" class="arch-flow-d"/>
+    <!-- Voice SAM -->
+    <rect x="528" y="306" width="124" height="30" rx="3" fill="#090400" stroke="rgba(250,172,61,0.35)" stroke-width="1"/>
+    <text x="590" y="320" text-anchor="middle" font-family="JetBrains Mono" font-size="8" letter-spacing="1.5" fill="#FAAC3D">VOICE SAM</text>
+    <text x="590" y="330" text-anchor="middle" font-family="JetBrains Mono" font-size="6.5" fill="#3A2800">:7856 · SAM 1982 · RETRO TTS</text>
+    <!-- Voice Piper -->
+    <rect x="528" y="346" width="124" height="30" rx="3" fill="#090400" stroke="rgba(250,172,61,0.35)" stroke-width="1"/>
+    <text x="590" y="360" text-anchor="middle" font-family="JetBrains Mono" font-size="8" letter-spacing="1.5" fill="#FAAC3D">VOICE PIPER</text>
+    <text x="590" y="370" text-anchor="middle" font-family="JetBrains Mono" font-size="6.5" fill="#3A2800">:7857 · LOCAL · HI-QUAL</text>
+    <!-- Security -->
+    <rect x="528" y="386" width="124" height="30" rx="3" fill="#090400" stroke="rgba(250,172,61,0.35)" stroke-width="1"/>
+    <text x="590" y="400" text-anchor="middle" font-family="JetBrains Mono" font-size="8" letter-spacing="1.5" fill="#FAAC3D">SECURITY</text>
+    <text x="590" y="410" text-anchor="middle" font-family="JetBrains Mono" font-size="6.5" fill="#3A2800">:7859 · FACE-API · ON-DEVICE</text>
+    <!-- Telegram -->
+    <rect x="528" y="426" width="124" height="30" rx="3" fill="#090400" stroke="rgba(250,172,61,0.35)" stroke-width="1"/>
+    <text x="590" y="440" text-anchor="middle" font-family="JetBrains Mono" font-size="8" letter-spacing="1.5" fill="#FAAC3D">TELEGRAM</text>
+    <text x="590" y="450" text-anchor="middle" font-family="JetBrains Mono" font-size="6.5" fill="#3A2800">:7862 · BOT · FILE ROUTING</text>
+    <!-- Projection -->
+    <rect x="528" y="466" width="124" height="30" rx="3" fill="#090400" stroke="rgba(250,172,61,0.35)" stroke-width="1"/>
+    <text x="590" y="480" text-anchor="middle" font-family="JetBrains Mono" font-size="8" letter-spacing="1.5" fill="#FAAC3D">PROJECTION</text>
+    <text x="590" y="490" text-anchor="middle" font-family="JetBrains Mono" font-size="6.5" fill="#3A2800">:7869 · MIRACAST / CAST</text>
+
+    <!-- ── BUSINESS OPS (cx=820) ──────────────────────── -->
+    <text x="820" y="299" text-anchor="middle" font-family="JetBrains Mono" font-size="6.5" letter-spacing="2.5" fill="#AA8866">BUSINESS OPS</text>
+    <line x1="820" y1="302" x2="820" y2="416" stroke="#cc4400" stroke-width="1" class="arch-flow-d"/>
+    <!-- Google -->
+    <rect x="758" y="306" width="124" height="30" rx="3" fill="#080400" stroke="rgba(170,136,102,0.35)" stroke-width="1"/>
+    <text x="820" y="320" text-anchor="middle" font-family="JetBrains Mono" font-size="8" letter-spacing="1.5" fill="#AA8866">GOOGLE</text>
+    <text x="820" y="330" text-anchor="middle" font-family="JetBrains Mono" font-size="6.5" fill="#3A2818">:7865 · OAUTH2 · CAL+GMAIL</text>
+    <!-- Timeline -->
+    <rect x="758" y="346" width="124" height="30" rx="3" fill="#080400" stroke="rgba(170,136,102,0.35)" stroke-width="1"/>
+    <text x="820" y="360" text-anchor="middle" font-family="JetBrains Mono" font-size="8" letter-spacing="1.5" fill="#AA8866">TIMELINE</text>
+    <text x="820" y="370" text-anchor="middle" font-family="JetBrains Mono" font-size="6.5" fill="#3A2818">:7866 · GANTT · HTML</text>
+    <!-- Print Estimator -->
+    <rect x="758" y="386" width="124" height="30" rx="3" fill="#080400" stroke="rgba(170,136,102,0.35)" stroke-width="1"/>
+    <text x="820" y="400" text-anchor="middle" font-family="JetBrains Mono" font-size="8" letter-spacing="1.5" fill="#AA8866">PRINT EST.</text>
+    <text x="820" y="410" text-anchor="middle" font-family="JetBrains Mono" font-size="6.5" fill="#3A2818">:7867 · STL · 6 TOOLS</text>
 
   </svg>
   </div><!-- /arch-wrap -->
 
-
+  <a href="#flow" class="section-cue" aria-label="Scroll to Request Trace">
+    <span class="scroll-cue-label">Request Trace</span>
+    <svg class="scroll-chevron" viewBox="0 0 18 10" xmlns="http://www.w3.org/2000/svg">
+      <polyline points="1,1 9,9 17,1"/>
+    </svg>
+  </a>
 </section>
 
 <div class="section-divider"></div>
@@ -1410,12 +1451,7 @@ body {
   <div class="sec-hd">
     <div class="sec-label">System In Action</div>
     <div class="sec-title">Request Trace</div>
-    <div class="sec-sub">Example session · LM Studio · qwen2.5:7b · 4 turns · 4 tool calls</div>
-  </div>
-
-  <div class="flow-query">
-    <span class="flow-query-label">Session</span>
-    <span class="flow-query-text">"Hi Venn - Can you help me with a 3d printing quote?" &nbsp;→&nbsp; file named &nbsp;→&nbsp; <span style="color:var(--orange)">list_dir</span> &nbsp;→&nbsp; settings given &nbsp;→&nbsp; <span style="color:var(--orange)">estimate_print</span> &nbsp;→&nbsp; "Please do" &nbsp;→&nbsp; <span style="color:var(--orange)">list_estimates + open_estimate</span> &nbsp;→&nbsp; <span style="color:#00dd55">27.1g · 44 min · $14.64</span></span>
+    <div class="sec-sub">Example session · Android · llama.cpp · QWEN3-1.7B</div>
   </div>
 
   <div class="flow-layout">
@@ -1601,7 +1637,7 @@ body {
         <g class="fd-node" id="fd-venn">
           <rect x="80" y="8" width="124" height="36" rx="2"/>
           <text x="142" y="24" text-anchor="middle" font-size="8" letter-spacing="1">VENN</text>
-          <text x="142" y="35" text-anchor="middle" font-size="6">qwen2.5:7b · lm-studio</text>
+          <text x="142" y="35" text-anchor="middle" font-size="6">QWEN3-1.7B · llama.cpp</text>
         </g>
         <g class="fd-node" id="fd-master">
           <rect x="220" y="8" width="194" height="36" rx="2"/>
@@ -1764,8 +1800,8 @@ body {
       <button onclick="flowPlay()" id="flow-btn-play" class="flow-btn flow-btn-play">▶ AUTO</button>
     </div>
 
-    <!-- Steps window -->
-    <div class="term-panel">
+    <!-- Steps window (moved to top of the trace, in place of the old Session box) -->
+    <div class="term-panel" style="order:-1;">
         <div class="term-hdr">
           <div class="tdot r"></div><div class="tdot y"></div><div class="tdot g"></div>
           <span class="term-ttl" id="flow-step-label">step 1 / 10</span>
@@ -1938,7 +1974,7 @@ body {
               <span class="flow-msg-text" style="color:#555;">"Done! The estimate is open in your browser now. Let me know if you need any changes!"</span>
             </div>
             <div class="flow-step-log" style="margin-top:8px;">
-              <div class="flow-log-line"><span class="fll-mod stats">[session]</span><span class="fll-msg"><span class="fll-val">4</span> turns · <span class="fll-val">4</span> tool calls · <span class="fll-val">~3.2k</span> tokens · <span class="fll-ok">22 tok/s</span></span></div>
+              <div class="flow-log-line"><span class="fll-mod stats">[session]</span><span class="fll-msg"><span class="fll-val">~3.2k</span> tokens · <span class="fll-ok">22 tok/s</span></span></div>
               <div class="flow-log-line"><span class="fll-mod bridge">[print-estimator]</span><span class="fll-msg"><span class="fll-ok">light-bar-floor-bracket-v2-1.html</span> · opened in browser</span></div>
             </div>
             <div style="margin-top:10px;">
@@ -1950,6 +1986,13 @@ body {
       </div><!-- /term-panel -->
 
   </div><!-- /flow-layout -->
+
+  <a href="#bridges" class="section-cue" aria-label="Scroll to Bridge Roster">
+    <span class="scroll-cue-label">Bridge Roster</span>
+    <svg class="scroll-chevron" viewBox="0 0 18 10" xmlns="http://www.w3.org/2000/svg">
+      <polyline points="1,1 9,9 17,1"/>
+    </svg>
+  </a>
 </section>
 
 <div class="section-divider"></div>
@@ -1961,54 +2004,35 @@ body {
   <div class="sec-hd">
     <div class="sec-label">Module Inventory</div>
     <div class="sec-title">Bridge Roster</div>
-    <div class="sec-sub">15 node.js http servers &nbsp;·&nbsp; ports 7852–7867 &nbsp;·&nbsp; GET /tools &nbsp;·&nbsp; POST /execute</div>
+    <div class="sec-sub">18 modules &nbsp;·&nbsp; master + 17 child</div>
   </div>
 
+  <!-- ── MASTER CONTROL · hub ──────────────────────────────── -->
+  <div class="bridge-group-hd">
+    <span class="bridge-group-name">Master Control</span>
+    <span class="bridge-group-sub">Hub · Orchestration · Control Plane</span>
+  </div>
   <div class="bridge-grid">
 
     <div class="bridge-card">
       <div class="bridge-port">Port 7852</div>
       <div class="bridge-name">Master Control</div>
-      <div class="bridge-purpose">Central bridge registry and orchestration hub. Probes each child bridge via HTTP GET /tools on startup to build the unified tool registry. Streams serial events and injected messages to venn.html via SSE. Exposes a whitelisted run_command shell tool.</div>
+      <div class="bridge-purpose">Central bridge registry and orchestration hub. Auto-discovers each child bridge from its @bridge header, probes it via HTTP GET /tools on startup to build the unified tool registry, and proxies every call. Streams serial events and injected messages to venn.html via SSE. Exposes whitelisted run_command + file tools natively.</div>
       <div class="bridge-tags">
-        <span class="bridge-tag">Bridge Registry</span>
+        <span class="bridge-tag">Auto-Discovery</span>
         <span class="bridge-tag">HTTP /tools Probe</span>
         <span class="bridge-tag">SSE Event Stream</span>
       </div>
     </div>
 
-    <div class="bridge-card">
-      <div class="bridge-port">Port 7854</div>
-      <div class="bridge-name">ESP32</div>
-      <div class="bridge-purpose">Hardware bridge for Arduino/ESP32 devices over UART serial at 115200 baud. Accepts natural language LED commands, exposes GPIO control, and handles Arduino sketch compile and upload.</div>
-      <div class="bridge-tags">
-        <span class="bridge-tag">UART 115200 8N1</span>
-        <span class="bridge-tag">NL LED Control</span>
-        <span class="bridge-tag">Compile + Upload</span>
-      </div>
-    </div>
+  </div>
 
-    <div class="bridge-card">
-      <div class="bridge-port">Port 7856</div>
-      <div class="bridge-name">Voice SAM</div>
-      <div class="bridge-purpose">Text-to-speech using SAM (Software Automatic Mouth, 1982). Produces characteristic retro robotic synthesis. Returns WAV audio as base64, playable via HTMLAudioElement with instant interrupt support.</div>
-      <div class="bridge-tags">
-        <span class="bridge-tag">SAM 1982 Engine</span>
-        <span class="bridge-tag">WAV Base64</span>
-        <span class="bridge-tag">200–500ms Latency</span>
-      </div>
-    </div>
-
-    <div class="bridge-card">
-      <div class="bridge-port">Port 7857</div>
-      <div class="bridge-name">Voice Piper</div>
-      <div class="bridge-purpose">High-quality offline TTS using Piper with locally cached voice models. Multiple accent/voice options. Slower than SAM but natural speech quality. Fully offline once model is downloaded.</div>
-      <div class="bridge-tags">
-        <span class="bridge-tag">Piper TTS</span>
-        <span class="bridge-tag">Local Voice Models</span>
-        <span class="bridge-tag">Offline Capable</span>
-      </div>
-    </div>
+  <!-- ── THE AGENTIC CORE · learning & adaptation ──────────── -->
+  <div class="bridge-group-hd">
+    <span class="bridge-group-name">The Agentic Core</span>
+    <span class="bridge-group-sub">Learning &amp; Adaptation</span>
+  </div>
+  <div class="bridge-grid">
 
     <div class="bridge-card">
       <div class="bridge-port">Port 7858</div>
@@ -2018,73 +2042,6 @@ body {
         <span class="bridge-tag">100 Tok Profile Cap</span>
         <span class="bridge-tag">280 Tok Ceiling</span>
         <span class="bridge-tag">Keyword Recall</span>
-      </div>
-    </div>
-
-
-    <div class="bridge-card">
-      <div class="bridge-port">Port 7860</div>
-      <div class="bridge-name">Flipper Zero</div>
-      <div class="bridge-purpose">22 tools covering all Flipper subsystems over USB-CDC serial at 115200 8N1 with Unleashed firmware. NFC detect/dump/emulate, Sub-GHz RX/TX, IR learn/transmit, BadUSB payload upload, GPIO R/W, and storage access.</div>
-      <div class="bridge-tags">
-        <span class="bridge-tag">22 Tools</span>
-        <span class="bridge-tag">USB-CDC 115200 8N1</span>
-        <span class="bridge-tag">NFC / Sub-GHz / IR</span>
-      </div>
-    </div>
-
-    <div class="bridge-card">
-      <div class="bridge-port">Port 7863</div>
-      <div class="bridge-name">Obsidian</div>
-      <div class="bridge-purpose">11-tool vault interface with zero external dependencies. Auto-detects vault path across platforms (Android + Windows). Full frontmatter support, wikilink-aware, backlink discovery, tag search, and daily note management.</div>
-      <div class="bridge-tags">
-        <span class="bridge-tag">11 Vault Tools</span>
-        <span class="bridge-tag">Zero Dependencies</span>
-        <span class="bridge-tag">Wikilinks + Backlinks</span>
-      </div>
-    </div>
-
-    <div class="bridge-card">
-      <div class="bridge-port">Port 7865</div>
-      <div class="bridge-name">Google</div>
-      <div class="bridge-purpose">OAuth2 integration for Google Calendar and Gmail. Loopback authentication server on 127.0.0.1:8085 for desktop auth flow. Token persisted locally. Supports event CRUD, email read/send, and calendar listing.</div>
-      <div class="bridge-tags">
-        <span class="bridge-tag">OAuth2</span>
-        <span class="bridge-tag">Loopback :8085</span>
-        <span class="bridge-tag">Calendar + Gmail</span>
-      </div>
-    </div>
-
-    <div class="bridge-card">
-      <div class="bridge-port">Port 7864</div>
-      <div class="bridge-name">Reflection</div>
-      <div class="bridge-purpose">Identity management bridge. VENN can propose updates to its own VENN.md identity document (preferences, self-description, learned behaviors) but all changes require explicit human approval before being written to disk.</div>
-      <div class="bridge-tags">
-        <span class="bridge-tag">Identity Updates</span>
-        <span class="bridge-tag">Approval Required</span>
-        <span class="bridge-tag">VENN.md Writer</span>
-      </div>
-    </div>
-
-    <div class="bridge-card">
-      <div class="bridge-port">Port 7855</div>
-      <div class="bridge-name">Android</div>
-      <div class="bridge-purpose">Full Android device control via Termux on a rooted phone. App install/launch/kill, screen control, WiFi/BT/Airplane toggle, file system access, simulated input (tap, key, text), notifications, and Shizuku permission grants.</div>
-      <div class="bridge-tags">
-        <span class="bridge-tag">Termux Native</span>
-        <span class="bridge-tag">Shizuku Perms</span>
-        <span class="bridge-tag">Full Device Control</span>
-      </div>
-    </div>
-
-    <div class="bridge-card">
-      <div class="bridge-port">Port 7853</div>
-      <div class="bridge-name">IDE Bridge</div>
-      <div class="bridge-purpose">Filesystem and shell bridge for the dev environment. Exposes read_file, write_file, list_dir, and run_command with a strict allowlist. Isolated from Master Control so filesystem access can be toggled independently.</div>
-      <div class="bridge-tags">
-        <span class="bridge-tag">4 Tools</span>
-        <span class="bridge-tag">Whitelist Enforced</span>
-        <span class="bridge-tag">R/W/List/Run</span>
       </div>
     </div>
 
@@ -2100,13 +2057,55 @@ body {
     </div>
 
     <div class="bridge-card">
-      <div class="bridge-port">Port 7862</div>
-      <div class="bridge-name">Telegram</div>
-      <div class="bridge-purpose">Send and receive Telegram messages through VENN. File attachments are auto-routed into input buckets by type: STL files go to the print-estimator queue, documents, photos, voice, and video each get their own folder.</div>
+      <div class="bridge-port">Port 7863</div>
+      <div class="bridge-name">Obsidian</div>
+      <div class="bridge-purpose">11-tool vault interface with zero external dependencies. Auto-detects vault path across platforms (Android + Windows). Full frontmatter support, wikilink-aware, backlink discovery, tag search, and daily note management.</div>
       <div class="bridge-tags">
-        <span class="bridge-tag">3 Tools</span>
-        <span class="bridge-tag">Input Bucket Routing</span>
-        <span class="bridge-tag">Send + Receive</span>
+        <span class="bridge-tag">11 Vault Tools</span>
+        <span class="bridge-tag">Zero Dependencies</span>
+        <span class="bridge-tag">Wikilinks + Backlinks</span>
+      </div>
+    </div>
+
+    <div class="bridge-card">
+      <div class="bridge-port">Port 7864</div>
+      <div class="bridge-name">Reflection</div>
+      <div class="bridge-purpose">Identity management bridge. VENN can propose updates to its own VENN.md identity document (preferences, self-description, learned behaviors) but all changes require explicit human approval before being written to disk.</div>
+      <div class="bridge-tags">
+        <span class="bridge-tag">Identity Updates</span>
+        <span class="bridge-tag">Approval Required</span>
+        <span class="bridge-tag">VENN.md Writer</span>
+      </div>
+    </div>
+
+    <div class="bridge-card">
+      <div class="bridge-port">Port 7870</div>
+      <div class="bridge-name">Heart</div>
+      <div class="bridge-purpose">Proactive pulse engine. Fires scheduled check-ins (morning anchor, hyperfocus breaker, evening reflection) into the chat pipeline via the master /ingest endpoint — VENN speaks up on its own, not just on request. Focus-timer and pause controls; all writes propose/execute token-gated.</div>
+      <div class="bridge-tags">
+        <span class="bridge-tag">Proactive Pulse</span>
+        <span class="bridge-tag">Routine Scheduler</span>
+        <span class="bridge-tag">Propose → Execute</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── BUSINESS OPERATIONS · execution & quoting ─────────── -->
+  <div class="bridge-group-hd">
+    <span class="bridge-group-name">Business Operations</span>
+    <span class="bridge-group-sub">Execution &amp; Quoting</span>
+  </div>
+  <div class="bridge-grid">
+
+    <div class="bridge-card">
+      <div class="bridge-port">Port 7865</div>
+      <div class="bridge-name">Google</div>
+      <div class="bridge-purpose">OAuth2 integration for Google Calendar and Gmail. Loopback authentication server on 127.0.0.1:8085 for desktop auth flow. Token persisted locally. Supports event CRUD, email read/send, and calendar listing — write tools propose/execute gated.</div>
+      <div class="bridge-tags">
+        <span class="bridge-tag">OAuth2</span>
+        <span class="bridge-tag">Loopback :8085</span>
+        <span class="bridge-tag">Calendar + Gmail</span>
       </div>
     </div>
 
@@ -2133,6 +2132,161 @@ body {
     </div>
 
   </div>
+
+  <!-- ── PRESENCE & OBSERVABILITY · security & comms ───────── -->
+  <div class="bridge-group-hd">
+    <span class="bridge-group-name">Presence &amp; Observability</span>
+    <span class="bridge-group-sub">Security &amp; Comms</span>
+  </div>
+  <div class="bridge-grid">
+
+    <div class="bridge-card">
+      <div class="bridge-port">Port 7856</div>
+      <div class="bridge-name">Voice SAM</div>
+      <div class="bridge-purpose">Text-to-speech using SAM (Software Automatic Mouth, 1982). Produces characteristic retro robotic synthesis. Returns WAV audio as base64, playable via HTMLAudioElement with instant interrupt support.</div>
+      <div class="bridge-tags">
+        <span class="bridge-tag">SAM 1982 Engine</span>
+        <span class="bridge-tag">WAV Base64</span>
+        <span class="bridge-tag">200–500ms Latency</span>
+      </div>
+    </div>
+
+    <div class="bridge-card">
+      <div class="bridge-port">Port 7857</div>
+      <div class="bridge-name">Voice Piper</div>
+      <div class="bridge-purpose">High-quality offline TTS using Piper with locally cached voice models. Multiple accent/voice options. Slower than SAM but natural speech quality. Fully offline once model is downloaded.</div>
+      <div class="bridge-tags">
+        <span class="bridge-tag">Piper TTS</span>
+        <span class="bridge-tag">Local Voice Models</span>
+        <span class="bridge-tag">Offline Capable</span>
+      </div>
+    </div>
+
+    <div class="bridge-card">
+      <div class="bridge-port">Port 7859</div>
+      <div class="bridge-name">Security</div>
+      <div class="bridge-purpose">On-device face-recognition monitoring. Enrolls authorized faces locally, watches the camera stream, and on an unknown person triggers a red-alert flash, red eyes/mouth, a spoken warning, and a timestamped transcript log. No cloud, no image upload — frames never leave the device.</div>
+      <div class="bridge-tags">
+        <span class="bridge-tag">Face Recognition</span>
+        <span class="bridge-tag">On-Device</span>
+        <span class="bridge-tag">Red-Alert + Voice</span>
+      </div>
+    </div>
+
+    <div class="bridge-card">
+      <div class="bridge-port">Port 7862</div>
+      <div class="bridge-name">Telegram</div>
+      <div class="bridge-purpose">Send and receive Telegram messages through VENN. File attachments are auto-routed into input buckets by type: STL files go to the print-estimator queue, documents, photos, voice, and video each get their own folder.</div>
+      <div class="bridge-tags">
+        <span class="bridge-tag">3 Tools</span>
+        <span class="bridge-tag">Input Bucket Routing</span>
+        <span class="bridge-tag">Send + Receive</span>
+      </div>
+    </div>
+
+    <div class="bridge-card">
+      <div class="bridge-port">Port 7869</div>
+      <div class="bridge-name">Projection</div>
+      <div class="bridge-purpose">Opens the OS screen-cast panel — Miracast on Windows, Cast settings on Android via Termux. Propose/execute gated with a short-lived confirmation token so a small local model can't fire it by accident.</div>
+      <div class="bridge-tags">
+        <span class="bridge-tag">Miracast / Cast</span>
+        <span class="bridge-tag">Propose → Execute</span>
+        <span class="bridge-tag">Win + Android</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── EDGE HARDWARE · field I/O ─────────────────────────── -->
+  <div class="bridge-group-hd">
+    <span class="bridge-group-name">Edge Hardware</span>
+    <span class="bridge-group-sub">Field I/O</span>
+  </div>
+  <div class="bridge-grid">
+
+    <div class="bridge-card">
+      <div class="bridge-port">Port 7853</div>
+      <div class="bridge-name">IDE Bridge</div>
+      <div class="bridge-purpose">Filesystem and shell bridge for the dev environment. Exposes read_file, write_file, list_dir, and run_command with a strict allowlist. Isolated from Master Control so filesystem access can be toggled independently.</div>
+      <div class="bridge-tags">
+        <span class="bridge-tag">4 Tools</span>
+        <span class="bridge-tag">Whitelist Enforced</span>
+        <span class="bridge-tag">R/W/List/Run</span>
+      </div>
+    </div>
+
+    <div class="bridge-card">
+      <div class="bridge-port">Port 7854</div>
+      <div class="bridge-name">ESP32</div>
+      <div class="bridge-purpose">Hardware bridge for Arduino/ESP32 devices over UART serial at 115200 baud. Accepts natural language LED commands, exposes GPIO control, and handles Arduino sketch compile and upload.</div>
+      <div class="bridge-tags">
+        <span class="bridge-tag">UART 115200 8N1</span>
+        <span class="bridge-tag">NL LED Control</span>
+        <span class="bridge-tag">Compile + Upload</span>
+      </div>
+    </div>
+
+    <div class="bridge-card">
+      <div class="bridge-port">Port 7855</div>
+      <div class="bridge-name">Android</div>
+      <div class="bridge-purpose">Full Android device control via Termux on a rooted phone. App install/launch/kill, screen control, WiFi/BT/Airplane toggle, file system access, simulated input (tap, key, text), notifications, and Shizuku permission grants.</div>
+      <div class="bridge-tags">
+        <span class="bridge-tag">Termux Native</span>
+        <span class="bridge-tag">Shizuku Perms</span>
+        <span class="bridge-tag">Full Device Control</span>
+      </div>
+    </div>
+
+    <div class="bridge-card">
+      <div class="bridge-port">Port 7860</div>
+      <div class="bridge-name">Flipper Zero</div>
+      <div class="bridge-purpose">22 tools covering all Flipper subsystems over USB-CDC serial at 115200 8N1 with Unleashed firmware. NFC detect/dump/emulate, Sub-GHz RX/TX, IR learn/transmit, BadUSB payload upload, GPIO R/W, and storage access.</div>
+      <div class="bridge-tags">
+        <span class="bridge-tag">22 Tools</span>
+        <span class="bridge-tag">USB-CDC 115200 8N1</span>
+        <span class="bridge-tag">NFC / Sub-GHz / IR</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── BROWSER-SIDE · in-tab, not Node bridges ───────────── -->
+  <div class="bridge-group-hd">
+    <span class="bridge-group-name">Browser-Side</span>
+    <span class="bridge-group-sub">In-Tab · Not Node Bridges</span>
+  </div>
+  <div class="bridge-grid">
+
+    <div class="bridge-card">
+      <div class="bridge-port">Browser · In-Tab</div>
+      <div class="bridge-name">Wake-Word</div>
+      <div class="bridge-purpose">Offline "Hey Venn" wake-word detection running as a vosk WASM Web Worker inside the browser tab — not a Node bridge. Audio never leaves the device, costs zero tokens, and falls back to push-to-talk. Arms/disarms independently of the TTS pipeline.</div>
+      <div class="bridge-tags">
+        <span class="bridge-tag">Vosk WASM</span>
+        <span class="bridge-tag">0 Tokens</span>
+        <span class="bridge-tag">Fully Offline</span>
+      </div>
+    </div>
+
+    <div class="bridge-card">
+      <div class="bridge-port">Browser · Full-Page</div>
+      <div class="bridge-name">Skills</div>
+      <div class="bridge-purpose">Full-page browser experiences the LLM can launch through the tool loop — e.g. Motorcycle Mode's live telemetry dashboard (GPS speed, lean angle, G-force). Pure HTML/JS using device sensors; no server-side component.</div>
+      <div class="bridge-tags">
+        <span class="bridge-tag">Full-Page Modes</span>
+        <span class="bridge-tag">Device Sensors</span>
+        <span class="bridge-tag">No Server</span>
+      </div>
+    </div>
+
+  </div>
+
+  <a href="#rag" class="section-cue" aria-label="Scroll to Data Engineering">
+    <span class="scroll-cue-label">Data Engineering</span>
+    <svg class="scroll-chevron" viewBox="0 0 18 10" xmlns="http://www.w3.org/2000/svg">
+      <polyline points="1,1 9,9 17,1"/>
+    </svg>
+  </a>
 </section>
 
 <div class="section-divider"></div>
@@ -2337,6 +2491,13 @@ Only load what the current task actually needs.</div>
     </div>
 
   </div>
+
+  <a href="#patterns" class="section-cue" aria-label="Scroll to Data Platform Patterns">
+    <span class="scroll-cue-label">Data Platform Patterns</span>
+    <svg class="scroll-chevron" viewBox="0 0 18 10" xmlns="http://www.w3.org/2000/svg">
+      <polyline points="1,1 9,9 17,1"/>
+    </svg>
+  </a>
 </section>
 
 <div class="section-divider"></div>
@@ -2348,7 +2509,7 @@ Only load what the current task actually needs.</div>
   <div class="sec-hd">
     <div class="sec-label">Enterprise Parallels</div>
     <div class="sec-title">Data Platform Patterns</div>
-    <div class="sec-sub">6 VENN components &nbsp;·&nbsp; 6 enterprise platform equivalents &nbsp;·&nbsp; Azure Data Factory · APIM · Medallion · Hot/Warm/Cold · Serverless · App Insights</div>
+    <div class="sec-sub">9 VENN components &nbsp;·&nbsp; 9 enterprise platform equivalents &nbsp;·&nbsp; ADF · APIM · Medallion · Hot/Warm/Cold · Serverless · App Insights · ADF Triggers · Event Hubs · Idempotent Writes</div>
   </div>
 
   <div class="parallel-grid">
@@ -2358,7 +2519,7 @@ Only load what the current task actually needs.</div>
       <div class="parallel-inner">
         <div class="parallel-left">
           <div class="parallel-cat">VENN Component</div>
-          <div class="parallel-name venn">Master Control :7852</div>
+          <div class="parallel-name venn">Master Control</div>
           <div class="parallel-desc">Central registry. Discovers all bridge tools on startup via SSE ingest. Routes every tool call through a single control plane — no bridge is ever called directly.</div>
         </div>
         <div class="parallel-divider">≈</div>
@@ -2479,7 +2640,77 @@ Only load what the current task actually needs.</div>
       </div>
     </div>
 
+    <!-- 7: Scheduled / Event-Driven Orchestration -->
+    <div class="parallel-card">
+      <div class="parallel-inner">
+        <div class="parallel-left">
+          <div class="parallel-cat">VENN Component</div>
+          <div class="parallel-name venn">Heart Bridge :7870</div>
+          <div class="parallel-desc">Cron-like scheduler. Declarative {schedule, prompt} routines (daily HH:MM or interval) fire into the master /ingest endpoint — the scheduler triggers the pipeline, it doesn't do the work. Every fire appends to pulse-log.jsonl.</div>
+        </div>
+        <div class="parallel-divider">≈</div>
+        <div class="parallel-right">
+          <div class="parallel-cat">Enterprise Pattern</div>
+          <div class="parallel-name ent">Pipeline Triggers</div>
+          <div class="parallel-desc">Time- and event-based triggers kick off pipeline runs on a schedule, decoupled from the activities they launch. Scheduling is its own concern, separate from execution.</div>
+        </div>
+      </div>
+      <div class="parallel-footer">
+        <span class="parallel-azure">Azure Data Factory Triggers · Event Grid</span>
+        <span class="parallel-note">Scheduling separated from execution — declarative jobs firing a central ingest, with append-only run history. Same shape as a trigger-driven orchestrator.</span>
+      </div>
+    </div>
+
+    <!-- 8: Real-Time Ingestion → Staging Zones -->
+    <div class="parallel-card">
+      <div class="parallel-inner">
+        <div class="parallel-left">
+          <div class="parallel-cat">VENN Component</div>
+          <div class="parallel-name venn">Telegram Bridge :7862</div>
+          <div class="parallel-desc">External API source. Inbound messages and files are classified by type and routed into typed staging folders under brain/inputs/ — landing zones downstream workers (e.g. print-estimator) pick up from. Credentials are env-first and gitignored.</div>
+        </div>
+        <div class="parallel-divider">≈</div>
+        <div class="parallel-right">
+          <div class="parallel-cat">Enterprise Pattern</div>
+          <div class="parallel-name ent">Streaming Ingest + Landing Zone</div>
+          <div class="parallel-desc">Real-time events land in raw, type-partitioned staging before any transform. Classify-on-arrival, never process in place; downstream consumers read from the zone.</div>
+        </div>
+      </div>
+      <div class="parallel-footer">
+        <span class="parallel-azure">Event Hubs · ADLS Landing Zone</span>
+        <span class="parallel-note">Real-time API ingestion with classify-on-arrival routing into staging — the integration edge of a hub, plus credentials-as-config.</span>
+      </div>
+    </div>
+
+    <!-- 9: Validation Gates & Idempotency -->
+    <div class="parallel-card">
+      <div class="parallel-inner">
+        <div class="parallel-left">
+          <div class="parallel-cat">VENN Component</div>
+          <div class="parallel-name venn">Tool Gate (Propose/Execute)</div>
+          <div class="parallel-desc">Write-side tools split into a propose_* step that validates and returns a one-shot token, and a run_* step that only executes against a valid, unconsumed token. Schema validation up front, idempotency in the middle, fuzzy-key recovery as a safety net.</div>
+        </div>
+        <div class="parallel-divider">≈</div>
+        <div class="parallel-right">
+          <div class="parallel-cat">Enterprise Pattern</div>
+          <div class="parallel-name ent">Data Quality + Idempotent Writes</div>
+          <div class="parallel-desc">Validate-before-write gates plus exactly-once semantics so retries don't double-apply. Side effects are guarded by a single-use claim, not best-effort.</div>
+        </div>
+      </div>
+      <div class="parallel-footer">
+        <span class="parallel-azure">Data Quality Gates · Idempotent Pipeline Writes</span>
+        <span class="parallel-note">Validation gate + one-shot token = idempotent, exactly-once-style side effects — directly relevant to safe pipeline writes.</span>
+      </div>
+    </div>
+
   </div><!-- /parallel-grid -->
+
+  <a href="#platform" class="section-cue" aria-label="Scroll to Observability">
+    <span class="scroll-cue-label">Observability</span>
+    <svg class="scroll-chevron" viewBox="0 0 18 10" xmlns="http://www.w3.org/2000/svg">
+      <polyline points="1,1 9,9 17,1"/>
+    </svg>
+  </a>
 </section>
 
 <div class="section-divider"></div>
@@ -2491,7 +2722,7 @@ Only load what the current task actually needs.</div>
   <div class="sec-hd">
     <div class="sec-label">Runtime &amp; Platforms</div>
     <div class="sec-title">Observability</div>
-    <div class="sec-sub">Single debug panel &nbsp;·&nbsp; All 15 modules emit tagged logs &nbsp;·&nbsp; Timestamps + error levels + live token stats</div>
+    <div class="sec-sub">Single debug panel &nbsp;·&nbsp; All 18 modules emit tagged logs &nbsp;·&nbsp; Timestamps + error levels + live token stats</div>
   </div>
 
   <!-- Debug terminal mockup -->
@@ -2504,7 +2735,7 @@ Only load what the current task actually needs.</div>
       <div class="log-line">
         <span class="log-ts">09:14:02.103</span>
         <span class="log-mod master">[master]</span>
-        <span class="log-msg">Bridge registry initialized — <span class="ok">11 modules online</span></span>
+        <span class="log-msg">Bridge registry initialized — <span class="ok">18 modules online</span> (master + 17 child)</span>
       </div>
       <div class="log-line">
         <span class="log-ts">09:14:02.210</span>
@@ -2525,6 +2756,21 @@ Only load what the current task actually needs.</div>
         <span class="log-ts">09:14:03.402</span>
         <span class="log-mod obsidian">[obsidian]</span>
         <span class="log-msg">Vault path resolved: <span class="val">Venn_Vault/</span> · <span class="val">43 notes</span> indexed · 11 tools active</span>
+      </div>
+      <div class="log-line">
+        <span class="log-ts">09:14:03.561</span>
+        <span class="log-mod security">[security]</span>
+        <span class="log-msg">Face monitor armed · <span class="val">2 authorized</span> enrolled · camera @ <span class="val">2 fps</span> · <span class="ok">0 alerts</span></span>
+      </div>
+      <div class="log-line">
+        <span class="log-ts">09:14:03.788</span>
+        <span class="log-mod heart">[heart]</span>
+        <span class="log-msg">Pulse scheduler armed · <span class="val">3 routines</span> · next: hyperfocus check in <span class="val">42 min</span></span>
+      </div>
+      <div class="log-line">
+        <span class="log-ts">09:14:04.012</span>
+        <span class="log-mod project">[project]</span>
+        <span class="log-msg">Cast panel ready · <span class="val">Miracast</span> (Windows) · <span class="warn">idle</span></span>
       </div>
       <div class="log-line">
         <span class="log-ts">09:14:18.774</span>
@@ -2579,6 +2825,13 @@ Only load what the current task actually needs.</div>
     </div>
 
   </div>
+
+  <a href="#impact" class="section-cue" aria-label="Scroll to Business Impact">
+    <span class="scroll-cue-label">Business Impact</span>
+    <svg class="scroll-chevron" viewBox="0 0 18 10" xmlns="http://www.w3.org/2000/svg">
+      <polyline points="1,1 9,9 17,1"/>
+    </svg>
+  </a>
 </section>
 
 <!-- ═══════════════════════════════════════════════════════════
@@ -2597,7 +2850,7 @@ Only load what the current task actually needs.</div>
   </div>
 
   <!-- Venn diagram SVG -->
-  <svg class="venn-diagram" viewBox="0 0 900 360" xmlns="http://www.w3.org/2000/svg">
+  <svg class="venn-diagram" viewBox="0 -12 900 386" xmlns="http://www.w3.org/2000/svg">
     <defs>
       <linearGradient id="vg" x1="0" y1="0" x2="1" y2="0">
         <stop offset="0%"   stop-color="#EE4236"/>
@@ -2622,18 +2875,18 @@ Only load what the current task actually needs.</div>
     <ellipse cx="450" cy="180" rx="58" ry="170" fill="url(#vg-center)"/>
 
     <!-- OPERATIONS section label -->
-    <text x="215" y="54" text-anchor="middle" font-family="Sora" font-size="9" font-weight="200" letter-spacing="5" fill="#EE4236" opacity="0.55">OPERATIONS</text>
+    <text x="290" y="74" text-anchor="middle" font-family="Sora" font-size="9" font-weight="200" letter-spacing="5" fill="#EE4236" opacity="0.55">OPERATIONS</text>
 
     <!-- Left circle items -->
-    <text x="215" y="98"  text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#3A3A3A" letter-spacing="0.5">Schedule clients</text>
-    <text x="215" y="118" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#3A3A3A" letter-spacing="0.5">Generate quotes</text>
-    <text x="215" y="138" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#3A3A3A" letter-spacing="0.5">Take meeting notes</text>
-    <text x="215" y="158" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#3A3A3A" letter-spacing="0.5">Supplier research</text>
-    <text x="215" y="178" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#3A3A3A" letter-spacing="0.5">Admin tasks</text>
-    <text x="215" y="198" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#3A3A3A" letter-spacing="0.5">Client comms</text>
-    <text x="215" y="218" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#3A3A3A" letter-spacing="0.5">Reporting</text>
+    <text x="290" y="114" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#3A3A3A" letter-spacing="0.5">Schedule clients</text>
+    <text x="290" y="136" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#3A3A3A" letter-spacing="0.5">Generate quotes</text>
+    <text x="290" y="158" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#3A3A3A" letter-spacing="0.5">Take meeting notes</text>
+    <text x="290" y="180" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#3A3A3A" letter-spacing="0.5">Supplier research</text>
+    <text x="290" y="202" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#3A3A3A" letter-spacing="0.5">Admin tasks</text>
+    <text x="290" y="224" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#3A3A3A" letter-spacing="0.5">Client comms</text>
+    <text x="290" y="246" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#3A3A3A" letter-spacing="0.5">Reporting</text>
     <!-- Bottom label -->
-    <text x="215" y="260" text-anchor="middle" font-family="JetBrains Mono" font-size="6" fill="#252525" letter-spacing="2">The business runs</text>
+    <text x="290" y="288" text-anchor="middle" font-family="JetBrains Mono" font-size="6" fill="#252525" letter-spacing="2">The business runs</text>
 
     <!-- VENN overlap — center content -->
     <text x="450" y="152" text-anchor="middle" font-family="Sora" font-size="21" font-weight="200" letter-spacing="7" fill="url(#vg)" filter="url(#vg-glow)">VENN</text>
@@ -2642,22 +2895,19 @@ Only load what the current task actually needs.</div>
     <text x="450" y="204" text-anchor="middle" font-family="JetBrains Mono" font-size="6.5" letter-spacing="2" fill="#4A3020">ALWAYS LEARNING</text>
 
     <!-- CREATIVE WORK section label -->
-    <text x="685" y="54" text-anchor="middle" font-family="Sora" font-size="9" font-weight="200" letter-spacing="5" fill="#FAAC3D" opacity="0.55">CREATIVE WORK</text>
+    <text x="610" y="74" text-anchor="middle" font-family="Sora" font-size="9" font-weight="200" letter-spacing="5" fill="#FAAC3D" opacity="0.55">CREATIVE WORK</text>
 
     <!-- Right circle items -->
-    <text x="685" y="98"  text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#3A3A3A" letter-spacing="0.5">Engineering design</text>
-    <text x="685" y="118" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#3A3A3A" letter-spacing="0.5">Product development</text>
-    <text x="685" y="138" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#3A3A3A" letter-spacing="0.5">3D printing &amp; fab</text>
-    <text x="685" y="158" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#3A3A3A" letter-spacing="0.5">Content creation</text>
-    <text x="685" y="178" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#3A3A3A" letter-spacing="0.5">Robotics mentorship</text>
-    <text x="685" y="198" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#3A3A3A" letter-spacing="0.5">Client delivery</text>
-    <text x="685" y="218" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#3A3A3A" letter-spacing="0.5">Substack &amp; writing</text>
+    <text x="610" y="114" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#3A3A3A" letter-spacing="0.5">Engineering design</text>
+    <text x="610" y="136" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#3A3A3A" letter-spacing="0.5">Product development</text>
+    <text x="610" y="158" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#3A3A3A" letter-spacing="0.5">3D printing &amp; fab</text>
+    <text x="610" y="180" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#3A3A3A" letter-spacing="0.5">Content creation</text>
+    <text x="610" y="202" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#3A3A3A" letter-spacing="0.5">Robotics mentorship</text>
+    <text x="610" y="224" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#3A3A3A" letter-spacing="0.5">Client delivery</text>
+    <text x="610" y="246" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#3A3A3A" letter-spacing="0.5">Substack &amp; writing</text>
     <!-- Bottom label -->
-    <text x="685" y="260" text-anchor="middle" font-family="JetBrains Mono" font-size="6" fill="#252525" letter-spacing="2">The work gets done</text>
+    <text x="610" y="288" text-anchor="middle" font-family="JetBrains Mono" font-size="6" fill="#252525" letter-spacing="2">The work gets done</text>
 
-    <!-- Bottom tagline inside SVG -->
-    <line x1="100" y1="306" x2="800" y2="306" stroke="#1A1A1A" stroke-width="1"/>
-    <text x="450" y="326" text-anchor="middle" font-family="JetBrains Mono" font-size="7" letter-spacing="2.5" fill="#2E2E2E">VENN handles the overlap — so neither side waits on the other</text>
   </svg>
 
   <!-- Capability cards -->
@@ -2706,6 +2956,13 @@ Only load what the current task actually needs.</div>
     </div>
 
   </div><!-- /impact-grid -->
+
+  <a href="#home" class="section-cue up" aria-label="Back to top">
+    <span class="scroll-cue-label">Back to Top</span>
+    <svg class="scroll-chevron" viewBox="0 0 18 10" xmlns="http://www.w3.org/2000/svg">
+      <polyline points="1,1 9,9 17,1"/>
+    </svg>
+  </a>
 </section>
 
 <div class="section-divider"></div>
