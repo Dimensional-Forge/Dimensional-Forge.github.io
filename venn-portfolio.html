@@ -2025,7 +2025,6 @@ body {
   <div class="bridge-grid">
 
     <div class="bridge-card">
-      <div class="bridge-port">Port 7852</div>
       <div class="bridge-name">Master Control</div>
       <div class="bridge-purpose">Central bridge registry and orchestration hub. Auto-discovers each child bridge from its @bridge header, probes it via HTTP GET /tools on startup to build the unified tool registry, and proxies every call. Streams serial events and injected messages to venn.html via SSE. Exposes whitelisted run_command + file tools natively.</div>
       <div class="bridge-tags">
@@ -2045,7 +2044,6 @@ body {
   <div class="bridge-grid">
 
     <div class="bridge-card">
-      <div class="bridge-port">Port 7858</div>
       <div class="bridge-name">Memory</div>
       <div class="bridge-purpose">3-tier persistent memory: USER.md profile (100-token hard cap, always injected), long-term MEMORY.md (keyword search, up to 3 recall results), and daily session logs. Total overhead ceiling: 280 tokens.</div>
       <div class="bridge-tags">
@@ -2056,7 +2054,6 @@ body {
     </div>
 
     <div class="bridge-card">
-      <div class="bridge-port">Port 7861</div>
       <div class="bridge-name">Knowledge</div>
       <div class="bridge-purpose">On-device RAG pipeline. Ingests documents on startup, paragraph-chunks them into chunks.json, and serves hybrid BM25 + cosine search with RRF merge. Gracefully degrades to BM25-only if the embedding server is offline.</div>
       <div class="bridge-tags">
@@ -2067,7 +2064,6 @@ body {
     </div>
 
     <div class="bridge-card">
-      <div class="bridge-port">Port 7863</div>
       <div class="bridge-name">Obsidian</div>
       <div class="bridge-purpose">11-tool vault interface with zero external dependencies. Auto-detects vault path across platforms (Android + Windows). Full frontmatter support, wikilink-aware, backlink discovery, tag search, and daily note management.</div>
       <div class="bridge-tags">
@@ -2078,7 +2074,6 @@ body {
     </div>
 
     <div class="bridge-card">
-      <div class="bridge-port">Port 7864</div>
       <div class="bridge-name">Reflection</div>
       <div class="bridge-purpose">Identity management bridge. VENN can propose updates to its own VENN.md identity document (preferences, self-description, learned behaviors) but all changes require explicit human approval before being written to disk.</div>
       <div class="bridge-tags">
@@ -2089,7 +2084,6 @@ body {
     </div>
 
     <div class="bridge-card">
-      <div class="bridge-port">Port 7870</div>
       <div class="bridge-name">Heart</div>
       <div class="bridge-purpose">Proactive pulse engine. Fires scheduled check-ins (morning anchor, hyperfocus breaker, evening reflection) into the chat pipeline via the master /ingest endpoint — VENN speaks up on its own, not just on request. Focus-timer and pause controls; all writes propose/execute token-gated.</div>
       <div class="bridge-tags">
@@ -2109,7 +2103,6 @@ body {
   <div class="bridge-grid">
 
     <div class="bridge-card">
-      <div class="bridge-port">Port 7865</div>
       <div class="bridge-name">Google</div>
       <div class="bridge-purpose">OAuth2 integration for Google Calendar and Gmail. Loopback authentication server on 127.0.0.1:8085 for desktop auth flow. Token persisted locally. Supports event CRUD, email read/send, and calendar listing — write tools propose/execute gated.</div>
       <div class="bridge-tags">
@@ -2120,7 +2113,6 @@ body {
     </div>
 
     <div class="bridge-card">
-      <div class="bridge-port">Port 7866</div>
       <div class="bridge-name">Timeline</div>
       <div class="bridge-purpose">Generates polished HTML project timeline estimates — Gantt-style phases, deliverables, hours, and risk assessments. Outputs standalone HTML files to brain/outputs/timeline/ that can be sent directly to clients.</div>
       <div class="bridge-tags">
@@ -2131,7 +2123,6 @@ body {
     </div>
 
     <div class="bridge-card">
-      <div class="bridge-port">Port 7867</div>
       <div class="bridge-name">Print Estimator</div>
       <div class="bridge-purpose">Estimates 3D print cost and time from an STL file. Parses geometry, calculates volume and weight, looks up material pricing, applies machine and labor rates, and exports a formatted HTML quote to brain/outputs/print-estimator/.</div>
       <div class="bridge-tags">
@@ -2151,7 +2142,6 @@ body {
   <div class="bridge-grid">
 
     <div class="bridge-card">
-      <div class="bridge-port">Port 7856</div>
       <div class="bridge-name">Voice SAM</div>
       <div class="bridge-purpose">Text-to-speech using SAM (Software Automatic Mouth, 1982). Produces characteristic retro robotic synthesis. Returns WAV audio as base64, playable via HTMLAudioElement with instant interrupt support.</div>
       <div class="bridge-tags">
@@ -2162,7 +2152,6 @@ body {
     </div>
 
     <div class="bridge-card">
-      <div class="bridge-port">Port 7857</div>
       <div class="bridge-name">Voice Piper</div>
       <div class="bridge-purpose">High-quality offline TTS using Piper with locally cached voice models. Multiple accent/voice options. Slower than SAM but natural speech quality. Fully offline once model is downloaded.</div>
       <div class="bridge-tags">
@@ -2173,7 +2162,6 @@ body {
     </div>
 
     <div class="bridge-card">
-      <div class="bridge-port">Port 7859</div>
       <div class="bridge-name">Security</div>
       <div class="bridge-purpose">On-device face-recognition monitoring. Enrolls authorized faces locally, watches the camera stream, and on an unknown person triggers a red-alert flash, red eyes/mouth, a spoken warning, and a timestamped transcript log. No cloud, no image upload — frames never leave the device.</div>
       <div class="bridge-tags">
@@ -2184,7 +2172,6 @@ body {
     </div>
 
     <div class="bridge-card">
-      <div class="bridge-port">Port 7862</div>
       <div class="bridge-name">Telegram</div>
       <div class="bridge-purpose">Send and receive Telegram messages through VENN. File attachments are auto-routed into input buckets by type: STL files go to the print-estimator queue, documents, photos, voice, and video each get their own folder.</div>
       <div class="bridge-tags">
@@ -2195,7 +2182,6 @@ body {
     </div>
 
     <div class="bridge-card">
-      <div class="bridge-port">Port 7869</div>
       <div class="bridge-name">Projection</div>
       <div class="bridge-purpose">Opens the OS screen-cast panel — Miracast on Windows, Cast settings on Android via Termux. Propose/execute gated with a short-lived confirmation token so a small local model can't fire it by accident.</div>
       <div class="bridge-tags">
@@ -2215,7 +2201,6 @@ body {
   <div class="bridge-grid">
 
     <div class="bridge-card">
-      <div class="bridge-port">Port 7853</div>
       <div class="bridge-name">IDE Bridge</div>
       <div class="bridge-purpose">Filesystem and shell bridge for the dev environment. Exposes read_file, write_file, list_dir, and run_command with a strict allowlist. Isolated from Master Control so filesystem access can be toggled independently.</div>
       <div class="bridge-tags">
@@ -2226,7 +2211,6 @@ body {
     </div>
 
     <div class="bridge-card">
-      <div class="bridge-port">Port 7854</div>
       <div class="bridge-name">ESP32</div>
       <div class="bridge-purpose">Hardware bridge for Arduino/ESP32 devices over UART serial at 115200 baud. Accepts natural language LED commands, exposes GPIO control, and handles Arduino sketch compile and upload.</div>
       <div class="bridge-tags">
@@ -2237,7 +2221,6 @@ body {
     </div>
 
     <div class="bridge-card">
-      <div class="bridge-port">Port 7855</div>
       <div class="bridge-name">Android</div>
       <div class="bridge-purpose">Full Android device control via Termux on a rooted phone. App install/launch/kill, screen control, WiFi/BT/Airplane toggle, file system access, simulated input (tap, key, text), notifications, and Shizuku permission grants.</div>
       <div class="bridge-tags">
@@ -2248,7 +2231,6 @@ body {
     </div>
 
     <div class="bridge-card">
-      <div class="bridge-port">Port 7860</div>
       <div class="bridge-name">Flipper Zero</div>
       <div class="bridge-purpose">22 tools covering all Flipper subsystems over USB-CDC serial at 115200 8N1 with Unleashed firmware. NFC detect/dump/emulate, Sub-GHz RX/TX, IR learn/transmit, BadUSB payload upload, GPIO R/W, and storage access.</div>
       <div class="bridge-tags">
@@ -2655,7 +2637,7 @@ Only load what the current task actually needs.</div>
       <div class="parallel-inner">
         <div class="parallel-left">
           <div class="parallel-cat">VENN Component</div>
-          <div class="parallel-name venn">Heart Bridge :7870</div>
+          <div class="parallel-name venn">Heart Bridge</div>
           <div class="parallel-desc">Cron-like scheduler. Declarative {schedule, prompt} routines (daily HH:MM or interval) fire into the master /ingest endpoint — the scheduler triggers the pipeline, it doesn't do the work. Every fire appends to pulse-log.jsonl.</div>
         </div>
         <div class="parallel-divider">≈</div>
@@ -2676,7 +2658,7 @@ Only load what the current task actually needs.</div>
       <div class="parallel-inner">
         <div class="parallel-left">
           <div class="parallel-cat">VENN Component</div>
-          <div class="parallel-name venn">Telegram Bridge :7862</div>
+          <div class="parallel-name venn">Telegram Bridge</div>
           <div class="parallel-desc">External API source. Inbound messages and files are classified by type and routed into typed staging folders under brain/inputs/ — landing zones downstream workers (e.g. print-estimator) pick up from. Credentials are env-first and gitignored.</div>
         </div>
         <div class="parallel-divider">≈</div>
