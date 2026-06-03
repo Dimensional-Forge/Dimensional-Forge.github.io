@@ -2040,7 +2040,7 @@
         heroNum.textContent = '—';
         heroLbl.textContent = 'Client Rating';
       } else {
-        heroNum.textContent = avg.toFixed(2) + '★';
+        heroNum.innerHTML = '<span style="color:var(--df-gold)">★</span>' + avg.toFixed(2);
         heroLbl.textContent = total === 1 ? 'Avg. Client Rating (1 review)' : `Avg. Client Rating (${total})`;
       }
 
