@@ -1993,9 +1993,18 @@
     }
 
     function starsHtml(rating, cls = 'rv-card-star') {
-      return [1,2,3,4,5].map(i =>
-        `<span class="${cls}" style="color:${i<=rating?'var(--df-gold)':'var(--df-brush)'}">★</span>`
-      ).join('');
+      return [1,2,3,4,5].map(i => {
+        const full = Math.floor(rating);
+        const frac = rating - full;
+        if (i <= full) {
+          return `<span class="${cls}" style="color:var(--df-gold)">★</span>`;
+        } else if (i === full + 1 && frac > 0) {
+          const pct = Math.round(frac * 100);
+          return `<span class="${cls}" style="position:relative;display:inline-block;color:var(--df-brush)">★<span style="position:absolute;left:0;top:0;overflow:hidden;width:${pct}%;color:var(--df-gold)">★</span></span>`;
+        } else {
+          return `<span class="${cls}" style="color:var(--df-brush)">★</span>`;
+        }
+      }).join('');
     }
 
     function renderReviews(reviews) {
@@ -2013,12 +2022,12 @@
           </div>`).join('');
 
       const total = reviews.length;
-      const avg   = total ? (reviews.reduce((s, r) => s + r.rating, 0) / total) : 0;
-      const dist  = [5,4,3,2,1].map(s => reviews.filter(r => r.rating === s).length);
+      const avg   = total ? (reviews.reduce((s, r) => s + parseFloat(r.rating), 0) / total) : 0;
+      const dist  = [5,4,3,2,1].map(s => reviews.filter(r => Math.round(parseFloat(r.rating)) === s).length);
 
       document.getElementById('rv-score').textContent = total ? avg.toFixed(1) : '—';
       document.getElementById('rv-stars-display').innerHTML = total
-        ? starsHtml(Math.round(avg), 'rv-star-icon')
+        ? starsHtml(avg, 'rv-star-icon')
         : '';
       document.getElementById('rv-count').textContent =
         total === 0 ? 'No reviews yet'
