@@ -86,7 +86,9 @@ details.settings-panel[open]>summary::after{content:'▾'}
 .cost-row--sub td{color:var(--muted);font-size:.875rem}
 .notes-body{padding:16px 28px;color:var(--muted);font-size:.875rem;line-height:1.75}
 .notes-body p+p{margin-top:8px}
-.page-footer{text-align:center;margin-top:32px;font-size:.75rem;color:#333;letter-spacing:.08em;text-transform:uppercase}
+.page-footer{background:#000;border-top:1px solid var(--border);padding:2.5rem 0;text-align:center;margin-top:0}
+.page-footer .f-brand{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.18em;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.4rem;display:block}
+.page-footer p{color:var(--muted);font-size:.78rem}
 @media print{body{background:#fff!important;color:#000!important}.btn-print{display:none}.payment-section{display:none}}
 .payment-body{padding:32px 28px;display:flex;flex-direction:column;align-items:center;gap:20px}
 .payment-lede{color:var(--muted);font-size:.9375rem;text-align:center;max-width:480px;line-height:1.7}
@@ -211,6 +213,25 @@ details.settings-panel[open]>summary::after{content:'▾'}
   </script>
 
 </div>
-<footer class="page-footer">The Dimensional Forge &nbsp;·&nbsp; dimensional.forge@gmail.com</footer>
+<footer class="page-footer">
+  <div style="max-width:1080px;margin:0 auto;padding:0 2rem;">
+    <div class="f-brand">The Dimensional Forge</div>
+    <p>Forging Dimensions: Utility, Fun, Artistry!</p>
+    <p style="margin-top:0.75rem;font-size:0.75rem;">
+      <a href="mailto:ConnectWithSean@the-dimensional-forge.net" style="color:var(--orange);text-decoration:none;">ConnectWithSean@the-dimensional-forge.net</a>
+      &nbsp;·&nbsp;
+      <a href="https://linkedin.com/in/seanneal19" target="_blank" style="color:var(--muted);text-decoration:none;">LinkedIn</a>
+      &nbsp;·&nbsp;
+      <a href="https://etsy.com/shop/DimensionalForgeProd" target="_blank" style="color:var(--muted);text-decoration:none;">Etsy Shop</a>
+      &nbsp;·&nbsp;
+      <a href="https://makerworld.com/en/@Dimensional.F" target="_blank" style="color:var(--muted);text-decoration:none;">MakerWorld</a>
+      &nbsp;·&nbsp;
+      <a href="https://cults3d.com/en/users/TheDimensionalForge/3d-models" target="_blank" style="color:var(--muted);text-decoration:none;">Cults3D</a>
+      &nbsp;·&nbsp;
+      <a href="https://thedimensionalforge.substack.com" target="_blank" style="color:var(--muted);text-decoration:none;">Substack</a>
+    </p>
+    <p style="margin-top:0.5rem;font-size:0.7rem;color:#444;">© 2024–2026 The Dimensional Forge · Sean Neal · Indianapolis, IN</p>
+  </div>
+</footer>
 </body>
 </html>

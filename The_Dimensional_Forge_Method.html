@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Forge Method — The Dimensional Forge</title>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+:root {
+  --df-red:     #EE4236;
+  --df-orange:  #F0782D;
+  --df-gold:    #FAAC3D;
+  --df-black:   #000000;
+  --df-steel:   #1A1A1A;
+  --df-brush:   #2E2E2E;
+  --df-text:    #F5F5F5;
+  --df-muted:   #A0A0A0;
+  --df-grad:    linear-gradient(90deg, #EE4236 0%, #F0782D 50%, #FAAC3D 100%);
+  --df-grad-45: linear-gradient(135deg, #EE4236 0%, #F0782D 50%, #FAAC3D 100%);
+}
+
+body { background: var(--df-black); color: var(--df-text); font-family: 'Inter', system-ui, sans-serif; font-size: 15px; line-height: 1.7; overflow-x: hidden; padding-top: 64px; }
+a { color: inherit; text-decoration: none; }
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--df-black); }
+::-webkit-scrollbar-thumb { background: var(--df-orange); border-radius: 2px; }
+
+.embers { position: fixed; inset: 0; pointer-events: none; z-index: 1; }
+.ember { position: absolute; border-radius: 50%; opacity: 0; animation: float linear infinite; }
+@keyframes float {
+  0%   { transform: translateY(0) translateX(0); opacity: 0; }
+  8%   { opacity: 0.65; }
+  88%  { opacity: 0.15; }
+  100% { transform: translateY(-100vh) translateX(var(--dx)); opacity: 0; }
+}
+
+.grad-text { background: var(--df-grad); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.label { font-family: 'Audiowide', sans-serif; font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--df-orange); display: block; margin-bottom: 0.5rem; }
+.section-title { font-family: 'Audiowide', sans-serif; font-size: clamp(1.5rem, 3.5vw, 2.2rem); text-transform: uppercase; letter-spacing: 0.06em; line-height: 1.2; color: var(--df-text); }
+.section-lead { color: var(--df-muted); font-size: 0.93rem; max-width: 520px; margin-top: 0.75rem; line-height: 1.75; }
+.rule { width: 48px; height: 2px; background: var(--df-grad); border: none; margin: 0.75rem 0 2.5rem; display: block; }
+.container { max-width: 1080px; margin: 0 auto; padding: 0 2rem; }
+.section { padding: 6rem 0; }
+
+.btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.6rem; font-family: 'Audiowide', sans-serif; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; border-radius: 2px; border: none; cursor: pointer; transition: all 0.22s; }
+.btn-primary { background: var(--df-grad-45); color: #fff; box-shadow: 0 4px 18px rgba(240,120,45,0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(240,120,45,0.45); }
+.btn-ghost { background: transparent; color: var(--df-orange); border: 1px solid var(--df-orange); }
+.btn-ghost:hover { background: rgba(240,120,45,0.08); transform: translateY(-2px); }
+
+/* NAV */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(0,0,0,0.92); backdrop-filter: blur(14px); border-bottom: 1px solid var(--df-brush); padding: 0.85rem 0; }
+nav .inner { display: flex; align-items: center; justify-content: space-between; max-width: 1080px; margin: 0 auto; padding: 0 2rem; }
+.nav-logo { display: flex; align-items: center; height: 36px; flex-shrink: 0; }
+.nav-logo svg { height: 32px; width: auto; display: block; }
+.nav-links { display: flex; gap: 1.1rem; list-style: none; }
+.nav-links a { color: var(--df-muted); font-family: 'Audiowide', sans-serif; font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; transition: color 0.2s; }
+.nav-links a:hover { color: var(--df-orange); }
+.nav-back { border: 1px solid var(--df-orange); font-family: 'Audiowide', sans-serif; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.12em; padding: 0.45rem 1rem; border-radius: 2px; flex-shrink: 0; background: linear-gradient(90deg, #EE4236, #F0782D, #FAAC3D, #F0782D, #EE4236); background-size: 300% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: hire-me-cycle 6s linear infinite; }
+.nav-back:hover { border-color: var(--df-gold); -webkit-text-fill-color: transparent; }
+@keyframes hire-me-cycle { 0% { background-position: 0% center; } 100% { background-position: 300% center; } }
+
+/* HERO */
+.hero { min-height: calc(100vh - 64px); display: flex; align-items: center; justify-content: center; text-align: center; position: relative; padding: 4rem 2rem; overflow: hidden; }
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 50%, rgba(240,120,45,0.07) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 65% 70%, rgba(238,66,54,0.04) 0%, transparent 60%);
+  pointer-events: none;
+}
+.hero-inner { position: relative; z-index: 2; max-width: 740px; }
+.hero-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--df-gold); margin-bottom: 2rem; display: block; }
+.hero-logomark { width: 72px; height: 72px; margin: 0 auto 2rem; display: block; }
+.hero-title { font-family: 'Audiowide', sans-serif; font-size: clamp(3rem, 7vw, 5rem); text-transform: uppercase; letter-spacing: 0.04em; line-height: 1.0; background: var(--df-grad); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1.25rem; }
+.hero-sub { font-family: 'Audiowide', sans-serif; font-size: clamp(0.7rem, 1.4vw, 0.85rem); text-transform: uppercase; letter-spacing: 0.14em; color: var(--df-muted); margin-bottom: 1.5rem; }
+.hero-desc { color: var(--df-muted); font-size: 0.95rem; line-height: 1.8; max-width: 540px; margin: 0 auto 3rem; }
+.hero-desc strong { color: var(--df-text); }
+@keyframes fire-cycle {
+  0%   { background-position: 0% center; }
+  100% { background-position: 300% center; }
+}
+@keyframes chevron-fire {
+  0%   { border-color: #EE4236; }
+  25%  { border-color: #F0782D; }
+  50%  { border-color: #FAAC3D; }
+  75%  { border-color: #F0782D; }
+  100% { border-color: #EE4236; }
+}
+@keyframes glow-pulse {
+  0%, 100% { filter: drop-shadow(0 0 14px rgba(240,120,45,0.55)); }
+  50%       { filter: drop-shadow(0 0 32px rgba(250,172,61,0.9)); }
+}
+
+.hero-scroll {
+  display: inline-flex; flex-direction: column; align-items: center; gap: 1rem;
+  font-family: 'Audiowide', sans-serif;
+  font-size: clamp(1.5rem, 3.8vw, 2.4rem);
+  letter-spacing: 0.12em; text-transform: uppercase;
+  text-decoration: none;
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+.hero-scroll-text {
+  background: linear-gradient(90deg, #EE4236, #F0782D, #FAAC3D, #F0782D, #EE4236);
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: fire-cycle 6s linear infinite;
+}
+.scroll-chevron {
+  width: clamp(28px, 3.5vw, 40px); height: clamp(28px, 3.5vw, 40px);
+  border-right: 3px solid #F0782D; border-bottom: 3px solid #F0782D;
+  transform: rotate(45deg);
+  animation: bounce 2s ease-in-out infinite, chevron-fire 6s linear infinite;
+  margin-top: -10px;
+}
+@keyframes bounce { 0%,100% { transform: rotate(45deg) translateY(0); } 50% { transform: rotate(45deg) translateY(5px); } }
+
+/* AT A GLANCE STRIP */
+.glance-wrap { overflow-x: auto; margin-top: 2.5rem; }
+.glance-strip { display: flex; gap: 1px; background: var(--df-brush); border: 1px solid var(--df-brush); min-width: 900px; }
+.glance-card { flex: 1; background: var(--df-black); padding: 1.5rem 1.25rem; position: relative; overflow: hidden; transition: background 0.2s; min-width: 150px; }
+.glance-card:hover { background: rgba(255,255,255,0.025); }
+.glance-watermark { font-family: 'Audiowide', sans-serif; font-size: 4rem; font-weight: 700; line-height: 1; position: absolute; right: -4px; top: 6px; opacity: 0.08; color: var(--gc-color); pointer-events: none; }
+.glance-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gc-color); box-shadow: 0 0 8px var(--gc-color); margin-bottom: 0.85rem; display: block; }
+.glance-forge { font-family: 'JetBrains Mono', monospace; font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--df-muted); margin-bottom: 0.3rem; display: block; }
+.glance-title { font-family: 'Audiowide', sans-serif; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gc-color); line-height: 1.35; }
+
+/* MILESTONE LOOP */
+.loop-section { background: var(--df-black); }
+.loop-wrap { position: relative; max-width: 700px; margin: 3rem auto 0; }
+.loop-diagram { display: flex; align-items: flex-start; justify-content: center; position: relative; }
+.loop-node { flex: 1; text-align: center; max-width: 180px; }
+.loop-icon { width: 76px; height: 76px; border-radius: 50%; border: 2px solid var(--ln-color); display: flex; align-items: center; justify-content: center; margin: 0 auto 0.85rem; background: rgba(0,0,0,0.4); transition: box-shadow 0.3s; }
+.loop-node:hover .loop-icon { box-shadow: 0 0 24px var(--ln-color); }
+.loop-icon svg { width: 26px; height: 26px; stroke: var(--ln-color); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.loop-name { font-family: 'Audiowide', sans-serif; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--df-text); margin-bottom: 0.25rem; }
+.loop-sub { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; color: var(--df-muted); }
+.loop-arrow-col { display: flex; align-items: flex-start; justify-content: center; padding-top: 37px; flex-shrink: 0; width: 64px; }
+.loop-arr { position: relative; width: 52px; height: 2px; background: linear-gradient(90deg, var(--df-gold), var(--df-orange)); }
+.loop-arr::after { content: ''; position: absolute; right: -1px; top: -4px; border-top: 5px solid transparent; border-bottom: 5px solid transparent; border-left: 8px solid var(--df-orange); }
+.loop-return { position: absolute; bottom: -40px; left: 38px; right: 38px; }
+.loop-return-line { height: 2px; background: var(--df-brush); width: 100%; }
+.loop-return-left { position: absolute; left: 0; bottom: -1px; width: 2px; height: 20px; background: var(--df-brush); }
+.loop-return-right { position: absolute; right: 0; bottom: -1px; width: 2px; height: 20px; background: var(--df-brush); }
+.loop-return-arrowhead { position: absolute; left: -1px; bottom: 18px; border-right: 5px solid transparent; border-left: 5px solid transparent; border-bottom: 8px solid var(--df-brush); }
+.loop-note { margin-top: 3.5rem; font-size: 0.82rem; color: var(--df-muted); font-family: 'JetBrains Mono', monospace; line-height: 1.65; text-align: center; max-width: 580px; margin-left: auto; margin-right: auto; }
+.loop-note b { color: var(--df-gold); }
+
+/* PHASE TRACKER (sticky) */
+.phase-tracker { position: sticky; top: 64px; z-index: 50; background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--df-brush); padding: 0.6rem 0; }
+.tracker-inner { max-width: 1080px; margin: 0 auto; padding: 0 2rem; display: flex; align-items: center; }
+.tracker-item { flex: 1; display: flex; align-items: center; }
+.tracker-dot { width: 10px; height: 10px; border-radius: 50%; border: 1px solid var(--df-brush); background: transparent; transition: background 0.35s, border-color 0.35s, box-shadow 0.35s; flex-shrink: 0; }
+.tracker-dot.lit { background: var(--td-color); border-color: var(--td-color); box-shadow: 0 0 8px var(--td-color); }
+.tracker-seg { flex: 1; height: 1px; background: var(--df-brush); transition: background 0.35s; }
+.tracker-seg.lit { background: var(--df-orange); }
+.tracker-label { font-family: 'JetBrains Mono', monospace; font-size: 0.52rem; letter-spacing: 0.09em; text-transform: uppercase; color: var(--df-muted); margin: 0 0.45rem 0 0.3rem; white-space: nowrap; display: none; }
+@media (min-width: 900px) { .tracker-label { display: block; } }
+
+/* FORGE LINE PHASE CARDS */
+.phase-track { padding: 1rem 0; }
+.phase-card { display: grid; grid-template-columns: 60px 1fr; gap: 1.75rem; padding: 2.5rem 0; border-bottom: 1px solid var(--df-brush); }
+.phase-card:last-child { border-bottom: none; }
+.phase-gutter { display: flex; flex-direction: column; align-items: center; padding-top: 2px; }
+.phase-node { width: 44px; height: 44px; border-radius: 50%; background: var(--df-black); border: 2px solid var(--pc-color); color: var(--pc-color); font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: 0.95rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 4px var(--df-black), 0 0 12px var(--pc-color); flex-shrink: 0; position: relative; z-index: 2; }
+.phase-vline { width: 1px; flex: 1; min-height: 24px; background: linear-gradient(180deg, var(--pc-color), transparent); margin-top: 8px; opacity: 0.35; }
+.phase-content { }
+.phase-head { margin-bottom: 1.25rem; }
+.phase-forge { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--df-gold); margin-bottom: 0.3rem; display: block; }
+.phase-title { font-family: 'Audiowide', sans-serif; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--pc-color); line-height: 1.3; }
+.phase-iter-tag { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--pc-color); border: 1px solid var(--pc-color); padding: 0.2rem 0.65rem; border-radius: 2px; margin-top: 0.5rem; background: rgba(255,255,255,0.02); display: block; width: fit-content; }
+.phase-body-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 2rem; margin-top: 1rem; }
+.phase-desc { color: var(--df-muted); font-size: 0.88rem; line-height: 1.7; }
+.phase-desc em { color: var(--df-text); font-style: italic; }
+.steps { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 1rem; }
+.steps span { font-family: 'JetBrains Mono', monospace; font-size: 0.64rem; padding: 0.2rem 0.6rem; border-radius: 2px; background: rgba(255,255,255,0.04); border: 1px solid var(--df-brush); color: var(--df-muted); letter-spacing: 0.04em; }
+.steps span.gold { background: rgba(250,172,61,0.08); border-color: rgba(250,172,61,0.3); color: var(--df-gold); }
+.output { font-size: 0.83rem; color: var(--df-muted); border-left: 2px solid var(--pc-color); padding: 0.65rem 1rem; background: rgba(255,255,255,0.02); line-height: 1.6; }
+.output b { color: var(--df-text); font-family: 'JetBrains Mono', monospace; font-size: 0.64rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 500; }
+.spin { display: inline-block; animation: spin 3.5s linear infinite; }
+@keyframes spin { 100% { transform: rotate(-360deg); } }
+
+/* PRINCIPLES */
+.principles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem 2.5rem; margin-top: 2.5rem; }
+.principle-item { }
+.p-num { font-family: 'Audiowide', sans-serif; font-size: 3rem; line-height: 1; background: var(--df-grad); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; opacity: 0.35; margin-bottom: 0.5rem; display: block; }
+.p-title { font-family: 'Audiowide', sans-serif; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--df-text); margin-bottom: 0.5rem; line-height: 1.4; }
+.p-body { font-size: 0.84rem; color: var(--df-muted); line-height: 1.65; }
+.p-body em { color: var(--df-text); font-style: italic; }
+
+/* CTA CLOSE */
+.cta-close { background: var(--df-black); border-top: 1px solid var(--df-brush); padding: 6rem 2rem; text-align: center; }
+.cta-close .cta-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--df-gold); display: block; margin-bottom: 1.25rem; }
+.cta-close .cta-title { font-family: 'Audiowide', sans-serif; font-size: clamp(1.6rem, 3.5vw, 2.4rem); text-transform: uppercase; letter-spacing: 0.06em; line-height: 1.15; color: var(--df-text); margin-bottom: 1rem; }
+.cta-close .cta-body { color: var(--df-muted); font-size: 0.93rem; max-width: 580px; margin: 0 auto 2.5rem; line-height: 1.8; }
+.cta-close .cta-body em { color: var(--df-text); font-style: italic; }
+.cta-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+/* FOOTER */
+footer { background: var(--df-black); border-top: 1px solid var(--df-brush); padding: 2.5rem 0; text-align: center; }
+footer .f-brand { font-family: 'Audiowide', sans-serif; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.18em; background: var(--df-grad); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.4rem; display: block; }
+footer p { color: var(--df-muted); font-size: 0.78rem; }
+
+/* VENN CHAT WIDGET */
+#venn-widget { position: relative; flex-shrink: 0; margin-left: 1rem; font-family: 'JetBrains Mono', monospace; }
+#venn-toggle { width: 44px; height: 44px; background: #120500; border: 1px solid #994400; border-radius: 6px; cursor: pointer; padding: 2px; overflow: hidden; position: relative; display: block; box-shadow: 0 0 0 1px #3a1500, 0 0 12px rgba(200,90,0,0.35); transition: box-shadow 0.3s; }
+#venn-toggle:hover { box-shadow: 0 0 0 1px #662200, 0 0 20px rgba(220,100,0,0.55); }
+#venn-toggle::after { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(0deg,rgba(0,0,0,0) 0px,rgba(0,0,0,0) 1px,rgba(0,0,0,0.13) 1px,rgba(0,0,0,0.13) 2px); pointer-events: none; z-index: 2; }
+#venn-toggle svg { width: 100%; height: 100%; image-rendering: pixelated; display: block; }
+#venn-panel { position: absolute; top: calc(100% + 10px); right: 0; width: 300px; background: #0a0300; border: 2px solid #994400; border-radius: 8px; box-shadow: 0 0 0 1px #3a1500, 0 0 40px rgba(200,90,0,0.25); display: none; flex-direction: column; overflow: hidden; z-index: 200; }
+#venn-panel.venn-open { display: flex; }
+#venn-panel-header { background: #120500; border-bottom: 1px solid #1a0800; padding: 8px 10px; display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.venn-crt-mini { position: relative; border: 1px solid #994400; border-radius: 4px; background: #120500; overflow: hidden; flex-shrink: 0; width: 48px; height: 48px; padding: 2px; box-shadow: 0 0 10px rgba(200,90,0,0.3); }
+.venn-crt-mini::after { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(0deg,rgba(0,0,0,0) 0px,rgba(0,0,0,0) 1px,rgba(0,0,0,0.13) 1px,rgba(0,0,0,0.13) 2px); pointer-events: none; z-index: 2; }
+.venn-crt-mini::before { content: ''; position: absolute; width: 100%; height: 35%; background: linear-gradient(to bottom,transparent 0%,rgba(255,110,0,0.04) 50%,transparent 100%); animation: venn-scan-beam 5s linear infinite; pointer-events: none; z-index: 3; }
+.venn-crt-mini svg { width: 100%; height: 100%; image-rendering: pixelated; display: block; }
+#venn-header-info { flex: 1; min-width: 0; }
+#venn-header-name { font-family: 'Audiowide', sans-serif; font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; color: #00ee44; display: block; }
+#venn-header-sub { font-size: 0.57rem; letter-spacing: 0.08em; text-transform: uppercase; color: #886644; margin-top: 1px; display: block; }
+#venn-header-status { font-size: 0.57rem; letter-spacing: 0.08em; text-transform: uppercase; color: #aa6633; margin-top: 3px; display: block; }
+#venn-header-status.venn-live { color: #00cc44; }
+#venn-close { background: none; border: 1px solid #553300; color: #aa6633; font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; padding: 4px 7px; border-radius: 3px; cursor: pointer; letter-spacing: 1px; transition: border-color 0.15s, color 0.15s; flex-shrink: 0; }
+#venn-close:hover { border-color: #994400; color: #ff8844; }
+#venn-about-bar { border-bottom: 1px solid #1a0800; padding: 5px 10px; background: #0d0300; flex-shrink: 0; }
+#venn-about-link { display: inline-flex; align-items: center; gap: 5px; color: #cc4400; font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s; }
+#venn-about-link:hover { color: #ff7722; }
+#venn-messages { flex: 1; overflow-y: auto; padding: 10px 12px; display: flex; flex-direction: column; gap: 8px; min-height: 180px; max-height: 260px; scrollbar-width: thin; scrollbar-color: #441100 #0a0300; }
+#venn-messages::-webkit-scrollbar { width: 3px; }
+#venn-messages::-webkit-scrollbar-track { background: #0a0300; }
+#venn-messages::-webkit-scrollbar-thumb { background: #441100; border-radius: 2px; }
+.vmsg { font-size: 0.68rem; line-height: 1.5; padding: 6px 8px; border-radius: 3px; word-break: break-word; }
+.vmsg.vuser   { background: rgba(31,8,0,0.8); border-left: 2px solid #cc4400; color: #F5F5F5; align-self: flex-end; max-width: 88%; }
+.vmsg.vassist { background: rgba(0,20,6,0.8); border-left: 2px solid #00aa44; color: #F5F5F5; align-self: flex-start; max-width: 88%; }
+.vmsg.vsys    { color: #666; font-size: 0.6rem; letter-spacing: 1px; text-transform: uppercase; text-align: center; align-self: center; }
+#venn-input-row { display: flex; gap: 6px; padding: 8px 10px; border-top: 1px solid #180800; background: #0d0400; flex-shrink: 0; }
+#venn-input { flex: 1; background: #0a0200; border: 1px solid #2a1000; color: #ff8844; font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; padding: 6px 8px; border-radius: 3px; outline: none; }
+#venn-input:focus { border-color: #664400; }
+#venn-input::placeholder { color: #664422; }
+#venn-send { background: none; border: 1px solid #3a1500; color: #cc5500; font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; padding: 6px 10px; border-radius: 3px; cursor: pointer; letter-spacing: 1px; text-transform: uppercase; transition: border-color 0.1s, color 0.1s; flex-shrink: 0; }
+#venn-send:hover { border-color: #994400; color: #ff6600; }
+@keyframes venn-scan-beam { 0% { top: -35%; } 100% { top: 100%; } }
+@keyframes venn-eye-pulse { 0%,100%{opacity:1} 50%{opacity:0.70} }
+@keyframes venn-ant-l { 0%,87%,100%{opacity:1} 93%{opacity:0.12} }
+@keyframes venn-ant-r { 0%,87%,100%{opacity:1} 93%{opacity:0.12} }
+.venn-eye-anim { animation: venn-eye-pulse 2.8s ease-in-out infinite; }
+.venn-ant-l    { animation: venn-ant-l 3.6s ease-in-out infinite; }
+.venn-ant-r    { animation: venn-ant-r 3.6s ease-in-out infinite 1.8s; }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .phase-body-grid { grid-template-columns: 1fr; gap: 1.25rem; }
+  .principles-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  .principles-grid { grid-template-columns: 1fr; }
+  .phase-card { grid-template-columns: 48px 1fr; gap: 1rem; }
+  .loop-diagram { flex-direction: column; align-items: center; gap: 1rem; }
+  .loop-arrow-col { padding-top: 0; width: auto; transform: rotate(90deg); }
+  .loop-return { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="embers" id="embers"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="inner">
+    <a href="index.html" class="nav-logo" aria-label="The Dimensional Forge">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="40 40 430 430" style="height:32px;width:32px;border-radius:4px;" aria-hidden="true">
+        <defs><linearGradient id="ng" x1="0%" y1="0%" x2="100%" y2="100%"><stop stop-color="#EE4236" offset="0"/><stop stop-color="#FAAC3D" offset="1"/></linearGradient></defs>
+        <rect x="40" y="40" width="430" height="430" fill="#111"/>
+        <path fill="url(#ng)" d="M42.843,48.727c1.185,445.12-1.883,411.585,1.389,418.13c0.278,0.278,0.278,0.278,0.278,0.556c0.278,0.278,0.278,0.278,0.556,0.278c6.219,3.109-11.301,0.187,145.026,1.389H322.06c157.166-0.305,140.352,0.947,145.026-1.389c0.278,0,0.278-0.278,0.556-0.278c0.278-0.278,0.278-0.278,0.278-0.556c0.278-0.556,0.833-0.833,0.833-1.389c0.768-2.303,0.555-416.847,0.549-416.947v-1.43c0-2.337-1.915-4.221-4.252-4.182l-1.377,0.023c0,0-24.026,0.189-141.612-0.04H190.091C81.12,43.731,56.366,42.623,49.509,42.853h-2.578c-2.223,0-4.033,1.786-4.063,4.009L42.843,48.727z M326.227,457.411l-18.337-54.454h86.682l54.454,54.454H326.227z M62.847,457.411l54.454-54.454h86.682l-18.337,54.454H62.847z M185.646,54.561l18.337,54.454h-86.682L62.847,54.561H185.646z M449.027,54.561l-54.454,54.454H307.89l18.337-54.454H449.027z M327.894,319.609V192.642l63.345-63.345v253.379L327.894,319.609z M195.926,315.997V195.976h120.021v120.022H195.926z M183.979,192.364v126.967l-63.067,63.345V129.297L183.979,192.364z M382.626,120.962l-63.345,63.345h-36.673l21.115-63.345H382.626z M270.106,184.029H241.49l-21.115-63.345h70.846L270.106,184.029z M229.265,184.029h-36.951l-63.067-63.067h78.903L229.265,184.029z M108.966,117.35v277.272l-54.454,54.454V62.896L108.966,117.35z M129.247,391.01l63.345-63.345h36.673L208.15,391.01H129.247z M241.767,327.944h28.616l21.115,63.345h-71.124L241.767,327.944z M282.608,327.944h36.673l63.345,63.345h-78.903L282.608,327.944z M402.907,394.622V117.35l54.454-54.454v385.902L402.907,394.622z M313.725,54.561l-18.337,54.454h-78.903l-18.337-54.454H313.725z M198.148,457.411l18.337-54.454h78.903l18.337,54.454H198.148z"/>
+      </svg>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#glance">Overview</a></li>
+      <li><a href="#loop">The Loop</a></li>
+      <li><a href="#journey">Phases</a></li>
+      <li><a href="#philosophy">Philosophy</a></li>
+    </ul>
+    <a href="index.html#book" class="nav-back">Forge Together</a>
+
+    <!-- VENN nav widget -->
+    <div id="venn-widget">
+      <button id="venn-toggle" aria-label="Open VENN chat">
+        <svg id="vwt-face" viewBox="-20 -20 260 260" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+          <rect x="-20" y="-50" width="260" height="340" fill="#120500"/>
+          <rect x="-18" y="56" width="30" height="84" fill="#cc4400" rx="3"/>
+          <rect x="-14" y="60" width="22" height="76" fill="#1f0800" rx="2"/>
+          <rect x="208" y="56" width="30" height="84" fill="#cc4400" rx="3"/>
+          <rect x="212" y="60" width="22" height="76" fill="#1f0800" rx="2"/>
+          <rect x="-5"  y="-14" width="4"  height="70" fill="#cc4400"/>
+          <rect x="-10" y="-18" width="14" height="7"  fill="#ff7722" rx="2"/>
+          <rect x="221" y="-14" width="4"  height="70" fill="#cc4400"/>
+          <rect x="216" y="-18" width="14" height="7"  fill="#ff7722" rx="2"/>
+          <rect x="40"  y="10"  width="140" height="12" fill="#cc4400"/>
+          <rect x="16"  y="22"  width="24"  height="12" fill="#cc4400"/>
+          <rect x="180" y="22"  width="24"  height="12" fill="#cc4400"/>
+          <rect x="10"  y="34"  width="200" height="156" fill="#1f0800"/>
+          <rect x="10"  y="34"  width="12"  height="156" fill="#cc4400"/>
+          <rect x="198" y="34"  width="12"  height="156" fill="#cc4400"/>
+          <rect x="16"  y="190" width="24"  height="12" fill="#cc4400"/>
+          <rect x="180" y="190" width="24"  height="12" fill="#cc4400"/>
+          <rect x="40"  y="202" width="140" height="12" fill="#cc4400"/>
+          <rect id="vwt-leye"   x="36"  y="58" width="56" height="44" fill="#00ee44" rx="2"/>
+          <rect id="vwt-lpupil" x="50"  y="68" width="28" height="24" fill="#002208"/>
+          <rect id="vwt-lshine" x="50"  y="68" width="9"  height="9"  fill="#aaffcc" opacity="0.65"/>
+          <rect id="vwt-reye"   x="128" y="58" width="56" height="44" fill="#00ee44" rx="2"/>
+          <rect id="vwt-rpupil" x="142" y="68" width="28" height="24" fill="#002208"/>
+          <rect id="vwt-rshine" x="142" y="68" width="9"  height="9"  fill="#aaffcc" opacity="0.65"/>
+          <g id="vwt-mouth"></g>
+        </svg>
+      </button>
+      <div id="venn-panel">
+        <div id="venn-panel-header">
+          <div class="venn-crt-mini">
+            <svg viewBox="-20 -20 260 260" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <radialGradient id="vwh-glow" cx="50%" cy="45%" r="55%">
+                  <stop offset="0%"   stop-color="#ff5500" stop-opacity="0.09"/>
+                  <stop offset="100%" stop-color="#ff5500" stop-opacity="0"/>
+                </radialGradient>
+              </defs>
+              <rect x="-20" y="-50" width="260" height="340" fill="#120500"/>
+              <rect x="-18" y="56" width="30" height="84" fill="#cc4400" rx="3"/>
+              <rect x="-14" y="60" width="22" height="76" fill="#1f0800" rx="2"/>
+              <rect x="208" y="56" width="30" height="84" fill="#cc4400" rx="3"/>
+              <rect x="212" y="60" width="22" height="76" fill="#1f0800" rx="2"/>
+              <rect x="-5"  y="-14" width="4"  height="70" fill="#cc4400"/>
+              <rect class="venn-ant-l" x="-10" y="-18" width="14" height="7" fill="#ff7722" rx="2"/>
+              <rect x="221" y="-14" width="4"  height="70" fill="#cc4400"/>
+              <rect class="venn-ant-r" x="216" y="-18" width="14" height="7" fill="#ff7722" rx="2"/>
+              <rect x="40"  y="10"  width="140" height="12" fill="#cc4400"/>
+              <rect x="16"  y="22"  width="24"  height="12" fill="#cc4400"/>
+              <rect x="180" y="22"  width="24"  height="12" fill="#cc4400"/>
+              <rect x="10"  y="34"  width="200" height="156" fill="#1f0800"/>
+              <rect x="10"  y="34"  width="12"  height="156" fill="#cc4400"/>
+              <rect x="198" y="34"  width="12"  height="156" fill="#cc4400"/>
+              <rect x="16"  y="190" width="24"  height="12" fill="#cc4400"/>
+              <rect x="180" y="190" width="24"  height="12" fill="#cc4400"/>
+              <rect x="40"  y="202" width="140" height="12" fill="#cc4400"/>
+              <rect width="220" height="240" fill="url(#vwh-glow)"/>
+              <rect class="venn-eye-anim" id="vwh-leye"   x="36"  y="58" width="56" height="44" fill="#00ee44" rx="2"/>
+              <rect id="vwh-lpupil" x="50"  y="68" width="28" height="24" fill="#002208"/>
+              <rect id="vwh-lshine" x="50"  y="68" width="9"  height="9"  fill="#aaffcc" opacity="0.65"/>
+              <rect class="venn-eye-anim" id="vwh-reye"   x="128" y="58" width="56" height="44" fill="#00ee44" rx="2"/>
+              <rect id="vwh-rpupil" x="142" y="68" width="28" height="24" fill="#002208"/>
+              <rect id="vwh-rshine" x="142" y="68" width="9"  height="9"  fill="#aaffcc" opacity="0.65"/>
+              <g id="vwh-mouth"></g>
+            </svg>
+          </div>
+          <div id="venn-header-info">
+            <span id="venn-header-name">VENN</span>
+            <span id="venn-header-sub">The Dimensional Forge</span>
+            <span id="venn-header-status">● Bridge Offline</span>
+          </div>
+          <button id="venn-close" aria-label="Close">✕</button>
+        </div>
+        <div id="venn-about-bar">
+          <a href="venn-portfolio.html" target="_blank" id="venn-about-link">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            About VENN
+            <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
+        </div>
+        <div id="venn-messages"></div>
+        <div id="venn-input-row">
+          <input id="venn-input" type="text" placeholder="Ask VENN..." autocomplete="off"/>
+          <button id="venn-send">Send</button>
+        </div>
+      </div>
+    </div><!-- /venn-widget -->
+
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-inner">
+    <span class="hero-eyebrow">The Dimensional Forge &nbsp;·&nbsp; Process Documentation</span>
+    <svg class="hero-logomark" xmlns="http://www.w3.org/2000/svg" viewBox="40 40 430 430" aria-hidden="true">
+      <defs><linearGradient id="hg" x1="0%" y1="0%" x2="100%" y2="100%"><stop stop-color="#EE4236" offset="0"/><stop stop-color="#FAAC3D" offset="1"/></linearGradient></defs>
+      <rect x="40" y="40" width="430" height="430" fill="#111" rx="24"/>
+      <path fill="url(#hg)" d="M42.843,48.727c1.185,445.12-1.883,411.585,1.389,418.13c0.278,0.278,0.278,0.278,0.278,0.556c0.278,0.278,0.278,0.278,0.556,0.278c6.219,3.109-11.301,0.187,145.026,1.389H322.06c157.166-0.305,140.352,0.947,145.026-1.389c0.278,0,0.278-0.278,0.556-0.278c0.278-0.278,0.278-0.278,0.278-0.556c0.278-0.556,0.833-0.833,0.833-1.389c0.768-2.303,0.555-416.847,0.549-416.947v-1.43c0-2.337-1.915-4.221-4.252-4.182l-1.377,0.023c0,0-24.026,0.189-141.612-0.04H190.091C81.12,43.731,56.366,42.623,49.509,42.853h-2.578c-2.223,0-4.033,1.786-4.063,4.009L42.843,48.727z M326.227,457.411l-18.337-54.454h86.682l54.454,54.454H326.227z M62.847,457.411l54.454-54.454h86.682l-18.337,54.454H62.847z M185.646,54.561l18.337,54.454h-86.682L62.847,54.561H185.646z M449.027,54.561l-54.454,54.454H307.89l18.337-54.454H449.027z M327.894,319.609V192.642l63.345-63.345v253.379L327.894,319.609z M195.926,315.997V195.976h120.021v120.022H195.926z M183.979,192.364v126.967l-63.067,63.345V129.297L183.979,192.364z M382.626,120.962l-63.345,63.345h-36.673l21.115-63.345H382.626z M270.106,184.029H241.49l-21.115-63.345h70.846L270.106,184.029z M229.265,184.029h-36.951l-63.067-63.067h78.903L229.265,184.029z M108.966,117.35v277.272l-54.454,54.454V62.896L108.966,117.35z M129.247,391.01l63.345-63.345h36.673L208.15,391.01H129.247z M241.767,327.944h28.616l21.115,63.345h-71.124L241.767,327.944z M282.608,327.944h36.673l63.345,63.345h-78.903L282.608,327.944z M402.907,394.622V117.35l54.454-54.454v385.902L402.907,394.622z M313.725,54.561l-18.337,54.454h-78.903l-18.337-54.454H313.725z M198.148,457.411l18.337-54.454h78.903l18.337,54.454H198.148z"/>
+    </svg>
+    <h1 class="hero-title">The Forge<br>Method</h1>
+    <p class="hero-sub">Agile Systems Engineering &nbsp;·&nbsp; Physical Products</p>
+    <p class="hero-desc">The discipline of <strong>systems engineering</strong> (architecture, interfaces, verification, validation) run with <strong>agile's short, iterative build-test-learn loops</strong>. One full lifecycle that scales to the work in front of it.</p>
+    <a href="#glance" class="hero-scroll">
+      <span class="hero-scroll-text">See the process</span>
+      <div class="scroll-chevron"></div>
+    </a>
+  </div>
+</section>
+
+<!-- AT A GLANCE -->
+<section class="section" id="glance">
+  <div class="container">
+    <span class="label">The Process, Compressed</span>
+    <h2 class="section-title">Six Phases. One Direction.</h2>
+    <hr class="rule">
+    <p class="section-lead">Every engagement maps to this lifecycle. You don't have to run all six — just the ones your project actually needs.</p>
+    <div class="glance-wrap">
+      <div class="glance-strip">
+        <div class="glance-card" style="--gc-color:#FAAC3D;">
+          <span class="glance-watermark">0</span>
+          <span class="glance-dot"></span>
+          <span class="glance-forge">Reading the Order</span>
+          <span class="glance-title">Discovery &amp; Definition</span>
+        </div>
+        <div class="glance-card" style="--gc-color:#F5922B;">
+          <span class="glance-watermark">1</span>
+          <span class="glance-dot"></span>
+          <span class="glance-forge">Striking Concepts</span>
+          <span class="glance-title">Concept &amp; Feasibility</span>
+        </div>
+        <div class="glance-card" style="--gc-color:#F0782D;">
+          <span class="glance-watermark">2</span>
+          <span class="glance-dot"></span>
+          <span class="glance-forge">Shaping at the Anvil</span>
+          <span class="glance-title">Design &amp; Verification</span>
+        </div>
+        <div class="glance-card" style="--gc-color:#EC6030;">
+          <span class="glance-watermark">3</span>
+          <span class="glance-dot"></span>
+          <span class="glance-forge">Forging in Metal</span>
+          <span class="glance-title">Material Prototype &amp; Validation</span>
+        </div>
+        <div class="glance-card" style="--gc-color:#EE4836;">
+          <span class="glance-watermark">4</span>
+          <span class="glance-dot"></span>
+          <span class="glance-forge">Tempering for Production</span>
+          <span class="glance-title">Production &amp; Launch</span>
+        </div>
+        <div class="glance-card" style="--gc-color:#EE4236;">
+          <span class="glance-watermark">5</span>
+          <span class="glance-dot"></span>
+          <span class="glance-forge">Banking the Coals</span>
+          <span class="glance-title">Handoff &amp; Lifecycle</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MILESTONE LOOP -->
+<section class="section loop-section" id="loop">
+  <div class="container">
+    <span class="label">The Engine of Progress</span>
+    <h2 class="section-title">The Milestone Loop</h2>
+    <hr class="rule">
+    <p class="section-lead">Inside every design and prototype phase runs the same three-beat cycle. This is the real unit of work — and the rhythm that keeps you in the loop the whole way through.</p>
+
+    <div class="loop-wrap">
+      <div class="loop-diagram">
+
+        <div class="loop-node" style="--ln-color: var(--df-gold);">
+          <div class="loop-icon">
+            <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+          </div>
+          <div class="loop-name">Build the Milestone</div>
+          <div class="loop-sub">model · plan · prototype</div>
+        </div>
+
+        <div class="loop-arrow-col"><div class="loop-arr"></div></div>
+
+        <div class="loop-node" style="--ln-color: var(--df-orange);">
+          <div class="loop-icon">
+            <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </div>
+          <div class="loop-name">Your Review</div>
+          <div class="loop-sub">see it · give feedback</div>
+        </div>
+
+        <div class="loop-arrow-col"><div class="loop-arr"></div></div>
+
+        <div class="loop-node" style="--ln-color: var(--df-red);">
+          <div class="loop-icon">
+            <svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.5"/></svg>
+          </div>
+          <div class="loop-name">Revision Round</div>
+          <div class="loop-sub">built in · then lock</div>
+        </div>
+
+      </div>
+      <div class="loop-return">
+        <div class="loop-return-line"></div>
+        <div class="loop-return-left"></div>
+        <div class="loop-return-right"></div>
+        <div class="loop-return-arrowhead"></div>
+      </div>
+    </div>
+
+    <p class="loop-note">
+      Physical phases add <b>Test</b> between Build and Review — real-world data feeds the revision.
+      A revision round is built into every milestone. Bigger new requests become <b>their own scope</b>.
+    </p>
+  </div>
+</section>
+
+<!-- FORGE LINE -->
+<section class="section" id="journey">
+  <div class="container">
+    <span class="label">The Journey, Phase by Phase</span>
+    <h2 class="section-title">The Forge Line</h2>
+    <hr class="rule">
+    <p class="section-lead">Six clear phases from idea to launch. Gold chips mark the systems-engineering rigor that separates a real product development process from winging it.</p>
+  </div>
+
+  <div class="phase-tracker" id="phase-tracker">
+    <div class="tracker-inner">
+      <div class="tracker-item">
+        <div class="tracker-dot" data-idx="0" style="--td-color:#FAAC3D;"></div>
+        <span class="tracker-label" style="color:#FAAC3D;">Discovery</span>
+        <div class="tracker-seg" data-seg="0"></div>
+      </div>
+      <div class="tracker-item">
+        <div class="tracker-dot" data-idx="1" style="--td-color:#F5922B;"></div>
+        <span class="tracker-label" style="color:#F5922B;">Concept</span>
+        <div class="tracker-seg" data-seg="1"></div>
+      </div>
+      <div class="tracker-item">
+        <div class="tracker-dot" data-idx="2" style="--td-color:#F0782D;"></div>
+        <span class="tracker-label" style="color:#F0782D;">Design</span>
+        <div class="tracker-seg" data-seg="2"></div>
+      </div>
+      <div class="tracker-item">
+        <div class="tracker-dot" data-idx="3" style="--td-color:#EC6030;"></div>
+        <span class="tracker-label" style="color:#EC6030;">Prototype</span>
+        <div class="tracker-seg" data-seg="3"></div>
+      </div>
+      <div class="tracker-item">
+        <div class="tracker-dot" data-idx="4" style="--td-color:#EE4836;"></div>
+        <span class="tracker-label" style="color:#EE4836;">Production</span>
+        <div class="tracker-seg" data-seg="4"></div>
+      </div>
+      <div class="tracker-item">
+        <div class="tracker-dot" data-idx="5" style="--td-color:#EE4236;"></div>
+        <span class="tracker-label" style="color:#EE4236;">Handoff</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="phase-track">
+
+      <!-- PHASE 0 -->
+      <div class="phase-card" data-phase="0" style="--pc-color:#FAAC3D;">
+        <div class="phase-gutter"><div class="phase-node">0</div><div class="phase-vline"></div></div>
+        <div class="phase-content">
+          <div class="phase-head">
+            <span class="phase-forge">Reading the Order</span>
+            <div class="phase-title">Phase 0: Discovery &amp; Definition</div>
+          </div>
+          <div class="phase-body-grid">
+            <div>
+              <p class="phase-desc">First, we talk. I learn your idea, what you actually need, and what "done" looks like — then turn it into a clear scope, an honest quote, and a written spec. We make sure we're building the <em>right</em> thing before anyone touches CAD.</p>
+            </div>
+            <div>
+              <div class="steps">
+                <span>Discovery consult (30–60 min)</span>
+                <span>Estimate &amp; quote</span>
+                <span>Requirements &amp; benchmarking</span>
+                <span class="gold">Success &amp; acceptance criteria</span>
+                <span class="gold">Standards &amp; compliance check</span>
+              </div>
+              <div class="output"><b>You get:</b> a signed scope, a fixed quote, and a clear definition of done.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHASE 1 -->
+      <div class="phase-card" data-phase="1" style="--pc-color:#F5922B;">
+        <div class="phase-gutter"><div class="phase-node">1</div><div class="phase-vline"></div></div>
+        <div class="phase-content">
+          <div class="phase-head">
+            <span class="phase-forge">Striking Concepts</span>
+            <div class="phase-title">Phase 1: Concept &amp; Feasibility</div>
+          </div>
+          <div class="phase-body-grid">
+            <div>
+              <p class="phase-desc">Next, we explore. I sketch a few different ways to solve it, map out how the whole system fits together, and pressure-test whether we can actually build it — including what's available off-the-shelf and whether anyone already owns the idea.</p>
+            </div>
+            <div>
+              <div class="steps">
+                <span>Multiple concepts</span>
+                <span>System architecture &amp; interfaces</span>
+                <span>Build-vs-buy / off-the-shelf</span>
+                <span>Feasibility &amp; readiness</span>
+                <span class="gold">IP / prior-art check</span>
+              </div>
+              <div class="output"><b>You get:</b> a chosen direction, a system map, and an honest go / no-go read. You pick the concept before we invest in detailed CAD.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHASE 2 -->
+      <div class="phase-card" data-phase="2" style="--pc-color:#F0782D;">
+        <div class="phase-gutter"><div class="phase-node"><span class="spin">⟳</span></div><div class="phase-vline"></div></div>
+        <div class="phase-content">
+          <div class="phase-head">
+            <span class="phase-forge">Shaping at the Anvil</span>
+            <div class="phase-title">Phase 2: Design, Proof of Concept &amp; Verification</div>
+            <div class="phase-iter-tag">↺ &nbsp;print · test · refine · repeat</div>
+          </div>
+          <div class="phase-body-grid">
+            <div>
+              <p class="phase-desc">Now we make it real on screen and prove the idea works. Detailed engineering across mechanical, electrical, and software — then fast 3D-printed proofs we test against the spec, round after round, until the concept holds up. This is <em>verification</em>: confirming we built it right against the requirements set in Phase 0.</p>
+            </div>
+            <div>
+              <div class="steps">
+                <span>Detailed CAD</span>
+                <span>Electrical / PCB</span>
+                <span>Firmware &amp; app</span>
+                <span>3D-printed proof of concept</span>
+                <span>Test &amp; iterate</span>
+                <span class="gold">Verify vs. requirements: "built it right?"</span>
+              </div>
+              <div class="output"><b>You get:</b> a fully engineered design and a verified proof of concept that meets the spec.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHASE 3 -->
+      <div class="phase-card" data-phase="3" style="--pc-color:#EC6030;">
+        <div class="phase-gutter"><div class="phase-node"><span class="spin">⟳</span></div><div class="phase-vline"></div></div>
+        <div class="phase-content">
+          <div class="phase-head">
+            <span class="phase-forge">Forging in Metal</span>
+            <div class="phase-title">Phase 3: Material Prototype &amp; Validation</div>
+            <div class="phase-iter-tag">↺ &nbsp;wrong material? try another</div>
+          </div>
+          <div class="phase-body-grid">
+            <div>
+              <p class="phase-desc">Then we build something that looks and behaves like the real product — in the actual materials (sheet metal, steel, wood). We test that it holds up, then put it in front of real users to <em>validate</em> it actually solves the original problem. If a material isn't right, we loop back and try another.</p>
+            </div>
+            <div>
+              <div class="steps">
+                <span>Material-intention prototype</span>
+                <span>Real materials (metal / wood / machined)</span>
+                <span>Bench &amp; field testing</span>
+                <span class="gold">Validate with users: "built the right thing?"</span>
+                <span>Re-select material &amp; loop</span>
+              </div>
+              <div class="output"><b>You get:</b> a representative prototype, proven in real materials and validated against your original need.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHASE 4 -->
+      <div class="phase-card" data-phase="4" style="--pc-color:#EE4836;">
+        <div class="phase-gutter"><div class="phase-node">4</div><div class="phase-vline"></div></div>
+        <div class="phase-content">
+          <div class="phase-head">
+            <span class="phase-forge">Tempering for Production</span>
+            <div class="phase-title">Phase 4: Production &amp; Launch</div>
+          </div>
+          <div class="phase-body-grid">
+            <div>
+              <p class="phase-desc">With the design proven, we make it manufacturable and get it ready to produce at scale — dialing in the process, locking the design, and lining up suppliers and tooling for launch.</p>
+            </div>
+            <div>
+              <div class="steps">
+                <span>Design for manufacturing (DFM/DFA)</span>
+                <span>Material &amp; process confirmation</span>
+                <span>Supplier quoting</span>
+                <span>Tooling &amp; pilot run</span>
+                <span>Design freeze</span>
+                <span>QC, packaging &amp; launch prep</span>
+              </div>
+              <div class="output"><b>You get:</b> a production-ready design, a vetted supply chain, and a launch plan.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHASE 5 -->
+      <div class="phase-card" data-phase="5" style="--pc-color:#EE4236;">
+        <div class="phase-gutter"><div class="phase-node">5</div></div>
+        <div class="phase-content">
+          <div class="phase-head">
+            <span class="phase-forge">Banking the Coals</span>
+            <div class="phase-title">Phase 5: Handoff &amp; Lifecycle</div>
+          </div>
+          <div class="phase-body-grid">
+            <div>
+              <p class="phase-desc">Finally, we hand it off clean (tested, documented, and reconciled), capture what we learned, and stay available to support it: revisions, sustaining engineering, and planning ahead for parts that'll need replacing down the road.</p>
+            </div>
+            <div>
+              <div class="steps">
+                <span>Final handoff &amp; delivery</span>
+                <span>Invoice &amp; timeline reconciled</span>
+                <span>Lessons learned &amp; archive</span>
+                <span class="gold">Sustaining / rev-2s</span>
+                <span class="gold">Obsolescence &amp; end-of-life</span>
+              </div>
+              <div class="output"><b>You get:</b> a delivered product, a clean archive, and a plan for what's next.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PHILOSOPHY -->
+<section class="section" id="philosophy">
+  <div class="container">
+    <span class="label">The Operating Philosophy</span>
+    <h2 class="section-title">How the Forge Actually Runs</h2>
+    <hr class="rule">
+    <p class="section-lead">The Forge Method is agile systems engineering: the discipline of systems thinking (architecture, interfaces, requirements) run with short, iterative build-test-learn loops. One DNA. Scales to a quick fab job or a multi-month product launch.</p>
+
+    <div class="principles-grid">
+      <div class="principle-item">
+        <span class="p-num">01</span>
+        <h4 class="p-title">Right-Size the Process</h4>
+        <p class="p-body">The full six-phase lifecycle is the menu, not the mandate. A small job uses a couple of phases; a new product runs all six. You only pay for the phases your project actually needs.</p>
+      </div>
+      <div class="principle-item">
+        <span class="p-num">02</span>
+        <h4 class="p-title">Architect the Whole System</h4>
+        <p class="p-body">Before any single part is detailed, the whole solution is mapped as a system — functions split across mechanical, electrical, firmware, and software, with every interface defined. Pieces connect cleanly, not bolted together later.</p>
+      </div>
+      <div class="principle-item">
+        <span class="p-num">03</span>
+        <h4 class="p-title">Milestone, Review, Revise</h4>
+        <p class="p-body">Work moves in clear milestones. Each one comes to you for review with a revision round already built in, so your feedback is expected and planned for — never a surprise. Bigger new asks become their own scope.</p>
+      </div>
+      <div class="principle-item">
+        <span class="p-num">04</span>
+        <h4 class="p-title">Prove the Form, Then the Material</h4>
+        <p class="p-body">A proof of concept proves the <em>idea</em> works in fast 3D prints. A material prototype proves it holds up in the <em>real materials</em> (metal, steel, wood). Two honest checks, not one hopeful leap.</p>
+      </div>
+      <div class="principle-item">
+        <span class="p-num">05</span>
+        <h4 class="p-title">Verify <em>and</em> Validate</h4>
+        <p class="p-body">Verify the product is built right against the spec, then validate it solves your <em>original</em> problem with real users. Building it correctly and building the right thing are two different wins.</p>
+      </div>
+      <div class="principle-item">
+        <span class="p-num">06</span>
+        <h4 class="p-title">Buy Before You Build</h4>
+        <p class="p-body">Prefer proven off-the-shelf parts wherever they fit. Every custom or unproven component is technical debt paid back later in testing and lead time.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- START ANYWHERE CTA -->
+<div class="cta-close">
+  <span class="cta-eyebrow">Start Anywhere · Go As Far As You Need</span>
+  <h2 class="cta-title">Not Every Build<br>Starts at Zero</h2>
+  <p class="cta-body">This is the full journey, but you don't have to walk all of it with me. Already have a design that needs prototyping? A prototype that needs a production ramp? We pick it up from <em>there</em>. The process flexes to you, not the other way around.</p>
+  <div class="cta-btns">
+    <a href="index.html#book" class="btn btn-primary">Forge Together</a>
+    <a href="index.html" class="btn btn-ghost">Back to Main Site</a>
+  </div>
+</div>
+
+<script>
+(function() {
+  // Embers
+  const wrap = document.getElementById('embers');
+  for (let i = 0; i < 22; i++) {
+    const e = document.createElement('div');
+    e.className = 'ember';
+    const sz = (1.5 + Math.random() * 2) + 'px';
+    e.style.cssText = [
+      'width:' + sz, 'height:' + sz,
+      'left:' + (Math.random() * 100) + '%',
+      'top:' + (80 + Math.random() * 20) + '%',
+      'background:' + (Math.random() > 0.5 ? '#F0782D' : '#FAAC3D'),
+      'animation-duration:' + (8 + Math.random() * 10) + 's',
+      'animation-delay:' + (Math.random() * 10) + 's',
+      '--dx:' + (Math.random() * 80 - 40) + 'px'
+    ].join(';');
+    wrap.appendChild(e);
+  }
+
+  // Phase tracker
+  const dots = document.querySelectorAll('.tracker-dot[data-idx]');
+  const segs = document.querySelectorAll('.tracker-seg[data-seg]');
+  const cards = document.querySelectorAll('.phase-card[data-phase]');
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const n = parseInt(entry.target.dataset.phase, 10);
+      dots.forEach((d, i) => d.classList.toggle('lit', i <= n));
+      segs.forEach((s, i) => s.classList.toggle('lit', i < n));
+    });
+  }, { rootMargin: '-20% 0px -20% 0px' });
+
+  cards.forEach(c => obs.observe(c));
+})();
+</script>
+
+<script>
+(function () {
+  const G = '#00ee44', D = '#050f07';
+  const THINK_LOOKS = [[8,-5,true],[2,-4,true],[-6,-4,true],[2,-4,true]];
+  const SPEAK_CYCLE = ['open','mid','small','mid','open','small','mid'];
+
+  const leye   = document.getElementById('vwh-leye');
+  const reye   = document.getElementById('vwh-reye');
+  const lpupil = document.getElementById('vwh-lpupil');
+  const rpupil = document.getElementById('vwh-rpupil');
+  const lshine = document.getElementById('vwh-lshine');
+  const rshine = document.getElementById('vwh-rshine');
+  const mouthEl  = document.getElementById('vwh-mouth');
+  const statusEl = document.getElementById('venn-header-status');
+
+  let eyePos = { dx:0, dy:0, squint:false };
+  let speakTimer = null, speakFrame = 0;
+  let thinkEyeTimer = null, thinkEyePhase = 0;
+
+  function getMouths() {
+    return {
+      idle:     `<rect x="56" y="152" width="14" height="10" fill="${G}"/><rect x="150" y="152" width="14" height="10" fill="${G}"/><rect x="70" y="162" width="80" height="10" fill="${G}"/>`,
+      thinking: `<rect x="68" y="158" width="66" height="7" fill="${G}"/><rect x="134" y="153" width="18" height="5" fill="${G}"/><rect x="152" y="150" width="10" height="4" fill="${G}"/>`,
+      small:    `<rect x="50" y="148" width="120" height="8" fill="${G}"/><rect x="42" y="156" width="8" height="14" fill="${G}"/><rect x="170" y="156" width="8" height="14" fill="${G}"/><rect x="50" y="170" width="120" height="8" fill="${G}"/><rect x="58" y="156" width="104" height="14" fill="${D}"/>`,
+      mid:      `<rect x="48" y="142" width="124" height="8" fill="${G}"/><rect x="40" y="150" width="8" height="22" fill="${G}"/><rect x="172" y="150" width="8" height="22" fill="${G}"/><rect x="48" y="172" width="124" height="8" fill="${G}"/><rect x="56" y="150" width="108" height="22" fill="${D}"/><rect x="66" y="150" width="22" height="11" fill="${G}" opacity="0.75"/><rect x="99" y="150" width="22" height="11" fill="${G}" opacity="0.75"/><rect x="132" y="150" width="22" height="11" fill="${G}" opacity="0.75"/>`,
+      open:     `<rect x="46" y="134" width="128" height="8" fill="${G}"/><rect x="38" y="142" width="8" height="38" fill="${G}"/><rect x="174" y="142" width="8" height="38" fill="${G}"/><rect x="46" y="180" width="128" height="8" fill="${G}"/><rect x="54" y="142" width="112" height="38" fill="${D}"/><rect x="62" y="142" width="24" height="15" fill="${G}" opacity="0.7"/><rect x="98" y="142" width="24" height="15" fill="${G}" opacity="0.7"/><rect x="134" y="142" width="24" height="15" fill="${G}" opacity="0.7"/>`,
+    };
+  }
+
+  function setMouth(k) { mouthEl.innerHTML = getMouths()[k] || getMouths().idle; }
+
+  function setEyePos(dx, dy, squint) {
+    eyePos = { dx, dy, squint };
+    const h = squint ? 30 : 44, y = squint ? 65 : 58;
+    leye.setAttribute('height', h);   leye.setAttribute('y', y);
+    reye.setAttribute('height', h);   reye.setAttribute('y', y);
+    lpupil.setAttribute('x', 50+dx);  lpupil.setAttribute('y', 68+dy);
+    rpupil.setAttribute('x', 142+dx); rpupil.setAttribute('y', 68+dy);
+    lshine.setAttribute('x', 50+dx);  lshine.setAttribute('y', 68+dy);
+    rshine.setAttribute('x', 142+dx); rshine.setAttribute('y', 68+dy);
+  }
+
+  function startThinkingEyes() {
+    clearInterval(thinkEyeTimer); thinkEyePhase = 0; setEyePos(...THINK_LOOKS[0]);
+    thinkEyeTimer = setInterval(() => {
+      thinkEyePhase = (thinkEyePhase + 1) % THINK_LOOKS.length;
+      setEyePos(...THINK_LOOKS[thinkEyePhase]);
+    }, 900);
+  }
+  function stopThinkingEyes() { clearInterval(thinkEyeTimer); thinkEyeTimer = null; setEyePos(0,0,false); }
+
+  function setState(s) {
+    clearInterval(speakTimer);
+    if (s !== 'thinking') stopThinkingEyes();
+    switch (s) {
+      case 'idle':
+        statusEl.textContent = '● Bridge Offline'; statusEl.className = '';
+        setMouth('idle'); break;
+      case 'idle-live':
+        statusEl.textContent = '● Online'; statusEl.className = 'venn-live';
+        setMouth('idle'); break;
+      case 'thinking':
+        statusEl.textContent = '◌ Thinking...'; statusEl.className = '';
+        setMouth('thinking'); startThinkingEyes(); break;
+      case 'responding':
+        statusEl.textContent = '▶ Responding'; statusEl.className = 'venn-live';
+        speakFrame = 0;
+        speakTimer = setInterval(() => setMouth(SPEAK_CYCLE[speakFrame++ % SPEAK_CYCLE.length]), 140);
+        break;
+    }
+  }
+
+  function blink() {
+    const by = eyePos.squint ? 79 : 78;
+    leye.setAttribute('height','4'); leye.setAttribute('y', by);
+    reye.setAttribute('height','4'); reye.setAttribute('y', by);
+    [lpupil,rpupil,lshine,rshine].forEach(e => e.setAttribute('opacity','0'));
+    setTimeout(() => {
+      setEyePos(eyePos.dx, eyePos.dy, eyePos.squint);
+      [lpupil,rpupil,lshine,rshine].forEach(e => e.removeAttribute('opacity'));
+    }, 100);
+    setTimeout(blink, 3000 + Math.random() * 4000);
+  }
+
+  const messagesEl = document.getElementById('venn-messages');
+
+  function addMsg(role, text) {
+    const div = document.createElement('div');
+    div.className = 'vmsg ' + role;
+    div.textContent = text;
+    messagesEl.appendChild(div);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  const BRIDGE_URL = 'http://localhost:7852/chat';
+
+  async function sendMessage(text) {
+    text = text.trim(); if (!text) return;
+    addMsg('vuser', text);
+    document.getElementById('venn-input').value = '';
+    setState('thinking');
+    try {
+      const resp = await fetch(BRIDGE_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: text }),
+        signal: AbortSignal.timeout(8000),
+      });
+      if (!resp.ok) throw new Error('bridge error');
+      const data = await resp.json();
+      const reply = data.reply || data.message || '[no response]';
+      setState('responding');
+      addMsg('vassist', reply);
+      setTimeout(() => setState('idle-live'), Math.max(1400, reply.split(' ').length * 180));
+    } catch {
+      setState('idle');
+      addMsg('vsys', 'bridge offline — wire up venn to enable chat');
+    }
+  }
+
+  const toggle   = document.getElementById('venn-toggle');
+  const panel    = document.getElementById('venn-panel');
+  const closeBtn = document.getElementById('venn-close');
+  const input    = document.getElementById('venn-input');
+  const sendBtn  = document.getElementById('venn-send');
+
+  toggle.addEventListener('click', () => panel.classList.toggle('venn-open'));
+  closeBtn.addEventListener('click', () => panel.classList.remove('venn-open'));
+  sendBtn.addEventListener('click', () => sendMessage(input.value));
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') sendMessage(input.value); });
+
+  setMouth('idle');
+  setTimeout(blink, 1800 + Math.random() * 2000);
+  addMsg('vsys', 'venn // the dimensional forge // bridge offline');
+
+  // Badge face (toggle button)
+  const BADGE_CYCLE = ['idle','thinking','small','idle','mid','idle','open','idle'];
+  const tleye   = document.getElementById('vwt-leye');
+  const treye   = document.getElementById('vwt-reye');
+  const tlpupil = document.getElementById('vwt-lpupil');
+  const trpupil = document.getElementById('vwt-rpupil');
+  const tlshine = document.getElementById('vwt-lshine');
+  const trshine = document.getElementById('vwt-rshine');
+  const tmouthEl = document.getElementById('vwt-mouth');
+  let tEyePos = { dx:0, dy:0, squint:false };
+
+  function setTMouth(k) { tmouthEl.innerHTML = getMouths()[k] || getMouths().idle; }
+
+  function setTEyePos(dx, dy, squint) {
+    tEyePos = { dx, dy, squint };
+    const h = squint ? 30 : 44, y = squint ? 65 : 58;
+    tleye.setAttribute('height', h);   tleye.setAttribute('y', y);
+    treye.setAttribute('height', h);   treye.setAttribute('y', y);
+    tlpupil.setAttribute('x', 50+dx);  tlpupil.setAttribute('y', 68+dy);
+    trpupil.setAttribute('x', 142+dx); trpupil.setAttribute('y', 68+dy);
+    tlshine.setAttribute('x', 50+dx);  tlshine.setAttribute('y', 68+dy);
+    trshine.setAttribute('x', 142+dx); trshine.setAttribute('y', 68+dy);
+  }
+
+  let badgeCycleIdx = 0;
+  function runBadgeCycle() {
+    setTimeout(() => {
+      const k = BADGE_CYCLE[badgeCycleIdx++ % BADGE_CYCLE.length];
+      setTMouth(k);
+      if (k === 'thinking') setTEyePos(...THINK_LOOKS[Math.floor(Math.random()*4)]);
+      else setTEyePos(0,0,false);
+      runBadgeCycle();
+    }, 2200 + Math.random() * 800);
+  }
+
+  function tBlink() {
+    const by = tEyePos.squint ? 79 : 78;
+    tleye.setAttribute('height','4'); tleye.setAttribute('y', by);
+    treye.setAttribute('height','4'); treye.setAttribute('y', by);
+    [tlpupil,trpupil,tlshine,trshine].forEach(e => e.setAttribute('opacity','0'));
+    setTimeout(() => {
+      setTEyePos(tEyePos.dx, tEyePos.dy, tEyePos.squint);
+      [tlpupil,trpupil,tlshine,trshine].forEach(e => e.removeAttribute('opacity'));
+    }, 100);
+    setTimeout(tBlink, 3000 + Math.random() * 4000);
+  }
+
+  setTMouth('idle');
+  setTEyePos(0,0,false);
+  setTimeout(tBlink, 2500 + Math.random() * 2000);
+  runBadgeCycle();
+})();
+</script>
+
+  <!-- ── FOOTER ─────────────────────────────────────────────────────── -->
+  <footer>
+    <div class="container">
+      <div class="f-brand">The Dimensional Forge</div>
+      <p>Forging Dimensions: Utility, Fun, Artistry!</p>
+      <p style="margin-top:0.75rem;font-size:0.75rem;">
+        <a href="mailto:ConnectWithSean@the-dimensional-forge.net" style="color:var(--df-orange);text-decoration:none;">ConnectWithSean@the-dimensional-forge.net</a>
+        &nbsp;·&nbsp;
+        <a href="https://linkedin.com/in/seanneal19" target="_blank" style="color:var(--df-muted);text-decoration:none;">LinkedIn</a>
+        &nbsp;·&nbsp;
+        <a href="https://etsy.com/shop/DimensionalForgeProd" target="_blank" style="color:var(--df-muted);text-decoration:none;">Etsy Shop</a>
+        &nbsp;·&nbsp;
+        <a href="https://makerworld.com/en/@Dimensional.F" target="_blank" style="color:var(--df-muted);text-decoration:none;">MakerWorld</a>
+        &nbsp;·&nbsp;
+        <a href="https://cults3d.com/en/users/TheDimensionalForge/3d-models" target="_blank" style="color:var(--df-muted);text-decoration:none;">Cults3D</a>
+        &nbsp;·&nbsp;
+        <a href="https://thedimensionalforge.substack.com" target="_blank" style="color:var(--df-muted);text-decoration:none;">Substack</a>
+      </p>
+      <p style="margin-top:0.5rem;font-size:0.7rem;color:#444;">© 2024–2026 The Dimensional Forge · Sean Neal · Indianapolis, IN</p>
+    </div>
+  </footer>
+</body>
+</html>
