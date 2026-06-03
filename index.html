@@ -2025,7 +2025,7 @@
       const avg   = total ? (reviews.reduce((s, r) => s + parseFloat(r.rating), 0) / total) : 0;
       const dist  = [5,4,3,2,1].map(s => reviews.filter(r => Math.round(parseFloat(r.rating)) === s).length);
 
-      document.getElementById('rv-score').textContent = total ? avg.toFixed(1) : '—';
+      document.getElementById('rv-score').textContent = total ? avg.toFixed(2) : '—';
       document.getElementById('rv-stars-display').innerHTML = total
         ? starsHtml(avg, 'rv-star-icon')
         : '';
@@ -2040,7 +2040,7 @@
         heroNum.textContent = '—';
         heroLbl.textContent = 'Client Rating';
       } else {
-        heroNum.textContent = avg.toFixed(1) + '★';
+        heroNum.textContent = avg.toFixed(2) + '★';
         heroLbl.textContent = total === 1 ? 'Avg. Client Rating (1 review)' : `Avg. Client Rating (${total})`;
       }
 
