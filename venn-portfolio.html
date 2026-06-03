@@ -17,6 +17,13 @@
   --text:   #F5F5F5;
   --muted:  #A0A0A0;
   --grad:   linear-gradient(90deg, #EE4236 0%, #F0782D 50%, #FAAC3D 100%);
+  /* Hero terminal palette */
+  --green:  #00ee44;
+  --amber:  #ffae5e;
+  --line:   #3a2410;        /* warm terminal hairline */
+  --panel:  #0c0500;        /* warm near-black panel */
+  --panel2: #080300;
+  --glow:   rgba(240,120,45,0.55);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -102,14 +109,45 @@ body {
   -webkit-background-clip: text; background-clip: text; color: transparent;
 }
 .title-small {
-  font-size: 8px; letter-spacing: 5px; text-transform: uppercase;
-  color: var(--muted); margin-top: 5px;
+  font-size: 13px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--muted); margin-top: 8px;
 }
+
+/* Hero pitch — plain-English "what / why / problem" under the title.
+   Mirrors the page's prose system: dim body (.impact-desc) + orange primary
+   accent / gold highlight (.spec-val / .spec-val.hi). */
+.hero-pitch {
+  max-width: clamp(480px, 58vw, 800px);
+  margin: 18px auto 4px;
+  font-size: 14px;
+  line-height: 1.7;
+  letter-spacing: 0;
+  color: #6a6a6a;
+  text-align: left;
+}
+.hero-pitch .hp-row {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: 22px;
+  margin-bottom: 26px;
+  align-items: baseline;
+}
+.hero-pitch .hp-row:last-child { margin-bottom: 0; }
+.hero-pitch .hp-row p { margin: 0; }
+.hero-pitch .hp-label {
+  font-family: 'Sora', sans-serif; font-weight: 300;
+  font-size: 17px; letter-spacing: 3px; text-transform: uppercase;
+  background: var(--grad);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  text-align: right;
+}
+.hero-pitch .hp-lead { color: var(--orange); }
+.hero-pitch .hp-hi   { color: var(--gold); }
 
 .divider { width: 100%; max-width: clamp(600px, 62vw, 860px); height: 1px; background: var(--brush); flex-shrink: 0; }
 
 /* Center row */
-.center-row { display: flex; align-items: stretch; gap: clamp(16px, 2vw, 32px); flex-shrink: 0; }
+.center-row { display: flex; align-items: stretch; gap: clamp(24px, 2.5vw, 40px); flex-shrink: 0; }
 
 /* Annotation columns */
 .ann-col { width: clamp(130px, 13vw, 200px); display: flex; flex-direction: column; justify-content: space-around; padding: 16px 0; }
@@ -117,13 +155,13 @@ body {
 .ann-col.left  .ann-item { flex-direction: row; }
 .ann-col.right .ann-item { flex-direction: row-reverse; }
 .ann-txt {
-  font-size: 7.5px; letter-spacing: 1.5px; line-height: 1.6;
+  font-size: 10px; letter-spacing: 1px; line-height: 1.6;
   text-transform: uppercase; color: var(--muted);
-  flex-shrink: 0; width: clamp(78px, 7vw, 108px);
+  flex-shrink: 0; width: clamp(96px, 8vw, 128px);
 }
 .ann-col.left  .ann-txt { text-align: right; }
 .ann-col.right .ann-txt { text-align: left; }
-.ann-txt b { display: block; color: var(--orange); font-weight: 400; font-size: 8.5px; margin-bottom: 1px; }
+.ann-txt b { display: block; color: var(--orange); font-weight: 400; font-size: 11px; margin-bottom: 2px; }
 .ann-dash { flex: 1; height: 1px; }
 .ann-col.left  .ann-dash { background: linear-gradient(to right, transparent, var(--brush)); }
 .ann-col.right .ann-dash { background: linear-gradient(to left,  transparent, var(--brush)); }
@@ -162,8 +200,8 @@ body {
   width: clamp(130px, 13vw, 200px); display: flex; flex-direction: column; justify-content: space-around;
   padding: 16px 0 16px 18px; border-left: 1px solid var(--brush);
 }
-.spec-key { font-size: 6.5px; letter-spacing: 3px; text-transform: uppercase; color: #444; margin-bottom: 5px; line-height: 1.3; }
-.spec-val { font-size: 9.5px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--orange); line-height: 1.45; }
+.spec-key { font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; color: #666; margin-bottom: 6px; line-height: 1.3; }
+.spec-val { font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--orange); line-height: 1.45; }
 .spec-val.hi { color: var(--gold); }
 
 /* Status strip */
@@ -240,6 +278,295 @@ body {
 .eye-glow { animation: eye-pulse 2.8s ease-in-out infinite; }
 .ant-l    { animation: ant-l 3.6s ease-in-out infinite; }
 .ant-r    { animation: ant-r 3.6s ease-in-out infinite 1.8s; }
+
+/* ═══════════════════════════════════════════════════════════
+   HERO — TERMINAL CONCEPT (VENN AUTONOMOUS ASSISTANT UNIT)
+   ═══════════════════════════════════════════════════════════ */
+.stage {
+  position: relative; z-index: 1;
+  min-height: 100vh; min-height: 100dvh;
+  display: flex; align-items: center; justify-content: center;
+  padding: 22px;
+  scroll-snap-align: start;
+}
+.term {
+  position: relative;
+  width: 100%; max-width: 1180px;
+  color: var(--amber);
+  background: rgba(10,10,10,0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid #3a3a3a;
+  border-radius: 8px;
+  box-shadow:
+    0 0 0 1px #222,
+    0 0 30px rgba(0,0,0,0.4);
+  overflow: hidden;
+}
+/* CRT scanlines + flicker over the whole panel */
+.term::after {
+  content: ''; position: absolute; inset: 0; z-index: 40; pointer-events: none;
+  background: repeating-linear-gradient(0deg,
+    rgba(0,0,0,0) 0px, rgba(0,0,0,0) 1.5px,
+    rgba(0,0,0,0.16) 1.5px, rgba(0,0,0,0.16) 3px);
+}
+.term::before {
+  content: ''; position: absolute; left: 0; right: 0; height: 28%; z-index: 41;
+  background: linear-gradient(to bottom, transparent, rgba(255,150,40,0.045), transparent);
+  animation: sweep 6s linear infinite; pointer-events: none;
+}
+@keyframes sweep { 0% { top: -28%; } 100% { top: 100%; } }
+@keyframes flicker { 0%,100%{opacity:1} 92%{opacity:1} 93%{opacity:0.82} 94%{opacity:1} 97%{opacity:0.9} }
+.term-inner { animation: flicker 7s infinite; }
+
+/* ===== Title bar ===== */
+.titlebar {
+  display: flex; align-items: center; gap: 14px;
+  padding: 7px 14px;
+  background: rgba(20,20,20,0.7);
+  border-bottom: 1px solid #2e2e2e;
+}
+.tb-dots { display: flex; gap: 6px; }
+.tb-dot { width: 10px; height: 10px; border-radius: 50%; }
+.tb-dot.r { background: #ff5f57; box-shadow: 0 0 6px rgba(255,95,87,0.6); }
+.tb-dot.y { background: #ffbd2e; box-shadow: 0 0 6px rgba(255,189,46,0.5); }
+.tb-dot.g { background: #28ca41; box-shadow: 0 0 6px rgba(40,202,65,0.5); }
+.tb-title {
+  font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: #a05a20;
+}
+.tb-title b {
+  background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent;
+  font-weight: 500;
+}
+.tb-tabs { display: flex; gap: 0; margin-left: auto; }
+.tb-tab {
+  font-size: 8px; letter-spacing: 2px; text-transform: uppercase;
+  color: #5e3414; padding: 3px 12px; border-left: 1px solid var(--line);
+}
+.tb-tab.on { color: var(--gold); background: rgba(240,120,45,0.07); }
+.tb-callsign {
+  margin-left: auto; font-size: 9px; letter-spacing: 5px; text-transform: uppercase;
+  background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent;
+  font-weight: 500;
+}
+
+/* ===== Body grid ===== */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr 1fr;
+  gap: 0;
+}
+@media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+
+.col { padding: 16px 16px 18px; position: relative; }
+.col + .col { border-left: 1px solid #2a2a2a; }
+@media (max-width: 900px) {
+  .col + .col { border-left: none; border-top: 1px solid #2a2a2a; }
+}
+
+/* panel section label */
+.sec {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 8px; letter-spacing: 3px; text-transform: uppercase;
+  color: #7a4418; margin-bottom: 12px;
+}
+.sec::before { content: '▍'; color: var(--orange); }
+.sec .ln { flex: 1; height: 1px; background: linear-gradient(to right, var(--line), transparent); }
+
+/* ===== Boot log (left) ===== */
+.boot {
+  font-size: 9.5px; line-height: 1.85; letter-spacing: 0.3px;
+  color: #6a4220; min-height: 232px;
+}
+.boot .l { display: flex; gap: 7px; white-space: nowrap; }
+.boot .t { color: #4a2a10; flex-shrink: 0; }
+.boot .m { color: var(--orange); flex-shrink: 0; }
+.boot .ok  { color: var(--green); }
+.boot .warn{ color: var(--gold); }
+.boot .val { color: var(--amber); }
+.cursor {
+  display: inline-block; width: 7px; height: 12px; background: var(--orange);
+  margin-left: 2px; vertical-align: -1px; animation: blink 1s steps(1) infinite;
+}
+
+/* ===== Learn-more index (table of contents) ===== */
+.toc-hd { margin-top: 22px; color: var(--green); text-shadow: 0 0 10px rgba(0,238,68,0.4); }
+.toc-hd::before { color: var(--green); }
+.df-ascii {
+  margin-top: 18px;
+  font-size: 3.2px;
+  line-height: 1.15;
+  letter-spacing: 0;
+  color: #5a2e0c;
+  overflow: hidden;
+  white-space: pre;
+  opacity: 0.7;
+  user-select: none;
+  display: block;
+  text-align: center;
+}
+.toc { display: flex; flex-direction: column; gap: 2px; }
+.toc-item {
+  display: flex; align-items: baseline; gap: 10px;
+  padding: 6px 8px; border-left: 2px solid transparent; border-radius: 2px;
+  text-decoration: none; transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+.toc-item:hover {
+  background: rgba(240,120,45,0.07);
+  border-left-color: var(--orange);
+  transform: translateX(2px);
+}
+.toc-n {
+  font-size: 8px; letter-spacing: 1px; color: #5e3414; flex-shrink: 0;
+  width: 16px;
+}
+.toc-item:hover .toc-n { color: var(--gold); }
+.toc-t {
+  flex: 1; font-size: 11px; letter-spacing: 1px; text-transform: uppercase;
+  color: #8a5424; transition: color 0.2s;
+}
+.toc-item:hover .toc-t { color: var(--orange); }
+.toc-ar { font-size: 10px; color: #3a2410; transition: color 0.2s, transform 0.2s; }
+.toc-item:hover .toc-ar { color: var(--orange); }
+
+/* cycling What / Why / How under the face */
+.pitch-cycle {
+  position: relative; width: 100%; max-width: 500px;
+  min-height: 210px; margin-top: 4px;
+  border-top: 1px solid var(--line); padding-top: 18px;
+}
+.pitch-card {
+  position: absolute; left: 0; right: 0; top: 16px;
+  opacity: 0; transform: translateY(6px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+  pointer-events: none;
+}
+.pitch-card.active { opacity: 1; transform: translateY(0); pointer-events: auto; }
+.pitch-k {
+  font-family: 'Sora', sans-serif; font-weight: 300;
+  font-size: 26px; letter-spacing: 6px; text-transform: uppercase; color: var(--green);
+  margin-bottom: 12px; text-shadow: 0 0 14px rgba(0,238,68,0.5);
+  animation: blink 1s steps(1) infinite;
+}
+.pitch-k::before { content: '> '; color: #1a8a3a; }
+.pitch-v { font-size: 16px; line-height: 1.65; color: var(--green); text-shadow: 0 0 8px rgba(0,238,68,0.3); }
+.pitch-v .hi { color: #8dffb0; }
+/* WHY card keeps the original warm body color */
+.pitch-v.amber { color: #7a4d28; text-shadow: none; }
+.pitch-v.amber .hi { color: var(--gold); }
+.pitch-dots { position: absolute; bottom: -2px; left: 0; display: flex; gap: 7px; }
+.pdot {
+  width: 14px; height: 3px; border-radius: 2px; background: #341c08;
+  transition: background 0.4s, transform 0.2s;
+  cursor: pointer;
+}
+.pdot:hover { background: #7a3a10; transform: scaleY(2); }
+.pdot.active { background: var(--orange); }
+
+/* ===== Center: face + gauge ===== */
+.center { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.wordmark {
+  font-family: 'Sora', sans-serif; font-weight: 200;
+  font-size: clamp(40px, 6vw, 74px); letter-spacing: 0.5em; text-indent: 0.5em;
+  text-transform: uppercase; line-height: 1;
+  background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 0 18px rgba(240,120,45,0.25));
+}
+.wordsub {
+  font-size: 8px; letter-spacing: 3px; text-transform: uppercase; color: #7a4418;
+  margin-top: -6px; text-align: center;
+}
+.crt {
+  position: relative; border: 2px solid #994400; border-radius: 6px;
+  background: #120500; overflow: hidden;
+  box-shadow: 0 0 0 1px #3a1500, 0 0 26px rgba(200,90,0,0.4), inset 0 0 26px rgba(0,0,0,0.65);
+}
+.crt svg { display: block; width: clamp(180px, 18vw, 250px); height: auto; image-rendering: pixelated; }
+.crt::after {
+  content: ''; position: absolute; inset: 0; z-index: 5; pointer-events: none;
+  background: repeating-linear-gradient(0deg, transparent 0 1px, rgba(0,0,0,0.14) 1px 2px);
+}
+
+/* gauge readout row */
+.gauges { display: flex; gap: 10px; width: 100%; margin-top: 14px; }
+.gauge {
+  flex: 1; border: 1px solid var(--line); border-radius: 4px; padding: 9px 8px;
+  background: var(--panel2); text-align: center;
+}
+.gauge-n {
+  font-family: 'Sora', sans-serif; font-weight: 300; font-size: 26px; line-height: 1;
+  background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.gauge-n.green { background: none; -webkit-text-fill-color: var(--green); color: var(--green); }
+.gauge-u { font-size: 7px; color: #6a3a14; }
+.gauge-l { font-size: 7px; letter-spacing: 2px; text-transform: uppercase; color: #5e3414; margin-top: 5px; }
+
+/* meter bars under gauges */
+.meters { width: 100%; display: flex; flex-direction: column; gap: 7px; margin-top: 12px; }
+.meter-row { display: flex; align-items: center; gap: 8px; font-size: 8px; }
+.meter-k { width: 78px; letter-spacing: 1px; text-transform: uppercase; color: #6a3a14; flex-shrink: 0; }
+.meter-bar { flex: 1; height: 7px; background: #1a0c02; border-radius: 2px; overflow: hidden; }
+.meter-fill { height: 100%; background: var(--grad); border-radius: 2px; }
+.meter-fill.g { background: linear-gradient(90deg,#0a8, var(--green)); }
+.meter-v { width: 34px; text-align: right; color: var(--amber); flex-shrink: 0; }
+
+/* ===== Right: spec readout ===== */
+.spec-row {
+  display: grid; grid-template-columns: 96px 1fr; gap: 10px;
+  padding: 7px 0; border-bottom: 1px dashed #2a1808; align-items: baseline;
+}
+.spec-row:last-of-type { border-bottom: none; }
+.spec-k { font-size: 8px; letter-spacing: 1.5px; text-transform: uppercase; color: #6a3a14; }
+.spec-v { font-size: 10px; letter-spacing: 0.5px; text-transform: uppercase; color: var(--orange); line-height: 1.4; }
+.spec-v.hi { color: var(--gold); }
+.dot-live { color: var(--green); animation: blink 1.6s ease-in-out infinite; }
+
+/* annotation chips */
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+.chip {
+  font-size: 7px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--orange);
+  border: 1px solid rgba(240,120,45,0.3); border-radius: 2px; padding: 3px 8px;
+}
+
+/* radial efficiency dial */
+.dial-wrap { display: flex; align-items: center; gap: 14px; margin-top: 16px;
+  border: 1px solid var(--line); border-radius: 4px; padding: 12px; background: var(--panel2); }
+.dial { width: 76px; height: 76px; flex-shrink: 0; }
+.dial-track { fill: none; stroke: #241204; stroke-width: 8; }
+.dial-arc { fill: none; stroke: url(#dgrad); stroke-width: 8; stroke-linecap: round;
+  stroke-dasharray: 220; stroke-dashoffset: 220; animation: fill-dial 2s ease-out 0.4s forwards; }
+@keyframes fill-dial { to { stroke-dashoffset: 26; } }
+.dial-txt { font-family:'Sora',sans-serif; font-weight:300; }
+.dial-info .dk { font-size: 7px; letter-spacing: 2px; text-transform: uppercase; color: #6a3a14; }
+.dial-info .dv { font-size: 11px; color: var(--gold); margin: 3px 0; letter-spacing: 1px; }
+.dial-info .dd { font-size: 8px; color: #6e4524; line-height: 1.5; }
+
+/* ===== Status ticker footer ===== */
+.ticker {
+  border-top: 1px solid var(--line); background: linear-gradient(180deg,#120700,#0a0400);
+  overflow: hidden; white-space: nowrap; position: relative;
+}
+.ticker-track {
+  display: inline-flex; gap: 28px; padding: 7px 0;
+  font-size: 8px; letter-spacing: 2.5px; text-transform: uppercase; color: #6a3a14;
+  animation: scroll-x 26s linear infinite; will-change: transform;
+}
+.ticker-track span b { color: var(--orange); font-weight: 400; }
+.ticker-track .lv { color: var(--green); }
+@keyframes scroll-x { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* bottom brand bar */
+.brandbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 14px; border-top: 1px solid #2a2a2a; background: rgba(14,14,14,0.7);
+}
+.brand-lockup { display: flex; align-items: center; gap: 9px; }
+.brand-logo { width: 18px; height: 18px; flex-shrink: 0; border-radius: 3px; display: block; }
+.brand {
+  font-size: 9px; letter-spacing: 4px; text-transform: uppercase;
+  background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.brand-r { font-size: 7px; letter-spacing: 2px; text-transform: uppercase; color: #4a2a10; }
 
 /* ===== SECTION SHARED STYLES ===== */
 .page-section {
@@ -1070,157 +1397,212 @@ body {
 <!-- ═══════════════════════════════════════════════════════════
      HERO
      ═══════════════════════════════════════════════════════════ -->
-<div class="wrapper" id="home">
+<div class="stage" id="home">
 
-  <div class="cm tl"></div><div class="cm tr"></div>
-  <div class="cm bl"></div><div class="cm br"></div>
-  <span class="cl tl">DF-VNN-001</span>
-  <span class="cl tr">REV 2.0</span>
-  <span class="cl bl">PORTFOLIO</span>
-  <span class="cl br">2026.05</span>
+  <div class="term">
+   <div class="term-inner">
 
-  <div class="df-mark">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="40 40 430 430" style="border-radius:4px;" aria-hidden="true">
-      <defs>
-        <linearGradient id="df-mark-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop stop-color="#EE4236" offset="0"></stop>
-          <stop stop-color="#FAAC3D" offset="1"></stop>
-        </linearGradient>
-      </defs>
-      <rect x="40" y="40" width="430" height="430" fill="#111"></rect>
-      <path fill="url(#df-mark-grad)" d="M42.843,48.727c1.185,445.12-1.883,411.585,1.389,418.13c0.278,0.278,0.278,0.278,0.278,0.556c0.278,0.278,0.278,0.278,0.556,0.278c6.219,3.109-11.301,0.187,145.026,1.389H322.06c157.166-0.305,140.352,0.947,145.026-1.389c0.278,0,0.278-0.278,0.556-0.278c0.278-0.278,0.278-0.278,0.278-0.556c0.278-0.556,0.833-0.833,0.833-1.389c0.768-2.303,0.555-416.847,0.549-416.947v-1.43c0-2.337-1.915-4.221-4.252-4.182l-1.377,0.023c0,0-24.026,0.189-141.612-0.04H190.091C81.12,43.731,56.366,42.623,49.509,42.853h-2.578c-2.223,0-4.033,1.786-4.063,4.009L42.843,48.727z M326.227,457.411l-18.337-54.454h86.682l54.454,54.454H326.227z M62.847,457.411l54.454-54.454h86.682l-18.337,54.454H62.847z M185.646,54.561l18.337,54.454h-86.682L62.847,54.561H185.646z M449.027,54.561l-54.454,54.454H307.89l18.337-54.454H449.027z M327.894,319.609V192.642l63.345-63.345v253.379L327.894,319.609z M195.926,315.997V195.976h120.021v120.022H195.926z M183.979,192.364v126.967l-63.067,63.345V129.297L183.979,192.364z M382.626,120.962l-63.345,63.345h-36.673l21.115-63.345H382.626z M270.106,184.029H241.49l-21.115-63.345h70.846L270.106,184.029z M229.265,184.029h-36.951l-63.067-63.067h78.903L229.265,184.029z M108.966,117.35v277.272l-54.454,54.454V62.896L108.966,117.35z M129.247,391.01l63.345-63.345h36.673L208.15,391.01H129.247z M241.767,327.944h28.616l21.115,63.345h-71.124L241.767,327.944z M282.608,327.944h36.673l63.345,63.345h-78.903L282.608,327.944z M402.907,394.622V117.35l54.454-54.454v385.902L402.907,394.622z M313.725,54.561l-18.337,54.454h-78.903l-18.337-54.454H313.725z M198.148,457.411l18.337-54.454h78.903l18.337,54.454H198.148z"></path>
-    </svg>
-    <span class="df-mark-txt">The Dimensional Forge</span>
-  </div>
+    <!-- ===== TITLE BAR ===== -->
+    <div class="titlebar">
+      <div class="tb-dots"><span class="tb-dot r"></span><span class="tb-dot y"></span><span class="tb-dot g"></span></div>
+      <div class="tb-title"><b>VENN</b>&nbsp;:: AUTONOMOUS ASSISTANT UNIT&nbsp;— TTY0</div>
+      <div class="tb-callsign">DF-VNN-001</div>
+    </div>
 
-  <div class="title">
-    <div class="title-big">VENN</div>
-    <div class="title-small">Autonomous Assistant Unit &nbsp;///&nbsp; THE DIMENSIONAL FORGE</div>
-  </div>
+    <!-- ===== BODY GRID ===== -->
+    <div class="grid">
 
-  <div class="divider"></div>
+      <!-- LEFT : boot log + pitch -->
+      <div class="col">
+        <div class="sec">BOOT SEQUENCE<span class="ln"></span>REV 2.0</div>
+        <div class="boot" id="boot"></div>
 
-  <div class="center-row">
-    <div class="ann-col left">
-      <div class="ann-item">
-        <div class="ann-txt"><b>Frontend</b>Single-file<br>PWA</div>
-        <div class="ann-dash"></div><div class="ann-dot"></div>
+        <div class="sec toc-hd">LEARN MORE<span class="ln"></span>INDEX</div>
+        <nav class="toc">
+          <a class="toc-item" href="#architecture"><span class="toc-n">01</span><span class="toc-t">Architecture</span><span class="toc-ar">→</span></a>
+          <a class="toc-item" href="#flow"><span class="toc-n">02</span><span class="toc-t">Request Trace</span><span class="toc-ar">→</span></a>
+          <a class="toc-item" href="#bridges"><span class="toc-n">03</span><span class="toc-t">Bridge Roster</span><span class="toc-ar">→</span></a>
+          <a class="toc-item" href="#rag"><span class="toc-n">04</span><span class="toc-t">Data Engineering</span><span class="toc-ar">→</span></a>
+          <a class="toc-item" href="#patterns"><span class="toc-n">05</span><span class="toc-t">Data Platform Patterns</span><span class="toc-ar">→</span></a>
+          <a class="toc-item" href="#platform"><span class="toc-n">06</span><span class="toc-t">Observability</span><span class="toc-ar">→</span></a>
+          <a class="toc-item" href="#impact"><span class="toc-n">07</span><span class="toc-t">Business Impact</span><span class="toc-ar">→</span></a>
+        </nav>
+
       </div>
-      <div class="ann-item">
-        <div class="ann-txt"><b>Voice I/O</b>SAM 1982<br>+ Piper TTS</div>
-        <div class="ann-dash"></div><div class="ann-dot"></div>
+
+      <!-- CENTER : wordmark + face + gauges -->
+      <div class="col center">
+        <div class="wordmark">VENN</div>
+        <div class="wordsub">ADAPTABLE AI MULTI-TOOL&nbsp;///&nbsp;CLOUD TO BITS &amp; BYTES</div>
+
+        <div class="crt">
+          <svg viewBox="-20 -50 260 290" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="rg" cx="50%" cy="45%" r="55%">
+                <stop offset="0%" stop-color="#ff5500" stop-opacity="0.09"/>
+                <stop offset="100%" stop-color="#ff5500" stop-opacity="0"/>
+              </radialGradient>
+              <pattern id="sc" x="0" y="0" width="2" height="4" patternUnits="userSpaceOnUse">
+                <rect x="0" y="0" width="2" height="2" fill="#000"/>
+              </pattern>
+            </defs>
+            <rect x="-20" y="-50" width="260" height="340" fill="#120500"/>
+            <rect x="-18" y="56" width="30" height="84" fill="#cc4400" rx="3"/>
+            <rect x="-14" y="60" width="22" height="76" fill="#1f0800" rx="2"/>
+            <rect x="-12" y="70" width="16" height="3" fill="#cc4400" opacity="0.5"/>
+            <rect x="-12" y="80" width="16" height="3" fill="#cc4400" opacity="0.5"/>
+            <rect x="-12" y="90" width="16" height="3" fill="#cc4400" opacity="0.5"/>
+            <rect x="-12" y="100" width="16" height="3" fill="#cc4400" opacity="0.5"/>
+            <rect x="-12" y="110" width="16" height="3" fill="#cc4400" opacity="0.5"/>
+            <rect x="-5" y="-14" width="4" height="70" fill="#cc4400"/>
+            <rect class="ant-l" x="-10" y="-18" width="14" height="7" fill="#ff7722" rx="2"/>
+            <rect x="208" y="56" width="30" height="84" fill="#cc4400" rx="3"/>
+            <rect x="212" y="60" width="22" height="76" fill="#1f0800" rx="2"/>
+            <rect x="216" y="70" width="16" height="3" fill="#cc4400" opacity="0.5"/>
+            <rect x="216" y="80" width="16" height="3" fill="#cc4400" opacity="0.5"/>
+            <rect x="216" y="90" width="16" height="3" fill="#cc4400" opacity="0.5"/>
+            <rect x="216" y="100" width="16" height="3" fill="#cc4400" opacity="0.5"/>
+            <rect x="216" y="110" width="16" height="3" fill="#cc4400" opacity="0.5"/>
+            <rect x="221" y="-14" width="4" height="70" fill="#cc4400"/>
+            <rect class="ant-r" x="216" y="-18" width="14" height="7" fill="#ff7722" rx="2"/>
+            <rect x="40" y="10" width="140" height="12" fill="#cc4400"/>
+            <rect x="16" y="22" width="24" height="12" fill="#cc4400"/>
+            <rect x="180" y="22" width="24" height="12" fill="#cc4400"/>
+            <rect x="10" y="34" width="200" height="156" fill="#1f0800"/>
+            <rect x="10" y="34" width="12" height="156" fill="#cc4400"/>
+            <rect x="198" y="34" width="12" height="156" fill="#cc4400"/>
+            <rect x="16" y="190" width="24" height="12" fill="#cc4400"/>
+            <rect x="180" y="190" width="24" height="12" fill="#cc4400"/>
+            <rect x="40" y="202" width="140" height="12" fill="#cc4400"/>
+            <rect x="40" y="10" width="140" height="4" fill="#ff6622" opacity="0.6"/>
+            <rect x="10" y="34" width="200" height="156" fill="url(#sc)" opacity="0.15"/>
+            <rect width="220" height="240" fill="url(#rg)"/>
+            <rect class="eye-glow" id="hero-leye" x="36" y="58" width="56" height="44" fill="#00ee44" rx="2"/>
+            <rect id="hero-lpupil" x="50" y="68" width="28" height="24" fill="#002208"/>
+            <rect id="hero-lshine" x="50" y="68" width="9" height="9" fill="#aaffcc" opacity="0.65"/>
+            <rect class="eye-glow" id="hero-reye" x="128" y="58" width="56" height="44" fill="#00ee44" rx="2"/>
+            <rect id="hero-rpupil" x="142" y="68" width="28" height="24" fill="#002208"/>
+            <rect id="hero-rshine" x="142" y="68" width="9" height="9" fill="#aaffcc" opacity="0.65"/>
+            <g id="mouth">
+              <rect x="56" y="152" width="14" height="10" fill="#00ee44"/>
+              <rect x="150" y="152" width="14" height="10" fill="#00ee44"/>
+              <rect x="70" y="162" width="80" height="10" fill="#00ee44"/>
+              <rect x="76" y="162" width="68" height="3" fill="#aaffcc" opacity="0.55"/>
+            </g>
+          </svg>
+        </div>
+
+        <!-- cycling What / Why / How -->
+        <div class="pitch-cycle" id="pitchCycle">
+          <div class="pitch-card active">
+            <div class="pitch-k">WHAT</div>
+            <div class="pitch-v amber">The Forge's in-house AI operator — <span class="hi">built by Sean Neal, owned end to end</span>. Books meetings, quotes jobs, prices prints from the STL, files notes straight to the vault.</div>
+          </div>
+          <div class="pitch-card">
+            <div class="pitch-k">WHY</div>
+            <div class="pitch-v amber">Off-the-shelf agents burn <span class="hi">2,000–20,000 tokens a turn</span> and hold your data hostage. VENN spends <span class="hi">~35–185</span>, keeps every byte local, and stays owned outright.</div>
+          </div>
+          <div class="pitch-card">
+            <div class="pitch-k">HOW</div>
+            <div class="pitch-v amber">One HTML file on any device that runs even the tiniest local model. Plug in any brain, plug in only the tools the moment needs. <span class="hi">One brain, any tool.</span></div>
+          </div>
+          <div class="pitch-dots" id="pitchDots">
+            <span class="pdot active"></span><span class="pdot"></span><span class="pdot"></span>
+          </div>
+        </div>
       </div>
-      <div class="ann-item">
-        <div class="ann-txt"><b>Framework</b>Adaptable AI<br>multi-tool</div>
-        <div class="ann-dash"></div><div class="ann-dot"></div>
+
+      <!-- RIGHT : spec readout + dial -->
+      <div class="col">
+        <div class="sec">UNIT SPECIFICATION<span class="ln"></span>VENN-1</div>
+
+        <div class="spec-row"><span class="spec-k">Designation</span><span class="spec-v hi">VENN-1</span></div>
+        <div class="spec-row"><span class="spec-k">Build</span><span class="spec-v">REV 2.0</span></div>
+        <div class="spec-row"><span class="spec-k">Brain</span><span class="spec-v">Dynamic Orchestrator</span></div>
+        <div class="spec-row"><span class="spec-k">Reach</span><span class="spec-v">Cloud to Bits &amp; Bytes</span></div>
+        <div class="spec-row"><span class="spec-k">Bridges</span><span class="spec-v">Endless Expansion</span></div>
+        <div class="spec-row"><span class="spec-k">Hardware</span><span class="spec-v">ESP32 / Flipper / Serial</span></div>
+        <div class="spec-row"><span class="spec-k">Voice I/O</span><span class="spec-v">SAM 1982 + Piper</span></div>
+        <div class="spec-row"><span class="spec-k">Status</span><span class="spec-v hi"><span class="dot-live">●</span> NOMINAL</span></div>
+
+        <div class="chips">
+          <span class="chip">Single-File PWA</span>
+          <span class="chip">Phone · PC · Pi</span>
+          <span class="chip">Local-First</span>
+        </div>
+
+        <div class="dial-wrap">
+          <svg class="dial" viewBox="0 0 80 80">
+            <defs>
+              <linearGradient id="dgrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#EE4236"/>
+                <stop offset="1" stop-color="#FAAC3D"/>
+              </linearGradient>
+            </defs>
+            <circle class="dial-track" cx="40" cy="40" r="35" transform="rotate(-90 40 40)"/>
+            <circle class="dial-arc" cx="40" cy="40" r="35" transform="rotate(-90 40 40)"/>
+            <text class="dial-txt" x="40" y="44" text-anchor="middle" font-size="20" fill="#FAAC3D">94</text>
+            <text x="40" y="56" text-anchor="middle" font-size="6" fill="#6a3a14" letter-spacing="1">EFF %</text>
+          </svg>
+          <div class="dial-info">
+            <div class="dk">TOKEN EFFICIENCY</div>
+            <div class="dv">123× LEANER</div>
+            <div class="dd">vs. stock agent frameworks. Every token counts — tools sent only when relevant.</div>
+          </div>
+        </div>
+
+        <div class="gauges">
+          <div class="gauge">
+            <div class="gauge-n green">185</div>
+            <div class="gauge-u">TOK / TURN</div>
+            <div class="gauge-l">Full Stack</div>
+          </div>
+          <div class="gauge">
+            <div class="gauge-n">18</div>
+            <div class="gauge-u">MODULES</div>
+            <div class="gauge-l">Master + 17</div>
+          </div>
+          <div class="gauge">
+            <div class="gauge-n">1</div>
+            <div class="gauge-u">FILE</div>
+            <div class="gauge-l">Runs Anywhere</div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ===== STATUS TICKER ===== -->
+    <div class="ticker">
+      <div class="ticker-track">
+        <span class="lv">● NOMINAL</span><span><b>///</b> ADAPTABLE AI MULTI-TOOL</span><span><b>///</b> CLOUD TO BITS &amp; BYTES REACH</span><span><b>///</b> EXPANDABLE BRIDGE ARCHITECTURE</span><span><b>///</b> HARDWARE I/O READY</span><span><b>///</b> ~35–185 TOKENS / TURN</span><span><b>///</b> LOCAL-FIRST</span>
+        <span class="lv">● NOMINAL</span><span><b>///</b> ADAPTABLE AI MULTI-TOOL</span><span><b>///</b> CLOUD TO BITS &amp; BYTES REACH</span><span><b>///</b> EXPANDABLE BRIDGE ARCHITECTURE</span><span><b>///</b> HARDWARE I/O READY</span><span><b>///</b> ~35–185 TOKENS / TURN</span><span><b>///</b> LOCAL-FIRST</span>
       </div>
     </div>
 
-    <div class="face-wrap">
-      <div class="crt-screen">
-      <svg id="face" width="480" height="480" viewBox="-20 -50 260 290"
-           shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <radialGradient id="rg" cx="50%" cy="45%" r="55%">
-            <stop offset="0%"   stop-color="#ff5500" stop-opacity="0.09"/>
-            <stop offset="100%" stop-color="#ff5500" stop-opacity="0"/>
-          </radialGradient>
-          <pattern id="sc" x="0" y="0" width="2" height="4" patternUnits="userSpaceOnUse">
-            <rect x="0" y="0" width="2" height="2" fill="#000"/>
-          </pattern>
-        </defs>
-        <rect x="-20" y="-50" width="260" height="340" fill="#120500"/>
-        <rect x="10"  y="22"  width="6" height="12" fill="#1f0800"/>
-        <rect x="204" y="22"  width="6" height="12" fill="#1f0800"/>
-        <rect x="10"  y="190" width="6" height="12" fill="#1f0800"/>
-        <rect x="204" y="190" width="6" height="12" fill="#1f0800"/>
-        <rect x="-18" y="56" width="30" height="84" fill="#cc4400" rx="3"/>
-        <rect x="-14" y="60" width="22" height="76" fill="#1f0800" rx="2"/>
-        <rect x="-12" y="70" width="16" height="3" fill="#cc4400" opacity="0.5"/>
-        <rect x="-12" y="80" width="16" height="3" fill="#cc4400" opacity="0.5"/>
-        <rect x="-12" y="90" width="16" height="3" fill="#cc4400" opacity="0.5"/>
-        <rect x="-12" y="100" width="16" height="3" fill="#cc4400" opacity="0.5"/>
-        <rect x="-12" y="110" width="16" height="3" fill="#cc4400" opacity="0.5"/>
-        <rect x="-12" y="120" width="16" height="3" fill="#cc4400" opacity="0.5"/>
-        <rect x="-5"  y="-14" width="4"  height="70" fill="#cc4400"/>
-        <rect class="ant-l" x="-10" y="-18" width="14" height="7" fill="#ff7722" rx="2"/>
-        <rect x="208" y="56" width="30" height="84" fill="#cc4400" rx="3"/>
-        <rect x="212" y="60" width="22" height="76" fill="#1f0800" rx="2"/>
-        <rect x="216" y="70" width="16" height="3" fill="#cc4400" opacity="0.5"/>
-        <rect x="216" y="80" width="16" height="3" fill="#cc4400" opacity="0.5"/>
-        <rect x="216" y="90" width="16" height="3" fill="#cc4400" opacity="0.5"/>
-        <rect x="216" y="100" width="16" height="3" fill="#cc4400" opacity="0.5"/>
-        <rect x="216" y="110" width="16" height="3" fill="#cc4400" opacity="0.5"/>
-        <rect x="216" y="120" width="16" height="3" fill="#cc4400" opacity="0.5"/>
-        <rect x="221" y="-14" width="4"  height="70" fill="#cc4400"/>
-        <rect class="ant-r" x="216" y="-18" width="14" height="7" fill="#ff7722" rx="2"/>
-        <rect x="40"  y="10"  width="140" height="12" fill="#cc4400"/>
-        <rect x="16"  y="22"  width="24"  height="12" fill="#cc4400"/>
-        <rect x="180" y="22"  width="24"  height="12" fill="#cc4400"/>
-        <rect x="10"  y="34"  width="200" height="156" fill="#1f0800"/>
-        <rect x="10"  y="34"  width="12"  height="156" fill="#cc4400"/>
-        <rect x="198" y="34"  width="12"  height="156" fill="#cc4400"/>
-        <rect x="16"  y="190" width="24"  height="12" fill="#cc4400"/>
-        <rect x="180" y="190" width="24"  height="12" fill="#cc4400"/>
-        <rect x="40"  y="202" width="140" height="12" fill="#cc4400"/>
-        <rect x="40"  y="10"  width="140" height="4"  fill="#ff6622" opacity="0.6"/>
-        <rect x="10" y="34" width="200" height="156" fill="url(#sc)" opacity="0.15"/>
-        <rect width="220" height="240" fill="url(#rg)"/>
-        <rect class="eye-glow" x="36" y="58" width="56" height="44" fill="#00ee44" rx="2"/>
-        <rect x="50" y="68" width="28" height="24" fill="#002208"/>
-        <rect x="50" y="68" width="9"  height="9"  fill="#aaffcc" opacity="0.65"/>
-        <rect class="eye-glow" x="128" y="58" width="56" height="44" fill="#00ee44" rx="2"/>
-        <rect x="142" y="68" width="28" height="24" fill="#002208"/>
-        <rect x="142" y="68" width="9"  height="9"  fill="#aaffcc" opacity="0.65"/>
-        <g id="mouth">
-          <rect x="56" y="152" width="14" height="10" fill="#00ee44"/>
-          <rect x="150" y="152" width="14" height="10" fill="#00ee44"/>
-          <rect x="70"  y="162" width="80" height="10" fill="#00ee44"/>
-          <rect x="76"  y="162" width="68" height="3"  fill="#aaffcc" opacity="0.55"/>
-        </g>
-      </svg>
-      </div>
+    <!-- ===== BRAND BAR ===== -->
+    <div class="brandbar">
+      <span class="brand-lockup">
+        <svg class="brand-logo" xmlns="http://www.w3.org/2000/svg" viewBox="40 40 430 430" aria-hidden="true">
+          <defs>
+            <linearGradient id="df-hero-logo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop stop-color="#EE4236" offset="0"></stop>
+              <stop stop-color="#FAAC3D" offset="1"></stop>
+            </linearGradient>
+          </defs>
+          <rect x="40" y="40" width="430" height="430" fill="#1a0c02"></rect>
+          <path fill="url(#df-hero-logo-grad)" d="M42.843,48.727c1.185,445.12-1.883,411.585,1.389,418.13c0.278,0.278,0.278,0.278,0.278,0.556c0.278,0.278,0.278,0.278,0.556,0.278c6.219,3.109-11.301,0.187,145.026,1.389H322.06c157.166-0.305,140.352,0.947,145.026-1.389c0.278,0,0.278-0.278,0.556-0.278c0.278-0.278,0.278-0.278,0.278-0.556c0.278-0.556,0.833-0.833,0.833-1.389c0.768-2.303,0.555-416.847,0.549-416.947v-1.43c0-2.337-1.915-4.221-4.252-4.182l-1.377,0.023c0,0-24.026,0.189-141.612-0.04H190.091C81.12,43.731,56.366,42.623,49.509,42.853h-2.578c-2.223,0-4.033,1.786-4.063,4.009L42.843,48.727z M326.227,457.411l-18.337-54.454h86.682l54.454,54.454H326.227z M62.847,457.411l54.454-54.454h86.682l-18.337,54.454H62.847z M185.646,54.561l18.337,54.454h-86.682L62.847,54.561H185.646z M449.027,54.561l-54.454,54.454H307.89l18.337-54.454H449.027z M327.894,319.609V192.642l63.345-63.345v253.379L327.894,319.609z M195.926,315.997V195.976h120.021v120.022H195.926z M183.979,192.364v126.967l-63.067,63.345V129.297L183.979,192.364z M382.626,120.962l-63.345,63.345h-36.673l21.115-63.345H382.626z M270.106,184.029H241.49l-21.115-63.345h70.846L270.106,184.029z M229.265,184.029h-36.951l-63.067-63.067h78.903L229.265,184.029z M108.966,117.35v277.272l-54.454,54.454V62.896L108.966,117.35z M129.247,391.01l63.345-63.345h36.673L208.15,391.01H129.247z M241.767,327.944h28.616l21.115,63.345h-71.124L241.767,327.944z M282.608,327.944h36.673l63.345,63.345h-78.903L282.608,327.944z M402.907,394.622V117.35l54.454-54.454v385.902L402.907,394.622z M313.725,54.561l-18.337,54.454h-78.903l-18.337-54.454H313.725z M198.148,457.411l18.337-54.454h78.903l18.337,54.454H198.148z"></path>
+        </svg>
+        <span class="brand">The Dimensional Forge</span>
+      </span>
+      <span class="brand-r">Forging Dimensions: Utility, Fun, Artistry</span>
+      <span class="brand-r">DF-VNN-001 · REV 2.0 · 2026.06</span>
     </div>
 
-    <div class="spec-col">
-      <div><div class="spec-key">Designation</div><div class="spec-val hi">VENN-1</div></div>
-      <div><div class="spec-key">Build</div><div class="spec-val">REV 2.0</div></div>
-      <div><div class="spec-key">Brain</div><div class="spec-val">Dynamic Orchestrator</div></div>
-      <div><div class="spec-key">Reach</div><div class="spec-val">Cloud to Bits &amp; Bytes</div></div>
-      <div><div class="spec-key">Extensibility</div><div class="spec-val">Endless Bridge Expansion</div></div>
-      <div><div class="spec-key">Hardware I/O</div><div class="spec-val">ESP32 / Flipper / Serial</div></div>
-      <div><div class="spec-key">Status</div><div class="spec-val hi"><span class="live">&#x25CF;</span> NOMINAL</div></div>
-    </div>
-  </div>
-
-  <div class="divider"></div>
-
-  <div class="status-strip">
-    <span class="live">&#x25CF; NOMINAL</span>
-    <span>///</span>
-    <span>ADAPTABLE AI MULTI-TOOL</span>
-    <span>///</span>
-    <span>CLOUD TO BITS &amp; BYTES REACH</span>
-    <span>///</span>
-    <span>EXPANDABLE BRIDGE ARCHITECTURE</span>
-    <span>///</span>
-    <span>HARDWARE I/O READY</span>
-  </div>
-
-  <div class="footer">
-    <span class="footer-brand">The Dimensional Forge</span>
-    <span class="footer-right">Forging Dimensions: Utility, Fun, Artistry</span>
-    <span class="footer-right">DF-VNN-001</span>
-  </div>
-
-  <a href="#architecture" class="scroll-cue" aria-label="Scroll to architecture">
-    <span class="scroll-cue-label">Technical Architecture</span>
-    <svg class="scroll-chevron" viewBox="0 0 18 10" xmlns="http://www.w3.org/2000/svg">
-      <polyline points="1,1 9,9 17,1"/>
-    </svg>
-  </a>
-
-</div><!-- /wrapper -->
+   </div><!-- /term-inner -->
+  </div><!-- /term -->
+</div><!-- /stage -->
 
 <div class="section-divider"></div>
 
@@ -3146,6 +3528,116 @@ Only load what the current task actually needs.</div>
   window.flowGoTo  = flowGoTo;
   window.flowPlay  = flowPlay;
   render();
+})();
+
+// ── HERO: Face click — cycle expressions ─────────────────────────
+(function () {
+  var crt = document.querySelector('.stage .crt');
+  if (!crt) return;
+
+  var FACES = [
+    { eye: '#00ee44', mouth: 'idle'     },   // IDLE
+    { eye: '#00ee44', mouth: 'speaking' },   // SPEAKING
+    { eye: '#ffaa00', mouth: 'thin'     },   // PROCESSING
+    { eye: '#ffaa00', mouth: 'speaking' },   // BUSY
+    { eye: '#EE4236', mouth: 'thin'     },   // ALERT
+    { eye: '#FAAC3D', mouth: 'idle'     },   // STANDBY
+  ];
+  var fi = 0;
+
+  function applyFace(f) {
+    var le = document.getElementById('hero-leye');
+    var re = document.getElementById('hero-reye');
+    var mo = document.getElementById('mouth');
+    if (le) le.setAttribute('fill', f.eye);
+    if (re) re.setAttribute('fill', f.eye);
+    if (!mo) return;
+    if (f.mouth === 'idle') {
+      mo.innerHTML = '<rect x="56" y="152" width="14" height="10" fill="'+f.eye+'"/>'
+        + '<rect x="150" y="152" width="14" height="10" fill="'+f.eye+'"/>'
+        + '<rect x="70" y="162" width="80" height="10" fill="'+f.eye+'"/>'
+        + '<rect x="76" y="162" width="68" height="3" fill="#aaffcc" opacity="0.55"/>';
+    } else if (f.mouth === 'speaking') {
+      mo.innerHTML = '<rect x="46" y="146" width="128" height="26" fill="'+f.eye+'"/>'
+        + '<rect x="56" y="151" width="108" height="16" fill="#002208"/>';
+    } else if (f.mouth === 'thin') {
+      mo.innerHTML = '<rect x="68" y="157" width="84" height="7" fill="'+f.eye+'"/>';
+    }
+  }
+
+  crt.style.cursor = 'pointer';
+  crt.addEventListener('click', function () {
+    fi = (fi + 1) % FACES.length;
+    applyFace(FACES[fi]);
+  });
+})();
+
+// ── HERO: Boot-log typewriter ─────────────────────────────────────
+(function () {
+  var BOOT = [
+    ['00.01', 'master', 'Loaded 1 pending pulse(s) from disk ', 'ok', '✓'],
+    ['00.03', 'master', 'Control Bridge running on ', 'val', ':7852'],
+    ['00.05', 'master', 'Platform: ', 'val', 'windows'],
+    ['00.09', 'master', 'Available bridges: ', 'val', '16 found'],
+    ['00.14', 'master', 'Auto-starting: ', 'val', 'voice'],
+    ['00.18', 'master', 'Starting Voice Bridge ', 'ok', '...'],
+    ['00.23', 'voice',  'sam-js loaded from standard path ', 'ok', '✓'],
+    ['00.28', 'voice',  'SAM bridge running on ', 'val', ':7856'],
+    ['00.33', 'voice',  'Retro 8-bit synthesis ', 'ok', 'ready'],
+    ['00.39', 'master', 'Started Voice Bridge on port ', 'val', '7856'],
+    ['00.46', 'master', 'start_bridge tool ', 'ok', 'available'],
+    ['00.52', 'master', 'Pruned 1 stale pending pulse(s) ', 'ok', '✓'],
+  ];
+  var box = document.getElementById('boot');
+  if (!box) return;
+  var li = 0;
+  function line() {
+    if (li >= BOOT.length) {
+      var c = document.createElement('span');
+      c.className = 'cursor';
+      box.appendChild(c);
+      return;
+    }
+    var row = document.createElement('div');
+    var t = BOOT[li][0], m = BOOT[li][1], msg = BOOT[li][2], cls = BOOT[li][3], tail = BOOT[li][4];
+    li++;
+    row.className = 'l';
+    row.innerHTML = '<span class="t">[' + t + ']</span><span class="m">' + m.padEnd(7) + '</span><span>' + msg + '<span class="' + cls + '">' + tail + '</span></span>';
+    box.appendChild(row);
+    setTimeout(line, 230);
+  }
+  line();
+})();
+
+// ── HERO: Cycle What / Why / How ──────────────────────────────────
+(function () {
+  var cards = document.querySelectorAll('#pitchCycle .pitch-card');
+  var dots  = document.querySelectorAll('#pitchDots .pdot');
+  if (!cards.length) return;
+  var pi = 0;
+  var timer;
+
+  function goTo(i) {
+    cards[pi].classList.remove('active');
+    dots[pi].classList.remove('active');
+    pi = ((i % cards.length) + cards.length) % cards.length;
+    cards[pi].classList.add('active');
+    dots[pi].classList.add('active');
+  }
+
+  function startTimer() {
+    clearInterval(timer);
+    timer = setInterval(function () { goTo(pi + 1); }, 4200);
+  }
+
+  dots.forEach(function (dot, i) {
+    dot.addEventListener('click', function () {
+      goTo(i);
+      startTimer();
+    });
+  });
+
+  startTimer();
 })();
 </script>
 </body>
