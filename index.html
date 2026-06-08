@@ -2142,27 +2142,18 @@
       });
     }, { threshold: 0.35 }).observe(s));
 
-    // Substack latest post pill
+    // Substack latest post pill — data written daily by GitHub Actions
     (async () => {
-      const FEED = 'https://thedimensionalforge.substack.com/feed';
-      const PROXY = 'https://api.allorigins.win/get?url=' + encodeURIComponent(FEED);
       try {
-        const res = await fetch(PROXY);
-        const json = await res.json();
-        const xml = new DOMParser().parseFromString(json.contents, 'text/xml');
-        const item = xml.querySelector('item');
-        if (!item) return;
-        const title = item.querySelector('title')?.textContent?.trim() || '';
-        const desc = item.querySelector('description')?.textContent
-          ?.replace(/<[^>]+>/g, '').trim().slice(0, 120) || '';
-        const link = item.querySelector('link')?.textContent?.trim() || '#';
-        const pub = item.querySelector('pubDate')?.textContent?.trim() || '';
-        const date = pub ? new Date(pub).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
-        document.getElementById('sp-title').textContent = title;
-        document.getElementById('sp-desc').textContent = desc;
-        document.getElementById('sp-meta').textContent = date ? `${date} · THE DIMENSIONAL FORGE` : 'THE DIMENSIONAL FORGE';
+        const res = await fetch('./latest-post.json');
+        if (!res.ok) return;
+        const data = await res.json();
+        if (!data.title) return;
+        document.getElementById('sp-title').textContent = data.title;
+        document.getElementById('sp-desc').textContent = data.desc || '';
+        document.getElementById('sp-meta').textContent = data.date ? `${data.date} · THE DIMENSIONAL FORGE` : 'THE DIMENSIONAL FORGE';
         const pill = document.getElementById('substack-pill');
-        pill.href = link;
+        pill.href = data.link || '#';
         pill.style.display = 'block';
       } catch (_) { /* hide silently on failure */ }
     })();
