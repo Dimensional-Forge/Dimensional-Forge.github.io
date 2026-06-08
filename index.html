@@ -238,47 +238,46 @@
     }
     #substack-pill {
       display: none;
-      width: fit-content;
-      max-width: 520px;
+      width: 100%;
       background: var(--df-steel);
       border: 1px solid var(--df-gold);
       border-radius: 4px;
-      padding: 0.65rem 1rem;
-      margin-bottom: 1.5rem;
+      padding: 0.55rem 1rem;
+      margin-top: 1.5rem;
       text-decoration: none;
       transition: border-color 0.2s, background 0.2s;
+      align-items: center;
+      gap: 0.75rem;
+      overflow: hidden;
     }
     #substack-pill:hover { background: var(--df-brush); border-color: var(--df-orange); }
     .sp-label {
-      display: block;
+      flex-shrink: 0;
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.6rem;
       color: var(--df-gold);
       letter-spacing: 0.12em;
-      margin-bottom: 0.25rem;
     }
     .sp-title {
-      display: block;
+      flex-shrink: 0;
       font-weight: 600;
-      font-size: 0.95rem;
+      font-size: 0.85rem;
       color: var(--df-text);
-      margin-bottom: 0.2rem;
+      white-space: nowrap;
     }
     .sp-desc {
-      display: block;
+      flex: 1;
       font-size: 0.8rem;
       color: var(--df-muted);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      max-width: 460px;
     }
     .sp-meta {
-      display: block;
+      flex-shrink: 0;
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.65rem;
       color: var(--df-muted);
-      margin-top: 0.35rem;
     }
 
     /* ── ABOUT ──────────────────────────────────────────────────── */
@@ -1203,13 +1202,6 @@
       <h1 class="hero-title">Product Development<br>— On Demand</h1>
       <p class="hero-desc">For inventors, startups, hobbyists, and small businesses that need experienced product development without a full-time hire.</p>
 
-      <a id="substack-pill" href="#" target="_blank" rel="noopener" aria-label="Latest Substack post">
-        <span class="sp-label">LATEST FROM THE FORGE</span>
-        <span class="sp-title" id="sp-title"></span>
-        <span class="sp-desc" id="sp-desc"></span>
-        <span class="sp-meta" id="sp-meta"></span>
-      </a>
-
       <p class="hero-sub">
         Indianapolis, IN &nbsp;·&nbsp; Est. 2024 &nbsp;·&nbsp;
         <span>Forging Dimensions: Utility, Fun, Artistry!</span>
@@ -1243,6 +1235,13 @@
           <div class="stat-lbl">No Guess Costing</div>
         </div>
       </div>
+
+      <a id="substack-pill" href="#" target="_blank" rel="noopener" aria-label="Latest Substack post">
+        <span class="sp-label">LATEST FROM THE FORGE</span>
+        <span class="sp-title" id="sp-title"></span>
+        <span class="sp-desc" id="sp-desc"></span>
+        <span class="sp-meta" id="sp-meta"></span>
+      </a>
     </div>
   </section>
 
@@ -2154,7 +2153,7 @@
         document.getElementById('sp-meta').textContent = data.date ? `${data.date} · THE DIMENSIONAL FORGE` : 'THE DIMENSIONAL FORGE';
         const pill = document.getElementById('substack-pill');
         pill.href = data.link || '#';
-        pill.style.display = 'block';
+        pill.style.display = 'flex';
       } catch (_) { /* hide silently on failure */ }
     })();
   </script>
