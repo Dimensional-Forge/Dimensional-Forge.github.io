@@ -236,6 +236,50 @@
       font-size: 0.72rem; letter-spacing: 0.08em;
       text-transform: uppercase; color: var(--df-muted);
     }
+    #substack-pill {
+      display: none;
+      width: fit-content;
+      max-width: 520px;
+      background: var(--df-steel);
+      border: 1px solid var(--df-gold);
+      border-radius: 4px;
+      padding: 0.65rem 1rem;
+      margin-bottom: 1.5rem;
+      text-decoration: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    #substack-pill:hover { background: var(--df-brush); border-color: var(--df-orange); }
+    .sp-label {
+      display: block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--df-gold);
+      letter-spacing: 0.12em;
+      margin-bottom: 0.25rem;
+    }
+    .sp-title {
+      display: block;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--df-text);
+      margin-bottom: 0.2rem;
+    }
+    .sp-desc {
+      display: block;
+      font-size: 0.8rem;
+      color: var(--df-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 460px;
+    }
+    .sp-meta {
+      display: block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--df-muted);
+      margin-top: 0.35rem;
+    }
 
     /* ── ABOUT ──────────────────────────────────────────────────── */
     #about .grid {
@@ -1158,6 +1202,13 @@
 
       <h1 class="hero-title">Product Development<br>— On Demand</h1>
       <p class="hero-desc">For inventors, startups, hobbyists, and small businesses that need experienced product development without a full-time hire.</p>
+
+      <a id="substack-pill" href="#" target="_blank" rel="noopener" aria-label="Latest Substack post">
+        <span class="sp-label">LATEST FROM THE FORGE</span>
+        <span class="sp-title" id="sp-title"></span>
+        <span class="sp-desc" id="sp-desc"></span>
+        <span class="sp-meta" id="sp-meta"></span>
+      </a>
 
       <p class="hero-sub">
         Indianapolis, IN &nbsp;·&nbsp; Est. 2024 &nbsp;·&nbsp;
@@ -2090,6 +2141,31 @@
         }
       });
     }, { threshold: 0.35 }).observe(s));
+
+    // Substack latest post pill
+    (async () => {
+      const FEED = 'https://thedimensionalforge.substack.com/feed';
+      const PROXY = 'https://api.allorigins.win/get?url=' + encodeURIComponent(FEED);
+      try {
+        const res = await fetch(PROXY);
+        const json = await res.json();
+        const xml = new DOMParser().parseFromString(json.contents, 'text/xml');
+        const item = xml.querySelector('item');
+        if (!item) return;
+        const title = item.querySelector('title')?.textContent?.trim() || '';
+        const desc = item.querySelector('description')?.textContent
+          ?.replace(/<[^>]+>/g, '').trim().slice(0, 120) || '';
+        const link = item.querySelector('link')?.textContent?.trim() || '#';
+        const pub = item.querySelector('pubDate')?.textContent?.trim() || '';
+        const date = pub ? new Date(pub).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
+        document.getElementById('sp-title').textContent = title;
+        document.getElementById('sp-desc').textContent = desc;
+        document.getElementById('sp-meta').textContent = date ? `${date} · THE DIMENSIONAL FORGE` : 'THE DIMENSIONAL FORGE';
+        const pill = document.getElementById('substack-pill');
+        pill.href = link;
+        pill.style.display = 'block';
+      } catch (_) { /* hide silently on failure */ }
+    })();
   </script>
 
   <!-- ── PROPOSAL MODAL ───────────────────────────────────────────────── -->
