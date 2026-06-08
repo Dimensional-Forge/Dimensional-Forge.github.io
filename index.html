@@ -2150,7 +2150,7 @@
         if (!data.title) return;
         document.getElementById('sp-title').textContent = data.title;
         document.getElementById('sp-desc').textContent = data.desc || '';
-        document.getElementById('sp-meta').textContent = data.date ? `${data.date} · THE DIMENSIONAL FORGE` : 'THE DIMENSIONAL FORGE';
+        document.getElementById('sp-meta').textContent = data.date || '';
         const pill = document.getElementById('substack-pill');
         pill.href = data.link || '#';
         pill.style.display = 'flex';
