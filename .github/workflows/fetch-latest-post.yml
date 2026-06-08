@@ -16,8 +16,8 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Fetch and parse Substack RSS
+        shell: python3 {0}
         run: |
-          python3 - <<'EOF'
           import urllib.request
           import xml.etree.ElementTree as ET
           import json
@@ -31,7 +31,7 @@ jobs:
           item = root.find('.//item')
           if item is None:
               print("No items found in feed")
-              exit(0)
+              raise SystemExit(0)
 
           title = (item.findtext('title') or '').strip()
           desc  = (item.findtext('description') or '').strip()[:120]
@@ -52,7 +52,6 @@ jobs:
               json.dump(data, f, indent=2)
 
           print(f"Fetched: {title}")
-          EOF
 
       - name: Commit and push if changed
         run: |
