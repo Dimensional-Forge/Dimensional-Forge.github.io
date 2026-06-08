@@ -251,8 +251,13 @@
       overflow: hidden;
     }
     #substack-pill:hover { background: var(--df-brush); border-color: var(--df-orange); }
-    .sp-label {
+    .sp-left {
       flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+    .sp-label {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.6rem;
       color: var(--df-gold);
@@ -274,7 +279,6 @@
       text-overflow: ellipsis;
     }
     .sp-meta {
-      flex-shrink: 0;
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.65rem;
       color: var(--df-muted);
@@ -1237,10 +1241,12 @@
       </div>
 
       <a id="substack-pill" href="#" target="_blank" rel="noopener" aria-label="Latest Substack post">
-        <span class="sp-label">LATEST FROM THE FORGE</span>
+        <div class="sp-left">
+          <span class="sp-label">LATEST FROM THE FORGE</span>
+          <span class="sp-meta" id="sp-meta"></span>
+        </div>
         <span class="sp-title" id="sp-title"></span>
         <span class="sp-desc" id="sp-desc"></span>
-        <span class="sp-meta" id="sp-meta"></span>
       </a>
     </div>
   </section>
