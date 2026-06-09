@@ -15,36 +15,49 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Fetch Substack feed
-        uses: Promptly-Technologies-LLC/rss-fetch-action@v2
-        with:
-          feed_url: 'https://thedimensionalforge.substack.com/feed'
-          file_path: './feed-raw.json'
-
-      - name: Parse feed and write latest-post.json
+      - name: Fetch and parse Substack post
         shell: python3 {0}
         run: |
+          import urllib.request
           import json
           from datetime import datetime
+          from html.parser import HTMLParser
+          from urllib.parse import quote
 
-          with open('feed-raw.json') as f:
-              feed = json.load(f)
+          class HTMLStripper(HTMLParser):
+              def __init__(self):
+                  super().__init__()
+                  self._text = []
+              def handle_data(self, data):
+                  self._text.append(data)
+              def get_text(self):
+                  return ' '.join(self._text).strip()
 
-          entries = feed.get('entries', [])
-          if not entries:
-              print("No entries found in feed")
-              raise SystemExit(0)
+          def strip_html(raw):
+              s = HTMLStripper()
+              s.feed(raw)
+              return s.get_text()
 
-          entry = entries[0]
-          title = (entry.get('title') or '').strip()
-          link  = (entry.get('link')  or '').strip()
-          desc  = (entry.get('description') or '').strip()[:200]
-          pub   = (entry.get('published') or '')
+          rss_url = quote('https://thedimensionalforge.substack.com/feed', safe='')
+          proxy_url = f'https://api.rss2json.com/v1/api.json?rss_url={rss_url}'
+
+          with urllib.request.urlopen(proxy_url, timeout=15) as r:
+              payload = json.loads(r.read())
+
+          if payload.get('status') != 'ok' or not payload.get('items'):
+              print(f"rss2json error: {payload.get('status')}")
+              raise SystemExit(1)
+
+          item = payload['items'][0]
+          title = (item.get('title') or '').strip()
+          link  = (item.get('link')  or '').strip()
+          desc  = strip_html(item.get('description') or '')[:200]
+          pub   = (item.get('pubDate') or '').strip()
 
           date_str = ''
           if pub:
               try:
-                  dt = datetime.fromisoformat(pub)
+                  dt = datetime.strptime(pub, '%Y-%m-%d %H:%M:%S')
                   date_str = dt.strftime('%b %-d, %Y')
               except Exception:
                   date_str = pub
