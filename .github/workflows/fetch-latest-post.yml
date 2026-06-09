@@ -15,35 +15,39 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Fetch and parse Substack post
+      - name: Fetch Substack feed
+        uses: Promptly-Technologies-LLC/rss-fetch-action@v2
+        with:
+          feed_url: 'https://thedimensionalforge.substack.com/feed'
+          file_path: './feed-raw.json'
+
+      - name: Parse feed and write latest-post.json
         shell: python3 {0}
         run: |
-          import urllib.request
           import json
-          from datetime import datetime, timezone
+          from datetime import datetime
 
-          url = 'https://thedimensionalforge.substack.com/api/v1/posts?limit=1'
-          req = urllib.request.Request(url, headers={'Accept': 'application/json'})
-          with urllib.request.urlopen(req, timeout=15) as r:
-              posts = json.loads(r.read())
+          with open('feed-raw.json') as f:
+              feed = json.load(f)
 
-          if not posts:
-              print("No posts returned from API")
+          entries = feed.get('entries', [])
+          if not entries:
+              print("No entries found in feed")
               raise SystemExit(0)
 
-          post = posts[0]
-          title = (post.get('title') or '').strip()
-          desc  = (post.get('subtitle') or '').strip()[:200]
-          link  = (post.get('canonical_url') or '').strip()
-          raw_date = post.get('post_date') or ''
+          entry = entries[0]
+          title = (entry.get('title') or '').strip()
+          link  = (entry.get('link')  or '').strip()
+          desc  = (entry.get('description') or '').strip()[:200]
+          pub   = (entry.get('published') or '')
 
           date_str = ''
-          if raw_date:
+          if pub:
               try:
-                  dt = datetime.fromisoformat(raw_date.replace('Z', '+00:00'))
+                  dt = datetime.fromisoformat(pub)
                   date_str = dt.strftime('%b %-d, %Y')
               except Exception:
-                  date_str = raw_date
+                  date_str = pub
 
           data = {'title': title, 'desc': desc, 'link': link, 'date': date_str}
 
