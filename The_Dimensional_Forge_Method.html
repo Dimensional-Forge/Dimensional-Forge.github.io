@@ -245,6 +245,11 @@ footer p { color: var(--df-muted); font-size: 0.78rem; }
 #venn-input::placeholder { color: #664422; }
 #venn-send { background: none; border: 1px solid #3a1500; color: #cc5500; font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; padding: 6px 10px; border-radius: 3px; cursor: pointer; letter-spacing: 1px; text-transform: uppercase; transition: border-color 0.1s, color 0.1s; flex-shrink: 0; }
 #venn-send:hover { border-color: #994400; color: #ff6600; }
+#venn-cta { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 14px; padding: 24px 18px; min-height: 150px; }
+#venn-cta-text { margin: 0; color: #c9a98c; font-size: 0.72rem; line-height: 1.55; font-family: 'JetBrains Mono', monospace; }
+#venn-cta-btn { display: inline-flex; align-items: center; gap: 8px; background: #cc4400; border: 1px solid #ff7722; color: #120500; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; padding: 9px 16px; border-radius: 4px; cursor: pointer; transition: background 0.15s, box-shadow 0.15s; }
+#venn-cta-btn:hover { background: #ff6600; box-shadow: 0 0 18px rgba(255,110,0,0.4); }
+#venn-cta-btn svg { width: 15px; height: 15px; }
 @keyframes venn-scan-beam { 0% { top: -35%; } 100% { top: 100%; } }
 @keyframes venn-eye-pulse { 0%,100%{opacity:1} 50%{opacity:0.70} }
 @keyframes venn-ant-l { 0%,87%,100%{opacity:1} 93%{opacity:0.12} }
@@ -373,10 +378,12 @@ footer p { color: var(--df-muted); font-size: 0.78rem; }
             <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
           </a>
         </div>
-        <div id="venn-messages"></div>
-        <div id="venn-input-row">
-          <input id="venn-input" type="text" placeholder="Ask VENN..." autocomplete="off"/>
-          <button id="venn-send">Send</button>
+        <div id="venn-cta">
+          <p id="venn-cta-text">Chat with me on Telegram &mdash; ask a question or request a 3D-print quote.</p>
+          <a id="venn-cta-btn" href="https://t.me/Venn_SMS_Bot?start=website" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.94 4.3 18.9 19.1c-.23 1.02-.84 1.27-1.7.79l-4.7-3.47-2.27 2.18c-.25.25-.46.46-.94.46l.34-4.78L18.6 6.1c.38-.34-.08-.53-.59-.19L7.27 12.6l-4.65-1.45c-1.01-.32-1.03-1.01.21-1.5l18.2-7.02c.84-.31 1.58.2 1.31 1.67Z"/></svg>
+            Open Telegram
+          </a>
         </div>
       </div>
     </div><!-- /venn-widget -->
@@ -894,56 +901,45 @@ footer p { color: var(--df-muted); font-size: 0.78rem; }
     setTimeout(blink, 3000 + Math.random() * 4000);
   }
 
-  const messagesEl = document.getElementById('venn-messages');
-
-  function addMsg(role, text) {
-    const div = document.createElement('div');
-    div.className = 'vmsg ' + role;
-    div.textContent = text;
-    messagesEl.appendChild(div);
-    messagesEl.scrollTop = messagesEl.scrollHeight;
-  }
-
-  const BRIDGE_URL = 'http://localhost:7852/chat';
-
-  async function sendMessage(text) {
-    text = text.trim(); if (!text) return;
-    addMsg('vuser', text);
-    document.getElementById('venn-input').value = '';
-    setState('thinking');
-    try {
-      const resp = await fetch(BRIDGE_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: text }),
-        signal: AbortSignal.timeout(8000),
-      });
-      if (!resp.ok) throw new Error('bridge error');
-      const data = await resp.json();
-      const reply = data.reply || data.message || '[no response]';
-      setState('responding');
-      addMsg('vassist', reply);
-      setTimeout(() => setState('idle-live'), Math.max(1400, reply.split(' ').length * 180));
-    } catch {
-      setState('idle');
-      addMsg('vsys', 'bridge offline — wire up venn to enable chat');
-    }
-  }
-
+  // Venn chats over Telegram now — the panel shows a live status + an "Open Telegram"
+  // CTA (see #venn-cta in the markup). No on-site chat bridge to call.
   const toggle   = document.getElementById('venn-toggle');
   const panel    = document.getElementById('venn-panel');
   const closeBtn = document.getElementById('venn-close');
-  const input    = document.getElementById('venn-input');
-  const sendBtn  = document.getElementById('venn-send');
 
   toggle.addEventListener('click', () => panel.classList.toggle('venn-open'));
   closeBtn.addEventListener('click', () => panel.classList.remove('venn-open'));
-  sendBtn.addEventListener('click', () => sendMessage(input.value));
-  input.addEventListener('keydown', e => { if (e.key === 'Enter') sendMessage(input.value); });
+
+  if (statusEl) { statusEl.textContent = '● Live'; statusEl.className = 'venn-live'; }
+
+  // Smart "Open Telegram": try the app first (the tg:// link carries the start=website
+  // auto-approve payload); if the app doesn't take over within ~1.2s, fall back to
+  // Telegram Web in the same tab. Telegram Web drops the payload, so those visitors land
+  // on the manual access gate instead of auto-approve — still better than a dead button.
+  const ctaBtn = document.getElementById('venn-cta-btn');
+  if (ctaBtn) {
+    ctaBtn.addEventListener('click', e => {
+      e.preventDefault();
+      const TG_APP = 'tg://resolve?domain=Venn_SMS_Bot&start=website';
+      const TG_WEB = 'https://web.telegram.org/k/#@Venn_SMS_Bot';
+      let appOpened = false;
+      const t0 = Date.now();
+      const onHide = () => { if (document.hidden) appOpened = true; };
+      document.addEventListener('visibilitychange', onHide);
+      try { window.location.href = TG_APP; }
+      catch (err) { console.error('[venn-cta] app launch failed:', err.message); }
+      setTimeout(() => {
+        document.removeEventListener('visibilitychange', onHide);
+        if (!appOpened && !document.hidden && Date.now() - t0 < 2500) {
+          console.log('[venn-cta] Telegram app did not open — falling back to Telegram Web');
+          window.location.href = TG_WEB;
+        }
+      }, 1200);
+    });
+  }
 
   setMouth('idle');
   setTimeout(blink, 1800 + Math.random() * 2000);
-  addMsg('vsys', 'venn // the dimensional forge // bridge offline');
 
   // Badge face (toggle button)
   const BADGE_CYCLE = ['idle','thinking','small','idle','mid','idle','open','idle'];
