@@ -3,7 +3,37 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Dimensional Forge</title>
+  <title>The Dimensional Forge — Product Development Consulting · Indianapolis, IN</title>
+  <meta name="description" content="Senior product development engineering on demand for inventors, startups, and small businesses — systems architecture, CAD, rapid prototyping, DFM, and V&V from an Indianapolis-based consultant." />
+  <link rel="canonical" href="https://dimensional-forge.github.io/" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://dimensional-forge.github.io/" />
+  <meta property="og:site_name" content="The Dimensional Forge" />
+  <meta property="og:title" content="The Dimensional Forge — Product Development Consulting" />
+  <meta property="og:description" content="Senior product development engineering on demand: systems architecture, CAD, rapid prototyping, DFM, and verification & validation for inventors, startups, and small businesses." />
+  <meta name="twitter:card" content="summary" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "The Dimensional Forge",
+    "url": "https://dimensional-forge.github.io/",
+    "description": "Product development consulting for inventors, startups, and small businesses: systems architecture, mechanical and electromechanical design, rapid prototyping, DFM, and verification & validation.",
+    "founder": { "@type": "Person", "name": "Sean Neal" },
+    "address": { "@type": "PostalAddress", "addressLocality": "Indianapolis", "addressRegion": "IN", "addressCountry": "US" },
+    "telephone": "+1-765-228-2824",
+    "email": "ConnectWithSean@the-dimensional-forge.net",
+    "priceRange": "$55/hr+",
+    "sameAs": [
+      "https://linkedin.com/in/seanneal19",
+      "https://etsy.com/shop/DimensionalForgeProd",
+      "https://makerworld.com/en/@Dimensional.F",
+      "https://cults3d.com/en/users/TheDimensionalForge/3d-models",
+      "https://thedimensionalforge.substack.com"
+    ]
+  }
+  </script>
   <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
     /* ── Reset ──────────────────────────────────────────────────── */
@@ -139,7 +169,7 @@
       flex-shrink: 0;
     }
     .nav-logo svg { height: 36px; width: auto; }
-    .nav-links { display: flex; gap: 1.1rem; list-style: none; }
+    .nav-links { display: flex; gap: 1.1rem; list-style: none; flex-wrap: nowrap; }
     .nav-links a {
       color: var(--df-muted);
       text-decoration: none;
@@ -148,8 +178,43 @@
       letter-spacing: 0.14em;
       text-transform: uppercase;
       transition: color 0.2s;
+      white-space: nowrap;
     }
     .nav-links a:hover { color: var(--df-orange); }
+    #nav-burger {
+      display: none; flex-direction: column; justify-content: center; gap: 5px;
+      width: 40px; height: 40px; margin-left: auto; padding: 0 9px;
+      background: none; border: 1px solid var(--df-brush); border-radius: 2px;
+      cursor: pointer; flex-shrink: 0;
+    }
+    #nav-burger span { display: block; height: 2px; background: var(--df-orange); border-radius: 1px; transition: transform 0.2s, opacity 0.2s; }
+    #nav-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    #nav-burger.open span:nth-child(2) { opacity: 0; }
+    #nav-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    /* Tight zone: keep all links on one row before the burger takes over */
+    @media (max-width: 1199px) {
+      .nav-links { gap: 0.7rem; }
+      .nav-links a { font-size: 0.6rem; letter-spacing: 0.08em; }
+    }
+    @media (min-width: 900px) and (max-width: 1019px) {
+      .nav-links { gap: 0.5rem; }
+      .nav-links a { font-size: 0.56rem; letter-spacing: 0.05em; }
+      nav .inner { padding: 0 1.25rem; }
+    }
+    /* Burger zone: links become a dropdown panel under the fixed nav */
+    @media (max-width: 899px) {
+      .nav-links {
+        display: none;
+        position: absolute; top: 100%; left: 0; right: 0;
+        flex-direction: column; gap: 0;
+        background: #000;
+        border-bottom: 1px solid var(--df-brush);
+        padding: 0.5rem 0;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { display: block; padding: 0.85rem 2rem; font-size: 0.72rem; }
+      #nav-burger { display: flex; }
+    }
     .nav-hire-me {
       background: linear-gradient(90deg, #EE4236, #F0782D, #FAAC3D, #F0782D, #EE4236);
       background-size: 300% auto;
@@ -907,7 +972,6 @@
     @media (max-width: 768px) {
       #about .grid,
       #experience .tl-wrap { grid-template-columns: 1fr; }
-      .nav-links { display: none; }
     }
 
     /* ═══════════════════════════════════════════════════════
@@ -1005,43 +1069,6 @@
       transition: color 0.2s;
     }
     #venn-about-link:hover { color: #ff7722; }
-    #venn-messages {
-      flex: 1; overflow-y: auto; padding: 10px 12px;
-      display: flex; flex-direction: column; gap: 8px;
-      min-height: 180px; max-height: 260px;
-      scrollbar-width: thin; scrollbar-color: #441100 #0a0300;
-    }
-    #venn-messages::-webkit-scrollbar { width: 3px; }
-    #venn-messages::-webkit-scrollbar-track { background: #0a0300; }
-    #venn-messages::-webkit-scrollbar-thumb { background: #441100; border-radius: 2px; }
-    .vmsg {
-      font-size: 0.68rem; line-height: 1.5; padding: 6px 8px; border-radius: 3px;
-      word-break: break-word;
-    }
-    .vmsg.vuser   { background: rgba(31,8,0,0.8); border-left: 2px solid #cc4400; color: #F5F5F5; align-self: flex-end; max-width: 88%; }
-    .vmsg.vassist { background: rgba(0,20,6,0.8); border-left: 2px solid #00aa44; color: #F5F5F5; align-self: flex-start; max-width: 88%; }
-    .vmsg.vsys    { color: #666; font-size: 0.6rem; letter-spacing: 1px; text-transform: uppercase; text-align: center; align-self: center; }
-
-    /* Input row */
-    #venn-input-row {
-      display: flex; gap: 6px; padding: 8px 10px;
-      border-top: 1px solid #180800; background: #0d0400; flex-shrink: 0;
-    }
-    #venn-input {
-      flex: 1; background: #0a0200; border: 1px solid #2a1000; color: #ff8844;
-      font-family: 'JetBrains Mono', monospace; font-size: 0.68rem;
-      padding: 6px 8px; border-radius: 3px; outline: none;
-    }
-    #venn-input:focus { border-color: #664400; }
-    #venn-input::placeholder { color: #664422; }
-    #venn-send {
-      background: none; border: 1px solid #3a1500; color: #cc5500;
-      font-family: 'JetBrains Mono', monospace; font-size: 0.6rem;
-      padding: 6px 10px; border-radius: 3px; cursor: pointer;
-      letter-spacing: 1px; text-transform: uppercase;
-      transition: border-color 0.1s, color 0.1s; flex-shrink: 0;
-    }
-    #venn-send:hover { border-color: #994400; color: #ff6600; }
 
     /* Telegram CTA (replaces the old chat box — Venn chats over Telegram now) */
     #venn-cta {
@@ -1098,6 +1125,7 @@
         <li><a href="#about">About</a></li>
         <li><a href="#experience">Experience</a></li>
         <li><a href="#services">Services</a></li>
+        <li><a href="The_Dimensional_Forge_Method.html">Method</a></li>
         <li><a href="#work">Work</a></li>
         <li><a href="#delivered">Delivered</a></li>
         <li><a href="#reviews">Reviews</a></li>
@@ -1105,6 +1133,10 @@
         <li><a href="#community">Community</a></li>
         <li><a href="#book" class="nav-hire-me">Forge Together</a></li>
       </ul>
+
+      <button id="nav-burger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
 
       <!-- VENN nav widget -->
       <div id="venn-widget">
@@ -1587,6 +1619,7 @@
       <hr class="rule" />
       <p style="color:var(--df-muted);font-size:0.9rem;max-width:640px;margin-bottom:2rem;line-height:1.7;">
         Real quotes. Real deliverables. Every card below is a proposal a client accepted and work that got done.
+        Each engagement runs only the <a href="The_Dimensional_Forge_Method.html" style="color:var(--df-orange);text-decoration:none;">Forge Method</a> phases (0–5) the project actually needs.
       </p>
       <div class="proposals-grid">
 
@@ -1597,19 +1630,15 @@
           <div class="proposal-stats">
             <div class="pstat">
               <span class="pstat-val">$220</span>
-              <span class="pstat-lbl">Total Cost</span>
+              <span class="pstat-lbl">Investment</span>
             </div>
             <div class="pstat">
               <span class="pstat-val">4h</span>
               <span class="pstat-lbl">Hours</span>
             </div>
             <div class="pstat">
-              <span class="pstat-val">1 wk</span>
-              <span class="pstat-lbl">Timeline</span>
-            </div>
-            <div class="pstat">
-              <span class="pstat-val">1</span>
-              <span class="pstat-lbl">Phase</span>
+              <span class="pstat-val">0</span>
+              <span class="pstat-lbl">Forge Phase</span>
             </div>
           </div>
           <p class="proposal-desc">Single live consulting session covering product goals, manufacturing approach, and a prioritized roadmap. Delivered a structured session plan, recorded call, and written summary with next steps.</p>
@@ -1634,12 +1663,8 @@
               <span class="pstat-lbl">Hours</span>
             </div>
             <div class="pstat">
-              <span class="pstat-val">7 wks</span>
-              <span class="pstat-lbl">Timeline</span>
-            </div>
-            <div class="pstat">
-              <span class="pstat-val">4</span>
-              <span class="pstat-lbl">Phases</span>
+              <span class="pstat-val">0 &amp; 2</span>
+              <span class="pstat-lbl">Forge Phases</span>
             </div>
           </div>
           <p class="proposal-desc">Functional MVP based on a reference CAD design — actuated panels, sequenced motion, and button-based controls. Design review, CAD adaptation, full 3D printed build, and structured mechanism verification testing.</p>
@@ -1659,10 +1684,9 @@
           <div class="proposal-stats">
             <div class="pstat"><span class="pstat-val">$1,518</span><span class="pstat-lbl">Investment</span></div>
             <div class="pstat"><span class="pstat-val">38h</span><span class="pstat-lbl">Hours</span></div>
-            <div class="pstat"><span class="pstat-val">10 wks</span><span class="pstat-lbl">Timeline</span></div>
-            <div class="pstat"><span class="pstat-val">3</span><span class="pstat-lbl">Phases</span></div>
+            <div class="pstat"><span class="pstat-val">0–2</span><span class="pstat-lbl">Forge Phases</span></div>
           </div>
-          <p class="proposal-desc">Tactical/utility light from concept to shipped DV prototype: requirements and ideation, full CAD development with mechanical and electrical architecture, physical build, testing, and delivery.</p>
+          <p class="proposal-desc">Tactical/utility light from concept to shipped proof-of-concept prototype: requirements and ideation, full CAD development with mechanical and electrical architecture, physical build, testing, and delivery.</p>
           <div class="proposal-tags">
             <span class="wtag">Mechanical Design</span>
             <span class="wtag">Electrical Architecture</span>
@@ -1678,8 +1702,7 @@
           <div class="proposal-stats">
             <div class="pstat"><span class="pstat-val">~$240</span><span class="pstat-lbl">Investment</span></div>
             <div class="pstat"><span class="pstat-val">6h</span><span class="pstat-lbl">Hours</span></div>
-            <div class="pstat"><span class="pstat-val">3 wks</span><span class="pstat-lbl">Timeline</span></div>
-            <div class="pstat"><span class="pstat-val">3</span><span class="pstat-lbl">Phases</span></div>
+            <div class="pstat"><span class="pstat-val">0·2·5</span><span class="pstat-lbl">Forge Phases</span></div>
           </div>
           <p class="proposal-desc">Standardized title block and branding update across 40 mechanical drawings — logo swap, drawing number updates, and formatting changes delivered as a clean organized package.</p>
           <div class="proposal-tags">
@@ -1696,8 +1719,7 @@
           <div class="proposal-stats">
             <div class="pstat"><span class="pstat-val">~$700</span><span class="pstat-lbl">Investment</span></div>
             <div class="pstat"><span class="pstat-val">17.5h</span><span class="pstat-lbl">Hours</span></div>
-            <div class="pstat"><span class="pstat-val">4 wks</span><span class="pstat-lbl">Timeline</span></div>
-            <div class="pstat"><span class="pstat-val">4</span><span class="pstat-lbl">Phases</span></div>
+            <div class="pstat"><span class="pstat-val">4</span><span class="pstat-lbl">Sessions</span></div>
           </div>
           <p class="proposal-desc">Hands-on engineering tutoring for a 10-year-old: two parallel projects — build a new battle bot from a kit and diagnose/repair a broken one. Gus leads all hands-on work; Sean guides with questions only.</p>
           <div class="proposal-tags">
@@ -1714,10 +1736,9 @@
           <div class="proposal-stats">
             <div class="pstat"><span class="pstat-val">~$9.4K</span><span class="pstat-lbl">Investment</span></div>
             <div class="pstat"><span class="pstat-val">235h</span><span class="pstat-lbl">Hours</span></div>
-            <div class="pstat"><span class="pstat-val">33 wks</span><span class="pstat-lbl">Timeline</span></div>
-            <div class="pstat"><span class="pstat-val">6</span><span class="pstat-lbl">Phases</span></div>
+            <div class="pstat"><span class="pstat-val">0–4</span><span class="pstat-lbl">Forge Phases</span></div>
           </div>
-          <p class="proposal-desc">Full-cycle product development: multi-discipline architecture, 3D CAD, patent drawings, two prototype iterations (DV1 + DV2 with printed enclosure), iOS app MVP with hardware integration, and full production prep.</p>
+          <p class="proposal-desc">Full-cycle product development: multi-discipline architecture, 3D CAD, patent drawings, two prototype iterations (proof of concept, then a refined build with printed enclosure), iOS app MVP with hardware integration, and full production prep.</p>
           <div class="proposal-tags">
             <span class="wtag">Systems Architecture</span>
             <span class="wtag">Electromechanical Design</span>
@@ -1734,8 +1755,7 @@
           <div class="proposal-stats">
             <div class="pstat"><span class="pstat-val">~$230</span><span class="pstat-lbl">Investment</span></div>
             <div class="pstat"><span class="pstat-val">5.75h</span><span class="pstat-lbl">Hours</span></div>
-            <div class="pstat"><span class="pstat-val">4 wks</span><span class="pstat-lbl">Timeline</span></div>
-            <div class="pstat"><span class="pstat-val">4</span><span class="pstat-lbl">Phases</span></div>
+            <div class="pstat"><span class="pstat-val">0·3·5</span><span class="pstat-lbl">Forge Phases</span></div>
           </div>
           <p class="proposal-desc">Custom illuminated Pokéstop-style sign: acrylic sheet cut to silhouette, LED neon flex front face, spinnable pole mount, full QC testing with 8+ hour runtime validation.</p>
           <div class="proposal-tags">
@@ -1752,10 +1772,9 @@
           <div class="proposal-stats">
             <div class="pstat"><span class="pstat-val">$2,250</span><span class="pstat-lbl">Investment</span></div>
             <div class="pstat"><span class="pstat-val">150h</span><span class="pstat-lbl">Hours</span></div>
-            <div class="pstat"><span class="pstat-val">16 wks</span><span class="pstat-lbl">Timeline</span></div>
-            <div class="pstat"><span class="pstat-val">5</span><span class="pstat-lbl">Phases</span></div>
+            <div class="pstat"><span class="pstat-val">0–2·4</span><span class="pstat-lbl">Forge Phases</span></div>
           </div>
-          <p class="proposal-desc">Full product development from concept through mass production readiness: sketching, CAD, photorealistic renders, DV prototyping, DFM/DFA, supplier quoting, tooling, pilot run, and launch prep.</p>
+          <p class="proposal-desc">Full product development from concept through mass production readiness: sketching, CAD, photorealistic renders, proof-of-concept prototyping, DFM/DFA, supplier quoting, tooling, pilot run, and launch prep.</p>
           <div class="proposal-tags">
             <span class="wtag">CAD Design</span>
             <span class="wtag">3D Rendering</span>
@@ -2148,18 +2167,24 @@
           '<p style="color:var(--df-muted);font-size:0.86rem;">Could not load reviews.</p>';
       });
 
+    // Mobile nav burger
+    const burger = document.getElementById('nav-burger');
+    const navLinkList = document.querySelector('.nav-links');
+    burger.addEventListener('click', () => {
+      const open = navLinkList.classList.toggle('open');
+      burger.classList.toggle('open', open);
+      burger.setAttribute('aria-expanded', open);
+      burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    });
+    navLinkList.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      navLinkList.classList.remove('open');
+      burger.classList.remove('open');
+      burger.setAttribute('aria-expanded', 'false');
+    }));
+
     // Nav active state
     const secs = document.querySelectorAll('section[id]');
     const links = document.querySelectorAll('.nav-links a');
-    new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          links.forEach(a => a.style.color = '');
-          const a = document.querySelector(`.nav-links a[href="#${e.target.id}"]`);
-          if (a) a.style.color = '#F0782D';
-        }
-      });
-    }, { threshold: 0.35 }).observe;
     secs.forEach(s => new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (e.isIntersecting) {
@@ -2208,17 +2233,16 @@
     const PROPOSALS = [
       {
         id: 'cove-design',
-        type: 'Product Consulting · 1 Phase',
+        type: 'Product Consulting · Forge Phase 0',
         title: 'Product Consultation',
         stats: [
-          { val: '~$200', lbl: 'Investment' },
-          { val: '4h',    lbl: 'Hours' },
-          { val: '1 wk',  lbl: 'Timeline' },
-          { val: '1',     lbl: 'Phase' },
+          { val: '$220', lbl: 'Investment' },
+          { val: '4h',   lbl: 'Hours' },
+          { val: '0',    lbl: 'Forge Phase' },
         ],
         phases: [
           {
-            title: 'Phase 1 — Live Consulting Session',
+            title: 'Phase 0 — Discovery & Definition · Live Consulting Session',
             items: [
               'Pre-session intake form and structured agenda prep',
               '3-hour live video consulting session',
@@ -2236,134 +2260,128 @@
       },
       {
         id: 'blast-light',
-        type: 'Mechanical + Electrical Prototyping · 3 Phases',
+        type: 'Mechanical + Electrical Prototyping · Forge Phases 0–2',
         title: 'Tactical Light Prototype',
         stats: [
           { val: '$1,518', lbl: 'Investment' },
           { val: '38h',    lbl: 'Hours' },
-          { val: '10 wks', lbl: 'Timeline' },
-          { val: '3',      lbl: 'Phases' },
+          { val: '0–2',    lbl: 'Forge Phases' },
         ],
         phases: [
-          { title: 'Phase 1 — Requirements Gathering', items: ['Project kickoff and alignment on requirements, constraints, and aesthetic goals', 'Concept sketching and ideation'] },
-          { title: 'Phase 2 — Virtual Concept Creation', items: ['Rough 3D CAD draft', 'Mechanical architecture plan', 'Electrical architecture plan', 'Refined 3D CAD with client review and revision cycles'] },
-          { title: 'Phase 3 — Physical Prototyping (DV)', items: ['Material selection and parts ordering', 'Full mechanical and electrical assembly', 'Prototype testing and design revisions', 'Packaged and shipped to client'] },
+          { title: 'Phase 0 — Discovery & Definition', items: ['Project kickoff and alignment on requirements, constraints, and aesthetic goals'] },
+          { title: 'Phase 1 — Concept & Feasibility', items: ['Concept sketching and ideation', 'Mechanical architecture plan', 'Electrical architecture plan'] },
+          { title: 'Phase 2 — Design & Verification', items: ['Rough 3D CAD draft', 'Refined 3D CAD with client review and revision cycles', 'Material selection and parts ordering', 'Full mechanical and electrical assembly', 'Prototype testing and design revisions', 'Packaged and shipped to client'] },
         ],
-        deliverables: ['Confirmed requirements and concept sketches', 'Rough and refined 3D CAD', 'Mechanical & Electrical Architecture Plans', 'Fully functional DV prototype (shipped)', 'Prototype test results report'],
+        deliverables: ['Confirmed requirements and concept sketches', 'Rough and refined 3D CAD', 'Mechanical & Electrical Architecture Plans', 'Fully functional proof-of-concept prototype (shipped)', 'Prototype test results report'],
         tags: ['Mechanical Design', 'Electrical Architecture', 'Rapid Prototyping', '3D CAD'],
       },
       {
         id: 'glassboard',
-        type: 'Technical Documentation · 3 Phases',
+        type: 'Technical Documentation · Forge Phases 0, 2 & 5',
         title: 'Mechanical Drawing Update — 40 Drawings',
         stats: [
-          { val: '~$240', lbl: 'Investment' },
-          { val: '6h',    lbl: 'Hours' },
-          { val: '3 wks', lbl: 'Timeline' },
-          { val: '3',     lbl: 'Phases' },
+          { val: '~$240',   lbl: 'Investment' },
+          { val: '6h',      lbl: 'Hours' },
+          { val: '0·2·5',   lbl: 'Forge Phases' },
         ],
         phases: [
-          { title: 'Phase 1 — Client Intake & Setup', items: ['Receive and verify all client-supplied assets', 'Confirm drawing numbers list, logo file format, and delivery format', 'Confirm title block change spec in writing'] },
-          { title: 'Phase 2 — Drawing Updates (40 Drawings)', items: ['Apply all 7 scope changes to each drawing (~8 min/drawing)', 'Logo swap, drawing number updates, and formatting standardization'] },
-          { title: 'Phase 3 — Review & Delivery', items: ['Open/save verification pass on all updated files', 'Organize final deliverable package', 'Deliver in agreed format with confirmation'] },
+          { title: 'Phase 0 — Discovery & Definition · Client Intake', items: ['Receive and verify all client-supplied assets', 'Confirm drawing numbers list, logo file format, and delivery format', 'Confirm title block change spec in writing'] },
+          { title: 'Phase 2 — Design & Verification · Drawing Updates (40 Drawings)', items: ['Apply all 7 scope changes to each drawing (~8 min/drawing)', 'Logo swap, drawing number updates, and formatting standardization'] },
+          { title: 'Phase 5 — Handoff & Lifecycle · Review & Delivery', items: ['Open/save verification pass on all updated files', 'Organize final deliverable package', 'Deliver in agreed format with confirmation'] },
         ],
         deliverables: ['Confirmed asset receipt and scope in writing', '40 updated drawings with all 7 changes applied', 'Final organized drawing package (native/PDF)'],
         tags: ['Technical Documentation', 'Engineering Drawings', 'CAD'],
       },
       {
         id: 'gus-battle-bot',
-        type: 'Engineering Tutoring · 4 Phases',
+        type: 'Engineering Tutoring · 4 Sessions',
         title: "Battle Bot Engineering Tutoring",
         stats: [
           { val: '~$700', lbl: 'Investment' },
           { val: '17.5h', lbl: 'Hours' },
-          { val: '4 wks', lbl: 'Timeline' },
-          { val: '4',     lbl: 'Phases' },
+          { val: '4',     lbl: 'Sessions' },
         ],
         phases: [
-          { title: 'Phase 1 — Foundations', items: ['Rules analysis and design trade-offs', 'Parts sourcing and workspace setup', 'Student presents pre-work designs and commits to one bot concept'] },
-          { title: 'Phase 2 — Build Project', items: ['Full battle bot assembly: chassis, drive, weapon, electronics', 'Student leads all hands-on work; mentor guides with questions only', 'Completed bot test video and build summary written by student'] },
-          { title: 'Phase 3 — Repair Project', items: ['Systematic diagnosis using 5 Whys and methodical testing', 'Full repair of a broken battle bot', 'Repair summary and before/after documentation'] },
-          { title: 'Phase 4 — Final Demo & Reflection', items: ['Live demonstration of both bots', 'Engineering portfolio: photos, sketches, repair log, written reflection', 'Go/no-go recommendation for next phase'] },
+          { title: 'Session 1 — Foundations', items: ['Rules analysis and design trade-offs', 'Parts sourcing and workspace setup', 'Student presents pre-work designs and commits to one bot concept'] },
+          { title: 'Session 2 — Build Project', items: ['Full battle bot assembly: chassis, drive, weapon, electronics', 'Student leads all hands-on work; mentor guides with questions only', 'Completed bot test video and build summary written by student'] },
+          { title: 'Session 3 — Repair Project', items: ['Systematic diagnosis using 5 Whys and methodical testing', 'Full repair of a broken battle bot', 'Repair summary and before/after documentation'] },
+          { title: 'Session 4 — Final Demo & Reflection', items: ['Live demonstration of both bots', 'Engineering portfolio: photos, sketches, repair log, written reflection', 'Go/no-go recommendation for the next level of curriculum'] },
         ],
         deliverables: ['Final bot design documentation', 'Completed build-project battle bot', 'Completed repair-project battle bot', 'Engineering portfolio (written, photos, repair log)', 'Build and repair summaries authored by student'],
         tags: ['Engineering Tutoring', 'Mentorship', 'Hands-On STEM', 'Root Cause Analysis'],
       },
       {
         id: 'k9',
-        type: 'Full Product Development · 6 Phases',
+        type: 'Full Product Development · Forge Phases 0–4',
         title: 'Electromechanical Product — iOS Integration',
         stats: [
           { val: '~$9.4K', lbl: 'Investment' },
           { val: '235h',   lbl: 'Hours' },
-          { val: '33 wks', lbl: 'Timeline' },
-          { val: '6',      lbl: 'Phases' },
+          { val: '0–4',    lbl: 'Forge Phases' },
         ],
         phases: [
-          { title: 'Phase 1 — Requirements & Concept', items: ['Product requirements document', 'Software requirements list', 'Initial concept sketches'] },
-          { title: 'Phase 2 — Design & Architecture', items: ['Mechanical, electrical, and software architecture plans', 'Rough and refined 3D CAD with review cycles', 'Patent drawings'] },
-          { title: 'Phase 3 — Graphic Generation', items: ['Photorealistic renders from final CAD', 'Transparent PNGs for marketing use'] },
-          { title: 'Phase 4 — Prototype Build DV1', items: ['Full electromechanical assembly', 'iOS app MVP with hardware integration', 'Software integration testing', 'Shipped prototype to client'] },
-          { title: 'Phase 5 — Prototype Build DV2 (3D Enclosure)', items: ['Re-designed CAD optimized for 3D printing', 'DV2 prototype with printed enclosure', 'Updated iOS app with DV2 integration', 'Test results and DV1→DV2 change log'] },
-          { title: 'Phase 6 — Production Preparation (PV)', items: ['DFM/DFA review, material re-selection', 'Engineering drawings and supplier quotes', 'Tooling, pilot run, and logistics planning'] },
+          { title: 'Phase 0 — Discovery & Definition', items: ['Product requirements document', 'Software requirements list'] },
+          { title: 'Phase 1 — Concept & Feasibility', items: ['Initial concept sketches', 'Mechanical, electrical, and software architecture plans'] },
+          { title: 'Phase 2 — Design & Verification · Detailed Design', items: ['Rough and refined 3D CAD with review cycles', 'Patent drawings', 'Photorealistic renders from final CAD', 'Transparent PNGs for marketing use'] },
+          { title: 'Phase 2 — Design & Verification · First Prototype Build', items: ['Full electromechanical assembly', 'iOS app MVP with hardware integration', 'Software integration testing', 'Shipped prototype to client'] },
+          { title: 'Phase 3 — Material Prototype & Validation · Second Prototype Build', items: ['Re-designed CAD optimized for 3D printing', 'Second prototype with printed enclosure', 'Updated iOS app integration', 'Test results and build-to-build change log'] },
+          { title: 'Phase 4 — Production & Launch', items: ['DFM/DFA review, material re-selection', 'Engineering drawings and supplier quotes', 'Tooling, pilot run, and logistics planning'] },
         ],
-        deliverables: ['Product requirements and software requirements docs', 'All architecture plans (mechanical, electrical, software)', 'Final 3D CAD + patent drawings', 'Photorealistic renders (transparent PNGs)', 'DV1 and DV2 prototypes (shipped)', 'iOS app MVP', 'Full BOM and production-ready drawings', 'DFM/DFA report, supplier matrix, production BOM'],
+        deliverables: ['Product requirements and software requirements docs', 'All architecture plans (mechanical, electrical, software)', 'Final 3D CAD + patent drawings', 'Photorealistic renders (transparent PNGs)', 'Two prototype builds (shipped)', 'iOS app MVP', 'Full BOM and production-ready drawings', 'DFM/DFA report, supplier matrix, production BOM'],
         tags: ['Systems Architecture', 'Electromechanical Design', 'iOS Integration', 'DFM/DFA', 'Prototyping'],
       },
       {
         id: 'pokestop',
-        type: 'Custom Fabrication · 4 Phases',
+        type: 'Custom Fabrication · Forge Phases 0, 3 & 5',
         title: 'Custom Pokéstop LED Sign',
         stats: [
-          { val: '~$230', lbl: 'Investment' },
-          { val: '5.75h', lbl: 'Hours' },
-          { val: '4 wks', lbl: 'Timeline' },
-          { val: '4',     lbl: 'Phases' },
+          { val: '~$230',  lbl: 'Investment' },
+          { val: '5.75h',  lbl: 'Hours' },
+          { val: '0·3·5',  lbl: 'Forge Phases' },
         ],
         phases: [
-          { title: 'Phase 1 — Design & Planning', items: ['Final dimensions, LED color spec, and rotation mechanism confirmed with client'] },
-          { title: 'Phase 2 — Materials Procurement', items: ['Source acrylic sheet, LED neon flex, connectors, hardware', 'All materials verified against spec before build'] },
-          { title: 'Phase 3 — Fabrication', items: ['Acrylic cut to Pokéstop silhouette', 'LED neon flex installed on front face', 'Wiring, connectors, and solder joints complete'] },
-          { title: 'Phase 4 — Testing & Handoff', items: ['LED continuity check and 8+ hour runtime test', 'Spin verification on pole mount', 'QC pass before client handoff'] },
+          { title: 'Phase 0 — Discovery & Definition · Design & Planning', items: ['Final dimensions, LED color spec, and rotation mechanism confirmed with client'] },
+          { title: 'Phase 3 — Material Prototype & Validation · Materials Procurement', items: ['Source acrylic sheet, LED neon flex, connectors, hardware', 'All materials verified against spec before build'] },
+          { title: 'Phase 3 — Material Prototype & Validation · Fabrication', items: ['Acrylic cut to Pokéstop silhouette', 'LED neon flex installed on front face', 'Wiring, connectors, and solder joints complete'] },
+          { title: 'Phase 5 — Handoff & Lifecycle · Testing & QC Handoff', items: ['LED continuity check and 8+ hour runtime test', 'Spin verification on pole mount', 'QC pass before client handoff'] },
         ],
         deliverables: ['Fabricated Pokéstop-silhouette acrylic sign', 'LED neon flex front face with wiring', 'Fully tested spinnable pole-mount assembly'],
         tags: ['Custom Fabrication', 'LED Electronics', 'Acrylic Work'],
       },
       {
         id: 'stealth-wallet',
-        type: 'Full Product Development · 5 Phases',
+        type: 'Full Product Development · Forge Phases 0–2 & 4',
         title: 'Stealth Wallet — Design & Production',
         stats: [
           { val: '$2,250', lbl: 'Investment' },
           { val: '150h',   lbl: 'Hours' },
-          { val: '16 wks', lbl: 'Timeline' },
-          { val: '5',      lbl: 'Phases' },
+          { val: '0–2·4',  lbl: 'Forge Phases' },
         ],
         phases: [
-          { title: 'Phase 1 — Concept Development', items: ['Kickoff to confirm specs, dimensions, materials, and aesthetic goals', 'Concept sketches establishing layout and form factor options'] },
-          { title: 'Phase 2 — Design & Engineering', items: ['Rough 3D CAD draft through final detailed CAD', 'Locking mechanism detail, exploded views, engineering drawings', 'Two client review and revision cycles'] },
-          { title: 'Phase 3 — 3D Renderings', items: ['3–5 photorealistic renders', 'Transparent PNGs for marketing use'] },
-          { title: 'Phase 4 — Prototyping DV', items: ['Two rapid 3D printed prototype cycles', 'Durability and fit testing between cycles', 'Design revisions applied from physical test feedback'] },
-          { title: 'Phase 5 — Production Validation (PV)', items: ['DFM/DFA review (two rounds)', 'Material re-selection and supplier quoting', 'Functional testing with production-grade materials'] },
+          { title: 'Phase 0 — Discovery & Definition', items: ['Kickoff to confirm specs, dimensions, materials, and aesthetic goals'] },
+          { title: 'Phase 1 — Concept & Feasibility', items: ['Concept sketches establishing layout and form factor options'] },
+          { title: 'Phase 2 — Design & Verification · Detailed Design', items: ['Rough 3D CAD draft through final detailed CAD', 'Locking mechanism detail, exploded views, engineering drawings', 'Two client review and revision cycles'] },
+          { title: 'Phase 2 — Design & Verification · Photorealistic Renders', items: ['3–5 photorealistic renders', 'Transparent PNGs for marketing use'] },
+          { title: 'Phase 2 — Design & Verification · Proof-of-Concept Prototyping', items: ['Two rapid 3D printed prototype cycles', 'Durability and fit testing between cycles', 'Design revisions applied from physical test feedback'] },
+          { title: 'Phase 4 — Production & Launch', items: ['DFM/DFA review (two rounds)', 'Material re-selection and supplier quoting', 'Functional testing with production-grade materials'] },
         ],
-        deliverables: ['Confirmed spec document and concept sketches', 'Final CAD + engineering drawings', 'Photorealistic renders (transparent PNGs)', 'Multiple DV prototype iterations + test results', 'DFM/DFA reports, production drawings, BOM', 'Supplier quotes and functional test report with production-grade materials'],
+        deliverables: ['Confirmed spec document and concept sketches', 'Final CAD + engineering drawings', 'Photorealistic renders (transparent PNGs)', 'Multiple proof-of-concept prototype iterations + test results', 'DFM/DFA reports, production drawings, BOM', 'Supplier quotes and functional test report with production-grade materials'],
         tags: ['CAD Design', '3D Rendering', 'DFM/DFA', 'Production Prep', 'Supply Chain'],
       },
       {
         id: 'shirt-folding',
-        type: 'Mechanical Prototyping · 4 Phases',
+        type: 'Mechanical Prototyping · Forge Phases 0 & 2',
         title: 'Automated Machine MVP',
         stats: [
           { val: '$2,255', lbl: 'Investment' },
           { val: '41h',    lbl: 'Hours' },
-          { val: '7 wks',  lbl: 'Timeline' },
-          { val: '4',      lbl: 'Phases' },
+          { val: '0 & 2',  lbl: 'Forge Phases' },
         ],
         phases: [
-          { title: 'Phase 1 — Design Review & BOM', items: ['Review reference and client CAD files', 'Map full mechanism and identify button-control delta', 'Analyze files for print-readiness', 'Produce complete BOM with sourcing and cost estimate', 'Deliver 3D print cost estimate based on file analysis'] },
-          { title: 'Phase 2 — CAD Adaptation & Parts Ordering', items: ['Targeted modifications for button-control integration and print-readiness fixes', 'Slice files and confirm tolerances with test prints of critical parts', 'Place all component orders for delivery during print runs'] },
-          { title: 'Phase 3 — Fabrication & Assembly', items: ['Run all 3D print jobs and receive components', 'Assemble complete machine', 'Install motors, actuators, and button-control wiring', 'Program full motion sequence', 'Initial bench-level functional checks'] },
-          { title: 'Phase 4 — Testing & Refinement', items: ['Structured mechanism verification testing', 'Identify failure modes and tune geometry and timing', 'One primary rework cycle included', 'Reliability run validation'] },
+          { title: 'Phase 0 — Discovery & Definition · Design Review & BOM', items: ['Review reference and client CAD files', 'Map full mechanism and identify button-control delta', 'Analyze files for print-readiness', 'Produce complete BOM with sourcing and cost estimate', 'Deliver 3D print cost estimate based on file analysis'] },
+          { title: 'Phase 2 — Design & Verification · CAD Adaptation & Parts Ordering', items: ['Targeted modifications for button-control integration and print-readiness fixes', 'Slice files and confirm tolerances with test prints of critical parts', 'Place all component orders for delivery during print runs'] },
+          { title: 'Phase 2 — Design & Verification · Fabrication & Assembly', items: ['Run all 3D print jobs and receive components', 'Assemble complete machine', 'Install motors, actuators, and button-control wiring', 'Program full motion sequence', 'Initial bench-level functional checks'] },
+          { title: 'Phase 2 — Design & Verification · Test & Refine', items: ['Structured mechanism verification testing', 'Identify failure modes and tune geometry and timing', 'One primary rework cycle included', 'Reliability run verification'] },
         ],
         deliverables: [
           'Design review notes (mechanism map, delta from reference, risks)',
@@ -2427,102 +2445,6 @@
     });
   </script>
 
-  <!-- old floating widget removed — VENN lives in nav -->
-  <div id="venn-widget-old-placeholder" style="display:none">
-
-    <!-- Toggle button — shows VENN's face -->
-    <button id="venn-toggle" aria-label="Open VENN chat">
-      <svg viewBox="-20 -50 260 290" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
-        <rect x="-20" y="-50" width="260" height="340" fill="#120500"/>
-        <rect x="-18" y="56" width="30" height="84" fill="#cc4400" rx="3"/>
-        <rect x="-14" y="60" width="22" height="76" fill="#1f0800" rx="2"/>
-        <rect x="208" y="56" width="30" height="84" fill="#cc4400" rx="3"/>
-        <rect x="212" y="60" width="22" height="76" fill="#1f0800" rx="2"/>
-        <rect x="-5"  y="-14" width="4"  height="70" fill="#cc4400"/>
-        <rect x="-10" y="-18" width="14" height="7"  fill="#ff7722" rx="2"/>
-        <rect x="221" y="-14" width="4"  height="70" fill="#cc4400"/>
-        <rect x="216" y="-18" width="14" height="7"  fill="#ff7722" rx="2"/>
-        <rect x="40"  y="10"  width="140" height="12" fill="#cc4400"/>
-        <rect x="16"  y="22"  width="24"  height="12" fill="#cc4400"/>
-        <rect x="180" y="22"  width="24"  height="12" fill="#cc4400"/>
-        <rect x="10"  y="34"  width="200" height="156" fill="#1f0800"/>
-        <rect x="10"  y="34"  width="12"  height="156" fill="#cc4400"/>
-        <rect x="198" y="34"  width="12"  height="156" fill="#cc4400"/>
-        <rect x="16"  y="190" width="24"  height="12" fill="#cc4400"/>
-        <rect x="180" y="190" width="24"  height="12" fill="#cc4400"/>
-        <rect x="40"  y="202" width="140" height="12" fill="#cc4400"/>
-        <rect x="36"  y="58"  width="56"  height="44" fill="#00ee44" rx="2"/>
-        <rect x="50"  y="68"  width="28"  height="24" fill="#002208"/>
-        <rect x="50"  y="68"  width="9"   height="9"  fill="#aaffcc" opacity="0.65"/>
-        <rect x="128" y="58"  width="56"  height="44" fill="#00ee44" rx="2"/>
-        <rect x="142" y="68"  width="28"  height="24" fill="#002208"/>
-        <rect x="142" y="68"  width="9"   height="9"  fill="#aaffcc" opacity="0.65"/>
-        <rect x="56"  y="152" width="14"  height="10" fill="#00ee44"/>
-        <rect x="150" y="152" width="14"  height="10" fill="#00ee44"/>
-        <rect x="70"  y="162" width="80"  height="10" fill="#00ee44"/>
-      </svg>
-    </button>
-
-    <!-- Expanded panel -->
-    <div id="venn-panel">
-
-      <!-- Header: mini animated face + info + close -->
-      <div id="venn-panel-header">
-        <div class="venn-crt-mini">
-          <svg viewBox="-20 -50 260 290" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <radialGradient id="vwh-glow" cx="50%" cy="45%" r="55%">
-                <stop offset="0%"   stop-color="#ff5500" stop-opacity="0.09"/>
-                <stop offset="100%" stop-color="#ff5500" stop-opacity="0"/>
-              </radialGradient>
-            </defs>
-            <rect x="-20" y="-50" width="260" height="340" fill="#120500"/>
-            <rect x="-18" y="56" width="30" height="84" fill="#cc4400" rx="3"/>
-            <rect x="-14" y="60" width="22" height="76" fill="#1f0800" rx="2"/>
-            <rect x="208" y="56" width="30" height="84" fill="#cc4400" rx="3"/>
-            <rect x="212" y="60" width="22" height="76" fill="#1f0800" rx="2"/>
-            <rect x="-5"  y="-14" width="4"  height="70" fill="#cc4400"/>
-            <rect class="venn-ant-l" x="-10" y="-18" width="14" height="7" fill="#ff7722" rx="2"/>
-            <rect x="221" y="-14" width="4"  height="70" fill="#cc4400"/>
-            <rect class="venn-ant-r" x="216" y="-18" width="14" height="7" fill="#ff7722" rx="2"/>
-            <rect x="40"  y="10"  width="140" height="12" fill="#cc4400"/>
-            <rect x="16"  y="22"  width="24"  height="12" fill="#cc4400"/>
-            <rect x="180" y="22"  width="24"  height="12" fill="#cc4400"/>
-            <rect x="10"  y="34"  width="200" height="156" fill="#1f0800"/>
-            <rect x="10"  y="34"  width="12"  height="156" fill="#cc4400"/>
-            <rect x="198" y="34"  width="12"  height="156" fill="#cc4400"/>
-            <rect x="16"  y="190" width="24"  height="12" fill="#cc4400"/>
-            <rect x="180" y="190" width="24"  height="12" fill="#cc4400"/>
-            <rect x="40"  y="202" width="140" height="12" fill="#cc4400"/>
-            <rect width="220" height="240" fill="url(#vwh-glow)"/>
-            <rect class="venn-eye-anim" id="vwh-leye"   x="36"  y="58" width="56" height="44" fill="#00ee44" rx="2"/>
-            <rect id="vwh-lpupil" x="50"  y="68" width="28" height="24" fill="#002208"/>
-            <rect id="vwh-lshine" x="50"  y="68" width="9"  height="9"  fill="#aaffcc" opacity="0.65"/>
-            <rect class="venn-eye-anim" id="vwh-reye"   x="128" y="58" width="56" height="44" fill="#00ee44" rx="2"/>
-            <rect id="vwh-rpupil" x="142" y="68" width="28" height="24" fill="#002208"/>
-            <rect id="vwh-rshine" x="142" y="68" width="9"  height="9"  fill="#aaffcc" opacity="0.65"/>
-            <g id="vwh-mouth"></g>
-          </svg>
-        </div>
-        <div id="venn-header-info">
-          <span id="venn-header-name">VENN</span>
-          <span id="venn-header-sub">The Dimensional Forge</span>
-          <span id="venn-header-status">● Bridge Offline</span>
-        </div>
-        <button id="venn-close" aria-label="Close">✕</button>
-      </div>
-
-      <!-- Messages -->
-      <div id="venn-messages"></div>
-
-      <!-- Input -->
-      <div id="venn-input-row">
-        <input id="venn-input" type="text" placeholder="Ask VENN..." autocomplete="off"/>
-        <button id="venn-send">Send</button>
-      </div>
-
-    </div>
-  </div>
 
   <script>
   (function () {
