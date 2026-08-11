@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>3D Print Estimator — The Dimensional Forge</title>
+<meta name="description" content="Instant 3D print quote — drop an STL file and get material, print time, and cost. Your file never leaves your browser.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Audiowide&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px}
+body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  font-size:.9375rem;line-height:1.6;color:#F5F5F5;background:#000;-webkit-font-smoothing:antialiased}
+:root{
+  --red:#EE4236;--orange:#F0782D;--gold:#FAAC3D;
+  --grad:linear-gradient(90deg,#EE4236 0%,#F0782D 50%,#FAAC3D 100%);
+  --card:#1A1A1A;--border:#2E2E2E;--muted:#A0A0A0;
+  --r:8px;--shadow:0 2px 8px rgba(0,0,0,.7),0 8px 32px rgba(0,0,0,.5);
+  --shadow-sm:0 1px 3px rgba(0,0,0,.5);
+}
+.page{max-width:960px;margin:0 auto;padding:24px 20px 56px}
+
+/* ── Site header ─────────────────────────────────────────────── */
+.site-hdr{display:flex;align-items:center;gap:16px;margin-bottom:8px}
+.site-logo{width:52px;height:52px;flex-shrink:0}
+.site-title{font-family:'Audiowide',sans-serif;font-size:1.375rem;line-height:1.2;
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.site-sub{font-size:.75rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:#555}
+.lede{color:var(--muted);font-size:.9375rem;margin:10px 0 22px;max-width:640px}
+.lede strong{color:#F5F5F5}
+.privacy-pill{display:inline-flex;align-items:center;gap:8px;margin-top:10px;
+  background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);color:#34d399;
+  border-radius:999px;padding:4px 14px;font-size:.75rem;font-weight:600}
+
+/* ── Drop zone ───────────────────────────────────────────────── */
+.dropzone{border:2px dashed #3a3a3a;border-radius:var(--r);background:var(--card);
+  padding:44px 24px;text-align:center;cursor:pointer;transition:border-color .15s,background .15s;
+  margin-bottom:18px}
+.dropzone:hover,.dropzone.dragover{border-color:var(--orange);background:#201812}
+.dz-icon{font-size:2rem;margin-bottom:8px}
+.dz-main{font-family:'Sora',sans-serif;font-weight:700;font-size:1.0625rem;margin-bottom:4px}
+.dz-hint{color:var(--muted);font-size:.8125rem}
+.dz-file{margin-top:10px;font-size:.8125rem;color:var(--gold);font-weight:600;word-break:break-all}
+input[type=file]{display:none}
+
+/* ── Error banner ────────────────────────────────────────────── */
+.error-banner{display:none;background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.4);
+  color:#f87171;border-radius:var(--r);padding:14px 20px;margin-bottom:18px;font-size:.875rem}
+.error-banner.show{display:block}
+
+/* ── Controls ────────────────────────────────────────────────── */
+.controls{display:none;background:var(--card);border-radius:var(--r);border:1px solid var(--border);
+  box-shadow:var(--shadow-sm);padding:20px 24px;margin-bottom:18px}
+.controls.show{display:block}
+.ctrl-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px}
+.ctrl{display:flex;flex-direction:column;gap:5px}
+.ctrl label{font-size:.6875rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#777}
+.ctrl select,.ctrl input{background:#0d0d0d;color:#F5F5F5;border:1px solid var(--border);
+  border-radius:6px;padding:9px 12px;font-size:.9375rem;font-family:inherit;width:100%}
+.ctrl select:focus,.ctrl input:focus{outline:none;border-color:var(--orange)}
+details.adv{margin-top:16px;border-top:1px solid var(--border);padding-top:12px}
+details.adv summary{cursor:pointer;font-size:.75rem;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--muted);list-style:none}
+details.adv summary::after{content:' ▸'}
+details.adv[open] summary::after{content:' ▾'}
+details.adv .ctrl-grid{margin-top:14px}
+
+/* ── Quote output (matches DF quote docs) ────────────────────── */
+#results{display:none}
+#results.show{display:block}
+.page-hdr{position:relative;background:#0d0d0d;color:#F5F5F5;border-radius:var(--r);
+  padding:26px 32px;margin-bottom:18px;box-shadow:var(--shadow);border:1px solid #2E2E2E;overflow:hidden}
+.page-hdr::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--grad)}
+.proj-title{font-family:'Sora',system-ui,sans-serif;font-size:1.375rem;font-weight:700;line-height:1.2;
+  margin-bottom:10px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hdr-meta{display:flex;flex-wrap:wrap;gap:24px}
+.meta-item{display:flex;flex-direction:column;gap:2px}
+.meta-lbl{font-size:.5625rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#555}
+.meta-val{font-size:.9375rem;color:#F5F5F5;font-weight:500}
+.summary-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:18px}
+.stat-card{background:var(--card);border-radius:var(--r);padding:20px 24px;
+  box-shadow:var(--shadow-sm);border:1px solid var(--border);text-align:center}
+.stat-num{font-family:'Sora',system-ui,sans-serif;font-size:2rem;font-weight:800;
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;
+  line-height:1;margin-bottom:4px}
+.stat-lbl{font-size:.75rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+.stat-card--cost{border-top:3px solid #FAAC3D}
+.stat-num--cost{background:none;-webkit-background-clip:unset;background-clip:unset;color:#FAAC3D}
+.page-section{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);
+  border:1px solid var(--border);overflow:hidden;margin-bottom:18px}
+.sec-hdr{padding:18px 28px 14px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between}
+.sec-hdr h2{font-family:'Sora',system-ui,sans-serif;font-size:.875rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:.12em;color:#F5F5F5}
+.sec-hint{font-size:.75rem;color:var(--muted)}
+.sec-body{padding:20px 28px}
+.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}
+.info-item{display:flex;flex-direction:column;gap:3px}
+.info-lbl{font-size:.6875rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#555}
+.info-val{font-size:1rem;color:#F5F5F5;font-weight:500}
+.badge{display:inline-block;border-radius:4px;padding:2px 8px;font-size:.75rem;font-weight:700;
+  letter-spacing:.05em;text-transform:uppercase}
+.badge--ok{background:rgba(16,185,129,.15);color:#34d399;border:1px solid rgba(16,185,129,.3)}
+.badge--warn{background:rgba(239,68,68,.15);color:#f87171;border:1px solid rgba(239,68,68,.3)}
+.cost-table{width:100%;border-collapse:collapse}
+.cost-table td,.cost-table th{padding:12px 16px;text-align:left;border-bottom:1px solid var(--border);font-size:.9375rem}
+.cost-table th{font-family:'Sora',system-ui,sans-serif;font-size:.75rem;
+  text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:700}
+.cost-amt{text-align:right!important;font-weight:600;font-variant-numeric:tabular-nums}
+.cost-row--total{background:rgba(240,120,45,.08);border-top:2px solid #F0782D!important;border-bottom:none!important}
+.cost-row--total td{font-family:'Sora',system-ui,sans-serif;font-size:1.125rem;font-weight:800;color:#F0782D;border-bottom:none}
+.cost-row--sub td{color:var(--muted);font-size:.875rem}
+.notes-body{padding:16px 28px;color:var(--muted);font-size:.875rem;line-height:1.75}
+.notes-body p+p{margin-top:8px}
+
+/* ── CTA ─────────────────────────────────────────────────────── */
+.cta-body{padding:32px 28px;display:flex;flex-direction:column;align-items:center;gap:18px}
+.cta-lede{color:var(--muted);font-size:.9375rem;text-align:center;max-width:520px;line-height:1.7}
+.btn-row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.btn{display:inline-block;border-radius:6px;padding:11px 26px;font-size:.8125rem;font-weight:700;
+  cursor:pointer;letter-spacing:.06em;text-transform:uppercase;transition:all .15s;
+  text-decoration:none;border:1px solid transparent;font-family:'Inter',sans-serif}
+.btn-primary{background:var(--grad);color:#000}
+.btn-primary:hover{filter:brightness(1.12)}
+.btn-ghost{background:transparent;color:#F0782D;border-color:#F0782D}
+.btn-ghost:hover{background:#F0782D;color:#000}
+.cta-legal{font-size:.7rem;text-align:center;max-width:520px;line-height:1.6;color:#666}
+.page-footer{text-align:center;margin-top:32px;font-size:.75rem;color:#333;letter-spacing:.08em;text-transform:uppercase}
+.page-footer a{color:#555;text-decoration:none}
+.page-footer a:hover{color:var(--orange)}
+
+@media print{
+  body{background:#fff!important;color:#000!important}
+  .site-hdr,.lede,.dropzone,.controls,.error-banner,.cta-section,.privacy-pill{display:none!important}
+}
+@media(max-width:600px){
+  .page{padding:12px 12px 40px}
+  .page-hdr{padding:20px 18px}
+  .proj-title{font-size:1.125rem}
+  .stat-num{font-size:1.5rem}
+  .sec-hdr{padding:14px 18px 12px}
+  .sec-body{padding:16px 18px}
+  .cost-table td,.cost-table th{padding:10px 12px}
+  .hdr-meta{gap:16px}
+  .cta-body{padding:20px 18px}
+  .dropzone{padding:32px 16px}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="site-hdr">
+    <svg class="site-logo" xmlns="http://www.w3.org/2000/svg" viewBox="40 40 430 430" aria-label="The Dimensional Forge logo">
+      <defs>
+        <linearGradient id="fg" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop stop-color="#EE4236" offset="0"/>
+          <stop stop-color="#FAAC3D" offset="1"/>
+        </linearGradient>
+      </defs>
+      <rect x="40" y="40" width="430" height="430" fill="#111" rx="48"/>
+      <path fill="url(#fg)" d="M42.843,48.727c1.185,445.12-1.883,411.585,1.389,418.13c0.278,0.278,0.278,0.278,0.278,0.556c0.278,0.278,0.278,0.278,0.556,0.278c6.219,3.109-11.301,0.187,145.026,1.389H322.06c157.166-0.305,140.352,0.947,145.026-1.389c0.278,0,0.278-0.278,0.556-0.278c0.278-0.278,0.278-0.278,0.278-0.556c0.278-0.556,0.833-0.833,0.833-1.389c0.768-2.303,0.555-416.847,0.549-416.947v-1.43c0-2.337-1.915-4.221-4.252-4.182l-1.377,0.023c0,0-24.026,0.189-141.612-0.04H190.091C81.12,43.731,56.366,42.623,49.509,42.853h-2.578c-2.223,0-4.033,1.786-4.063,4.009L42.843,48.727z M326.227,457.411l-18.337-54.454h86.682l54.454,54.454H326.227z M62.847,457.411l54.454-54.454h86.682l-18.337,54.454H62.847z M185.646,54.561l18.337,54.454h-86.682L62.847,54.561H185.646z M449.027,54.561l-54.454,54.454H307.89l18.337-54.454H449.027z M327.894,319.609V192.642l63.345-63.345v253.379L327.894,319.609z M195.926,315.997V195.976h120.021v120.022H195.926z M183.979,192.364v126.967l-63.067,63.345V129.297L183.979,192.364z M382.626,120.962l-63.345,63.345h-36.673l21.115-63.345H382.626z M270.106,184.029H241.49l-21.115-63.345h70.846L270.106,184.029z M229.265,184.029h-36.951l-63.067-63.067h78.903L229.265,184.029z M108.966,117.35v277.272l-54.454,54.454V62.896L108.966,117.35z M129.247,391.01l63.345-63.345h36.673L208.15,391.01H129.247z M241.767,327.944h28.616l21.115,63.345h-71.124L241.767,327.944z M282.608,327.944h36.673l63.345,63.345h-78.903L282.608,327.944z M402.907,394.622V117.35l54.454-54.454v385.902L402.907,394.622z M313.725,54.561l-18.337,54.454h-78.903l-18.337-54.454H313.725z M198.148,457.411l18.337-54.454h78.903l18.337,54.454H198.148z"/>
+    </svg>
+    <div>
+      <div class="site-title">The Dimensional Forge</div>
+      <div class="site-sub">3D Print Estimator</div>
+    </div>
+  </header>
+
+  <p class="lede">
+    Drop an <strong>STL file</strong> below and get an instant estimate — size, filament weight,
+    print time, and cost. Like what you see? Request the print and we'll take it from there.
+    <span class="privacy-pill">🔒 Your file never leaves your browser — all math runs locally</span>
+  </p>
+
+  <div class="dropzone" id="dropzone" role="button" tabindex="0" aria-label="Upload STL file">
+    <div class="dz-icon">⬆</div>
+    <div class="dz-main">Drop your STL here</div>
+    <div class="dz-hint">or click to browse — binary &amp; ASCII STL supported</div>
+    <div class="dz-file" id="dz-file"></div>
+    <input type="file" id="file-input" accept=".stl">
+  </div>
+
+  <div class="error-banner" id="error-banner"></div>
+
+  <div class="controls" id="controls">
+    <div class="ctrl-grid">
+      <div class="ctrl">
+        <label for="sel-material">Material</label>
+        <select id="sel-material"></select>
+      </div>
+      <div class="ctrl">
+        <label for="sel-profile">Print Profile</label>
+        <select id="sel-profile"></select>
+      </div>
+      <div class="ctrl">
+        <label for="inp-qty">Quantity</label>
+        <input type="number" id="inp-qty" min="1" max="999" step="1" value="1">
+      </div>
+    </div>
+    <details class="adv">
+      <summary>Advanced settings</summary>
+      <div class="ctrl-grid">
+        <div class="ctrl">
+          <label for="inp-infill">Infill %</label>
+          <input type="number" id="inp-infill" min="0" max="100" step="5" placeholder="from profile">
+        </div>
+        <div class="ctrl">
+          <label for="inp-layer">Layer height (mm)</label>
+          <input type="number" id="inp-layer" min="0.05" max="0.4" step="0.02" placeholder="from profile">
+        </div>
+        <div class="ctrl">
+          <label for="inp-walls">Wall loops</label>
+          <input type="number" id="inp-walls" min="1" max="10" step="1" placeholder="from profile">
+        </div>
+      </div>
+    </details>
+  </div>
+
+  <div id="results">
+    <header class="page-hdr">
+      <h1 class="proj-title" id="r-title">Print Estimate</h1>
+      <div class="hdr-meta">
+        <div class="meta-item"><span class="meta-lbl">File</span><span class="meta-val" id="r-file"></span></div>
+        <div class="meta-item"><span class="meta-lbl">Date</span><span class="meta-val" id="r-date"></span></div>
+        <div class="meta-item"><span class="meta-lbl">Material</span><span class="meta-val" id="r-material"></span></div>
+        <div class="meta-item"><span class="meta-lbl">Qty</span><span class="meta-val" id="r-qty"></span></div>
+      </div>
+    </header>
+
+    <div class="summary-strip">
+      <div class="stat-card"><div class="stat-num" id="r-time"></div><div class="stat-lbl">Print Time</div></div>
+      <div class="stat-card"><div class="stat-num" id="r-grams"></div><div class="stat-lbl">Filament</div></div>
+      <div class="stat-card"><div class="stat-num" id="r-matcost"></div><div class="stat-lbl">Material Cost</div></div>
+      <div class="stat-card stat-card--cost"><div class="stat-num stat-num--cost" id="r-total"></div><div class="stat-lbl">Estimated Total</div></div>
+    </div>
+
+    <section class="page-section">
+      <div class="sec-hdr"><h2>Model Info</h2></div>
+      <div class="sec-body">
+        <div class="info-grid">
+          <div class="info-item"><span class="info-lbl">Bounding Box</span><span class="info-val" id="r-bbox"></span></div>
+          <div class="info-item"><span class="info-lbl">Mesh Volume</span><span class="info-val" id="r-volume"></span></div>
+          <div class="info-item"><span class="info-lbl">Triangles</span><span class="info-val" id="r-tris"></span></div>
+          <div class="info-item"><span class="info-lbl">Watertight</span><span class="info-val" id="r-watertight"></span></div>
+          <div class="info-item"><span class="info-lbl">Fits on Printer</span><span class="info-val" id="r-bedfit"></span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section">
+      <div class="sec-hdr"><h2>Cost Breakdown</h2></div>
+      <div style="padding:0 8px 8px">
+        <table class="cost-table">
+          <thead><tr><th>Line Item</th><th style="text-align:right">Amount</th></tr></thead>
+          <tbody id="r-costrows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="page-section">
+      <div class="sec-hdr"><h2>Notes &amp; Assumptions</h2></div>
+      <div class="notes-body" id="r-notes"></div>
+    </section>
+
+    <section class="page-section cta-section">
+      <div class="sec-hdr"><h2>Request This Print</h2><span class="sec-hint">No payment needed now</span></div>
+      <div class="cta-body">
+        <p class="cta-lede">This is an instant estimate. To order, send us the request —
+          your quote details are pre-filled, just attach your STL to the email and hit send.
+          We'll confirm final pricing before any payment.</p>
+        <div class="btn-row">
+          <a class="btn btn-primary" id="btn-request" href="#">✉ Request This Print</a>
+          <button class="btn btn-ghost" onclick="window.print()">Print / Save PDF</button>
+        </div>
+        <p class="cta-legal">Final pricing is confirmed by The Dimensional Forge after reviewing
+          your model for printability, supports, and orientation. Estimates are not a binding offer.</p>
+      </div>
+    </section>
+  </div>
+
+  <footer class="page-footer">
+    <a href="https://dimensional-forge.github.io/">The Dimensional Forge</a> &nbsp;·&nbsp; dimensional.forge@gmail.com
+  </footer>
+</div>
+
+<script>
+'use strict';
+/* [estimator] Standalone 3D print estimator — ported from Venn's
+ * arms/bridge-print-estimator.js. All parsing and math run in this browser tab;
+ * the STL never leaves the visitor's machine. Keep tables in sync with the bridge. */
+
+// ── Materials (density g/cm³, price $/kg) ──────────────────────
+const MATERIALS = {
+  PLA:    { density: 1.24, pricePerKg: 22 },
+  'PLA+': { density: 1.24, pricePerKg: 28 },
+  PETG:   { density: 1.27, pricePerKg: 26 },
+  ABS:    { density: 1.04, pricePerKg: 24 },
+  ASA:    { density: 1.07, pricePerKg: 30 },
+  PC:     { density: 1.20, pricePerKg: 35 },
+  PET:    { density: 1.33, pricePerKg: 28 },
+  PP:     { density: 0.90, pricePerKg: 28 },
+  PA:     { density: 1.13, pricePerKg: 45 },
+  TPU:    { density: 1.21, pricePerKg: 40 },
+  NYLON:  { density: 1.14, pricePerKg: 45 },
+};
+
+// ── Print profiles (Bambu Studio A1M config) ───────────────────
+const PROFILES = {
+  standard:       { label: '0.20mm Standard',      layerHeightMm: 0.20, infillPct: 15, shellPerimeters: 2, setupMin: 15, postProcessMin: 15 },
+  strong:         { label: '0.20mm Strong',        layerHeightMm: 0.20, infillPct: 20, shellPerimeters: 4, setupMin: 15, postProcessMin: 20 },
+  draft:          { label: '0.24mm Draft',         layerHeightMm: 0.24, infillPct: 15, shellPerimeters: 2, setupMin: 10, postProcessMin: 10 },
+  'high-quality': { label: '0.08mm High Quality',  layerHeightMm: 0.08, infillPct: 15, shellPerimeters: 2, setupMin: 15, postProcessMin: 30 },
+};
+
+// ── DF rates (baked in — this is a Dimensional Forge quote tool) ─
+const MACHINE_RATE = 1.50;   // $/hr
+const LABOR_RATE   = 20;     // $/hr
+const MARKUP_PCT   = 25;
+const FLOW_RATE    = 11;     // mm³/s — 0.4mm nozzle, 0.2mm layer
+const INEFF        = 1.35;   // travel + accel + support overhead
+const BED_X = 180, BED_Y = 180, BED_Z = 180;  // Bambu A1 mini
+
+// ── Vector helpers ─────────────────────────────────────────────
+function cross(a, b) { return [a[1]*b[2]-a[2]*b[1], a[2]*b[0]-a[0]*b[2], a[0]*b[1]-a[1]*b[0]]; }
+function dot(a, b)   { return a[0]*b[0] + a[1]*b[1] + a[2]*b[2]; }
+function sub(a, b)   { return [a[0]-b[0], a[1]-b[1], a[2]-b[2]]; }
+function norm(v)     { return Math.sqrt(v[0]*v[0] + v[1]*v[1] + v[2]*v[2]); }
+
+// ── STL parsers (ArrayBuffer in, triangle list out) ────────────
+function parseASCII(src) {
+  const verts = [];
+  const re = /vertex\s+([-\d.eE+]+)\s+([-\d.eE+]+)\s+([-\d.eE+]+)/g;
+  let m;
+  while ((m = re.exec(src)) !== null)
+    verts.push([parseFloat(m[1]), parseFloat(m[2]), parseFloat(m[3])]);
+  const tris = [];
+  for (let i = 0; i + 2 < verts.length; i += 3)
+    tris.push([verts[i], verts[i+1], verts[i+2]]);
+  return tris;
+}
+
+function parseBinary(buf) {
+  const view = new DataView(buf);
+  const count = view.getUint32(80, true);
+  const tris = [];
+  for (let i = 0; i < count; i++) {
+    const o = 84 + i * 50;
+    if (o + 50 > buf.byteLength) break;   // truncated file — keep what we have
+    tris.push([
+      [view.getFloat32(o+12,true), view.getFloat32(o+16,true), view.getFloat32(o+20,true)],
+      [view.getFloat32(o+24,true), view.getFloat32(o+28,true), view.getFloat32(o+32,true)],
+      [view.getFloat32(o+36,true), view.getFloat32(o+40,true), view.getFloat32(o+44,true)],
+    ]);
+  }
+  return tris;
+}
+
+function parseSTL(buf) {
+  if (buf.byteLength < 84) {
+    // Too small for binary; could still be a tiny ASCII file
+    const text = new TextDecoder('utf-8', { fatal: false }).decode(buf);
+    if (text.trimStart().toLowerCase().startsWith('solid')) return parseASCII(text);
+    throw new Error('File too small to be a valid STL');
+  }
+  const headerBytes = new Uint8Array(buf, 0, 80);
+  let header = '';
+  for (let i = 0; i < 80; i++) header += String.fromCharCode(headerBytes[i]);
+  if (header.toLowerCase().trim().startsWith('solid')) {
+    const text = new TextDecoder('utf-8', { fatal: false }).decode(buf);
+    if (text.includes('facet normal')) return parseASCII(text);
+  }
+  return parseBinary(buf);
+}
+
+// Auto-detect inch-unit STLs (AutoCAD default) and scale to mm
+function scaleTriangles(tris) {
+  let minX=Infinity, minY=Infinity, minZ=Infinity;
+  let maxX=-Infinity, maxY=-Infinity, maxZ=-Infinity;
+  for (const [v1,v2,v3] of tris)
+    for (const v of [v1,v2,v3]) {
+      if (v[0]<minX) minX=v[0]; if (v[0]>maxX) maxX=v[0];
+      if (v[1]<minY) minY=v[1]; if (v[1]>maxY) maxY=v[1];
+      if (v[2]<minZ) minZ=v[2]; if (v[2]>maxZ) maxZ=v[2];
+    }
+  const maxDim = Math.max(maxX-minX, maxY-minY, maxZ-minZ);
+  if (maxDim > 0 && maxDim < 25) {
+    return { tris: tris.map(([v1,v2,v3]) =>
+      [v1.map(c=>c*25.4), v2.map(c=>c*25.4), v3.map(c=>c*25.4)]
+    ), unit: 'in' };
+  }
+  return { tris, unit: 'mm' };
+}
+
+function computeGeometry(tris) {
+  let vol=0, area=0;
+  let minX=Infinity,minY=Infinity,minZ=Infinity;
+  let maxX=-Infinity,maxY=-Infinity,maxZ=-Infinity;
+  for (const [v1,v2,v3] of tris) {
+    vol  += dot(v1, cross(v2, v3)) / 6;
+    area += 0.5 * norm(cross(sub(v2,v1), sub(v3,v1)));
+    for (const v of [v1,v2,v3]) {
+      if (v[0]<minX) minX=v[0]; if (v[0]>maxX) maxX=v[0];
+      if (v[1]<minY) minY=v[1]; if (v[1]>maxY) maxY=v[1];
+      if (v[2]<minZ) minZ=v[2]; if (v[2]>maxZ) maxZ=v[2];
+    }
+  }
+  return {
+    volumeMm3:      Math.abs(vol),
+    surfaceAreaMm2: area,
+    bbox: {
+      x: Math.round((maxX-minX)*100)/100,
+      y: Math.round((maxY-minY)*100)/100,
+      z: Math.round((maxZ-minZ)*100)/100,
+    },
+    triangleCount: tris.length,
+    watertight: tris.length % 2 === 0 && Math.abs(vol) > 0,
+  };
+}
+
+// ── Estimate math (identical to bridge estimate()) ─────────────
+function estimate(geo, opts) {
+  const { material, profileKey, quantity, infillPct, layerHeightMm, shellPerimeters } = opts;
+  const profile = PROFILES[profileKey] || PROFILES.standard;
+  const mat = MATERIALS[material] || MATERIALS.PLA;
+
+  const infill = infillPct     != null ? infillPct       : profile.infillPct;
+  const layer  = layerHeightMm != null ? layerHeightMm   : profile.layerHeightMm;
+  const walls  = shellPerimeters != null ? shellPerimeters : profile.shellPerimeters;
+
+  const shellVol  = geo.surfaceAreaMm2 * (walls * layer);
+  const infillVol = Math.max(0, geo.volumeMm3 - shellVol) * (infill / 100);
+  const printVol  = (shellVol + infillVol) * quantity;
+
+  const grams       = (printVol / 1000) * mat.density;
+  const hours       = Math.round((printVol / (FLOW_RATE * 3600)) * INEFF * 100) / 100;
+  const matCost     = Math.round((grams / 1000) * mat.pricePerKg * 100) / 100;
+  const machineCost = Math.round(hours * MACHINE_RATE * 100) / 100;
+  const laborCost   = Math.round(((profile.setupMin + profile.postProcessMin) / 60) * LABOR_RATE * 100) / 100;
+  const subtotal    = matCost + machineCost + laborCost;
+  const markup      = Math.round(subtotal * (MARKUP_PCT / 100) * 100) / 100;
+  const total       = Math.round((subtotal + markup) * 100) / 100;
+
+  return {
+    profile, material, quantity,
+    infillPct: infill, layerHeightMm: layer, shellPerimeters: walls,
+    grams: Math.round(grams * 10) / 10,
+    hours,
+    costs: {
+      material: matCost, machine: machineCost, labor: laborCost,
+      subtotal: Math.round(subtotal*100)/100, markup, total,
+    },
+    laborMin: profile.setupMin + profile.postProcessMin,
+  };
+}
+
+// ── Formatting ─────────────────────────────────────────────────
+function fmt$(n) { return '$' + Number(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+function fmtN(n, d=1) { return Number(n).toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d }); }
+function esc(v) {
+  return String(v == null ? '' : v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#x27;');
+}
+
+// ── UI wiring ──────────────────────────────────────────────────
+const $ = (id) => document.getElementById(id);
+let currentGeo  = null;   // parsed geometry of the loaded STL
+let currentFile = '';     // its filename
+let currentUnit = 'mm';
+
+function populateSelects() {
+  $('sel-material').innerHTML = Object.keys(MATERIALS)
+    .map(m => `<option value="${m}"${m==='PLA'?' selected':''}>${m} — $${MATERIALS[m].pricePerKg}/kg</option>`).join('');
+  $('sel-profile').innerHTML = Object.keys(PROFILES)
+    .map(k => `<option value="${k}"${k==='standard'?' selected':''}>${PROFILES[k].label}</option>`).join('');
+}
+
+function showError(msg) {
+  const b = $('error-banner');
+  b.textContent = msg;
+  b.classList.add('show');
+  console.error('[estimator]', msg);
+}
+function clearError() { $('error-banner').classList.remove('show'); }
+
+function loadFile(file) {
+  clearError();
+  if (!file) return;
+  if (!/\.stl$/i.test(file.name)) {
+    showError(`"${file.name}" doesn't look like an STL file. Please choose a .stl export from your CAD or slicer software.`);
+    return;
+  }
+  console.log('[estimator] Loading file:', file.name, file.size, 'bytes');
+  file.arrayBuffer().then(buf => {
+    let tris;
+    try { tris = parseSTL(buf); }
+    catch (err) {
+      showError(`Could not parse "${file.name}": ${err.message}`);
+      return;
+    }
+    if (!tris.length) {
+      showError(`"${file.name}" contains no triangles — the file may be corrupt or not a real STL.`);
+      return;
+    }
+    const scaled = scaleTriangles(tris);
+    currentGeo  = computeGeometry(scaled.tris);
+    currentUnit = scaled.unit;
+    currentFile = file.name;
+    console.log('[estimator] Parsed OK:', currentGeo.triangleCount, 'triangles,',
+      Math.round(currentGeo.volumeMm3/1000*100)/100, 'cm³, unit:', currentUnit);
+    $('dz-file').textContent = '✓ ' + file.name;
+    $('controls').classList.add('show');
+    recompute();
+  }).catch(err => {
+    showError(`Could not read "${file.name}": ${err.message}`);
+  });
+}
+
+function recompute() {
+  if (!currentGeo) return;
+  const qty = Math.max(1, parseInt($('inp-qty').value, 10) || 1);
+  const infillRaw = $('inp-infill').value;
+  const layerRaw  = $('inp-layer').value;
+  const wallsRaw  = $('inp-walls').value;
+
+  const est = estimate(currentGeo, {
+    material:        $('sel-material').value,
+    profileKey:      $('sel-profile').value,
+    quantity:        qty,
+    infillPct:       infillRaw === '' ? null : Math.min(100, Math.max(0, parseFloat(infillRaw))),
+    layerHeightMm:   layerRaw  === '' ? null : Math.max(0.05, parseFloat(layerRaw)),
+    shellPerimeters: wallsRaw  === '' ? null : Math.max(1, parseInt(wallsRaw, 10)),
+  });
+
+  const geo = currentGeo;
+  const hrsDisp = est.hours < 1 ? `${Math.round(est.hours*60)}m` : `${fmtN(est.hours,1)}h`;
+  const bedFit = geo.bbox.x <= BED_X && geo.bbox.y <= BED_Y && geo.bbox.z <= BED_Z;
+
+  $('r-title').textContent    = currentFile.replace(/\.stl$/i, '') + ' — Print Estimate';
+  $('r-file').textContent     = currentFile;
+  $('r-date').textContent     = new Date().toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+  $('r-material').textContent = `${est.material} · ${est.profile.label}`;
+  $('r-qty').textContent      = String(est.quantity);
+
+  $('r-time').textContent    = hrsDisp;
+  $('r-grams').textContent   = fmtN(est.grams,1) + 'g';
+  $('r-matcost').textContent = fmt$(est.costs.material);
+  $('r-total').textContent   = fmt$(est.costs.total);
+
+  $('r-bbox').textContent   = `${fmtN(geo.bbox.x,1)} × ${fmtN(geo.bbox.y,1)} × ${fmtN(geo.bbox.z,1)} mm`;
+  $('r-volume').textContent = `${fmtN(geo.volumeMm3/1000,2)} cm³`;
+  $('r-tris').textContent   = geo.triangleCount.toLocaleString('en-US');
+  $('r-watertight').innerHTML = `<span class="badge ${geo.watertight?'badge--ok':'badge--warn'}">${geo.watertight?'Yes':'No'}</span>`;
+  $('r-bedfit').innerHTML     = `<span class="badge ${bedFit?'badge--ok':'badge--warn'}">${bedFit?'Yes':'Oversized'}</span>`;
+
+  $('r-costrows').innerHTML = `
+    <tr><td>Material — ${esc(est.material)}, ${esc(fmtN(est.grams,1))} g</td><td class="cost-amt">${esc(fmt$(est.costs.material))}</td></tr>
+    <tr><td>Machine time — ${esc(hrsDisp)} @ ${esc(fmt$(MACHINE_RATE))}/hr</td><td class="cost-amt">${esc(fmt$(est.costs.machine))}</td></tr>
+    <tr><td>Labor — ${esc(String(est.laborMin))} min @ ${esc(fmt$(LABOR_RATE))}/hr</td><td class="cost-amt">${esc(fmt$(est.costs.labor))}</td></tr>
+    <tr class="cost-row--sub"><td>Markup — ${MARKUP_PCT}%</td><td class="cost-amt">${esc(fmt$(est.costs.markup))}</td></tr>
+    <tr class="cost-row--total"><td>Estimated Total</td><td class="cost-amt">${esc(fmt$(est.costs.total))}</td></tr>`;
+
+  $('r-notes').innerHTML = [
+    `<p>Material costs estimated at current market rates and may vary. Print time is an estimate based on volumetric flow — actual time may differ by ±20% depending on geometry, slicer settings, and machine calibration. Shipping (if needed) is quoted separately.</p>`,
+    `<p>Volume computed via signed-tetrahedra method.` +
+      (!geo.watertight ? ' <strong style="color:#f87171">Mesh is not watertight — volume may be inaccurate.</strong>' : '') +
+      ` Printer bed check assumes ${BED_X} × ${BED_Y} × ${BED_Z} mm (Bambu A1 mini).` +
+      (currentUnit==='in' ? ' <strong style="color:#FAAC3D">STL appears to be in inches — auto-scaled ×25.4 to mm.</strong>' : '') +
+    `</p>`,
+  ].join('');
+
+  // Pre-filled order request email — this is how the quote reaches DF
+  const subject = `Print request: ${currentFile} — ${fmt$(est.costs.total)}`;
+  const body = [
+    'Hi Dimensional Forge,',
+    '',
+    `I'd like to order this print (estimate from your online estimator):`,
+    '',
+    `  File     : ${currentFile}`,
+    `  Size     : ${fmtN(geo.bbox.x,1)} x ${fmtN(geo.bbox.y,1)} x ${fmtN(geo.bbox.z,1)} mm`,
+    `  Material : ${est.material}`,
+    `  Profile  : ${est.profile.label}`,
+    `  Quantity : ${est.quantity}`,
+    `  Filament : ${fmtN(est.grams,1)} g`,
+    `  Time     : ${hrsDisp}`,
+    `  Estimate : ${fmt$(est.costs.total)}`,
+    '',
+    "(I've attached my STL file to this email.)",
+    '',
+    'Name:',
+    'Shipping or pickup:',
+    'Notes:',
+  ].join('\n');
+  $('btn-request').href = 'mailto:dimensional.forge@gmail.com'
+    + '?subject=' + encodeURIComponent(subject)
+    + '&body='    + encodeURIComponent(body);
+
+  $('results').classList.add('show');
+  console.log('[estimator] Estimate:', est.grams + 'g', est.hours + 'h', fmt$(est.costs.total));
+}
+
+// ── Event listeners ────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  populateSelects();
+
+  const dz = $('dropzone');
+  dz.addEventListener('click', () => $('file-input').click());
+  dz.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') $('file-input').click(); });
+  dz.addEventListener('dragover',  (e) => { e.preventDefault(); dz.classList.add('dragover'); });
+  dz.addEventListener('dragleave', ()  => dz.classList.remove('dragover'));
+  dz.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dz.classList.remove('dragover');
+    loadFile(e.dataTransfer.files[0]);
+  });
+  $('file-input').addEventListener('change', (e) => loadFile(e.target.files[0]));
+
+  for (const id of ['sel-material','sel-profile','inp-qty','inp-infill','inp-layer','inp-walls'])
+    $(id).addEventListener('input', recompute);
+
+  console.log('[estimator] Ready — drop an STL to begin');
+});
+</script>
+</body>
+</html>
