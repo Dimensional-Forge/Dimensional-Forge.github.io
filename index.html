@@ -1286,7 +1286,7 @@
           <div class="stat-lbl" id="hero-rating-lbl">Client Rating</div>
         </div>
         <div>
-          <div class="stat-num">8</div>
+          <div class="stat-num">9</div>
           <div class="stat-lbl">Accepted Proposals</div>
         </div>
         <div>
@@ -1622,6 +1622,24 @@
         Each engagement runs only the <a href="The_Dimensional_Forge_Method.html" style="color:var(--df-orange);text-decoration:none;">Forge Method</a> phases (0–5) the project actually needs.
       </p>
       <div class="proposals-grid">
+
+        <!-- Medical Device Reverse Engineering -->
+        <div class="proposal-card" data-proposal="reverse-engineering">
+          <div class="proposal-title">Medical Device Reverse Engineering</div>
+          <span class="proposal-date">2026-09-26</span>
+          <div class="proposal-stats">
+            <div class="pstat"><span class="pstat-val">$400</span><span class="pstat-lbl">Investment</span></div>
+            <div class="pstat"><span class="pstat-val">8h</span><span class="pstat-lbl">Hours</span></div>
+            <div class="pstat"><span class="pstat-val">0·2·5</span><span class="pstat-lbl">Forge Phases</span></div>
+          </div>
+          <p class="proposal-desc">Teardown and reverse engineering of a client-supplied medical device: methodical disassembly with measured photo documentation, parametric SolidWorks models of the key parts, and a handoff package of native CAD, STEP files, and basic dimensioned drawings.</p>
+          <div class="proposal-tags">
+            <span class="wtag">Reverse Engineering</span>
+            <span class="wtag">CAD</span>
+            <span class="wtag">Technical Documentation</span>
+            <span class="wtag">Engineering Drawings</span>
+          </div>
+        </div>
 
         <!-- Cove Design Consultation -->
         <div class="proposal-card" data-proposal="cove-design">
@@ -2347,6 +2365,23 @@
         ],
         deliverables: ['Fabricated Pokéstop-silhouette acrylic sign', 'LED neon flex front face with wiring', 'Fully tested spinnable pole-mount assembly'],
         tags: ['Custom Fabrication', 'LED Electronics', 'Acrylic Work'],
+      },
+      {
+        id: 'reverse-engineering',
+        type: 'Reverse Engineering · Forge Phases 0, 2 & 5',
+        title: 'Medical Device Reverse Engineering',
+        stats: [
+          { val: '$400',  lbl: 'Investment' },
+          { val: '8h',    lbl: 'Hours' },
+          { val: '0·2·5', lbl: 'Forge Phases' },
+        ],
+        phases: [
+          { title: 'Phase 0 — Discovery & Definition · Teardown & Documentation', items: ['Device intake and inspection', 'Methodical disassembly with step-by-step photos of assembly order', 'Caliper measurements and reference photos of each component'] },
+          { title: 'Phase 2 — Design & Verification · Reverse-Engineering CAD Modeling', items: ['Parametric SolidWorks part models from measured geometry', 'Critical interfaces and fit-up between mating components captured'] },
+          { title: 'Phase 5 — Handoff & Lifecycle · Drawings & Handoff', items: ['STEP exports and basic dimensioned part drawings', 'Handoff summary and organized file package'] },
+        ],
+        deliverables: ['Teardown photo log in assembly order', 'Component list with key measurements', 'Native SolidWorks part models', 'STEP files', 'Basic dimensioned PDF drawings', 'Measurement summary'],
+        tags: ['Reverse Engineering', 'CAD', 'Technical Documentation', 'Engineering Drawings'],
       },
       {
         id: 'stealth-wallet',
