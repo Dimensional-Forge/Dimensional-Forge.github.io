@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio — The Dimensional Forge · Sean Neal</title>
+  <meta name="description" content="Career, client and personal engineering work by Sean Neal across leadership, systems, mechanical, electrical, software and AI." />
+  <link rel="canonical" href="https://dimensional-forge.github.io/portfolio.html" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://dimensional-forge.github.io/portfolio.html" />
+  <meta property="og:site_name" content="The Dimensional Forge" />
+  <meta property="og:title" content="Portfolio — The Dimensional Forge · Sean Neal" />
+  <meta property="og:description" content="Senior product development engineering on demand: systems architecture, CAD, rapid prototyping, DFM, and verification & validation for inventors, startups, and small businesses." />
+  <meta name="twitter:card" content="summary" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "The Dimensional Forge",
+    "url": "https://dimensional-forge.github.io/",
+    "description": "Product development consulting for inventors, startups, and small businesses: systems architecture, mechanical and electromechanical design, rapid prototyping, DFM, and verification & validation.",
+    "founder": { "@type": "Person", "name": "Sean Neal" },
+    "address": { "@type": "PostalAddress", "addressLocality": "Indianapolis", "addressRegion": "IN", "addressCountry": "US" },
+    "telephone": "+1-765-228-2824",
+    "email": "ConnectWithSean@the-dimensional-forge.net",
+    "priceRange": "$55/hr+",
+    "sameAs": [
+      "https://linkedin.com/in/seanneal19",
+      "https://etsy.com/shop/DimensionalForgeProd",
+      "https://makerworld.com/en/@Dimensional.F",
+      "https://cults3d.com/en/users/TheDimensionalForge/3d-models",
+      "https://thedimensionalforge.substack.com"
+    ]
+  }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script type="importmap">
+  { "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  } }
+  </script>
+</head>
+
+<body>
+
+  <!-- EMBERS -->
+  <div class="embers" id="embers"></div>
+  <!-- ── NAV ──────────────────────────────────────────────────────── -->
+  <nav>
+    <div class="inner">
+      <a href="index.html" class="nav-logo" aria-label="The Dimensional Forge">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="40 40 430 430" style="height:32px;width:32px;display:block;border-radius:4px;" aria-hidden="true">
+          <defs>
+            <linearGradient id="nav-icon-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop stop-color="#EE4236" offset="0"/>
+              <stop stop-color="#FAAC3D" offset="1"/>
+            </linearGradient>
+          </defs>
+          <rect x="40" y="40" width="430" height="430" fill="#111"/>
+          <path fill="url(#nav-icon-grad)" d="M42.843,48.727c1.185,445.12-1.883,411.585,1.389,418.13c0.278,0.278,0.278,0.278,0.278,0.556c0.278,0.278,0.278,0.278,0.556,0.278c6.219,3.109-11.301,0.187,145.026,1.389H322.06c157.166-0.305,140.352,0.947,145.026-1.389c0.278,0,0.278-0.278,0.556-0.278c0.278-0.278,0.278-0.278,0.278-0.556c0.278-0.556,0.833-0.833,0.833-1.389c0.768-2.303,0.555-416.847,0.549-416.947v-1.43c0-2.337-1.915-4.221-4.252-4.182l-1.377,0.023c0,0-24.026,0.189-141.612-0.04H190.091C81.12,43.731,56.366,42.623,49.509,42.853h-2.578c-2.223,0-4.033,1.786-4.063,4.009L42.843,48.727z M326.227,457.411l-18.337-54.454h86.682l54.454,54.454H326.227z M62.847,457.411l54.454-54.454h86.682l-18.337,54.454H62.847z M185.646,54.561l18.337,54.454h-86.682L62.847,54.561H185.646z M449.027,54.561l-54.454,54.454H307.89l18.337-54.454H449.027z M327.894,319.609V192.642l63.345-63.345v253.379L327.894,319.609z M195.926,315.997V195.976h120.021v120.022H195.926z M183.979,192.364v126.967l-63.067,63.345V129.297L183.979,192.364z M382.626,120.962l-63.345,63.345h-36.673l21.115-63.345H382.626z M270.106,184.029H241.49l-21.115-63.345h70.846L270.106,184.029z M229.265,184.029h-36.951l-63.067-63.067h78.903L229.265,184.029z M108.966,117.35v277.272l-54.454,54.454V62.896L108.966,117.35z M129.247,391.01l63.345-63.345h36.673L208.15,391.01H129.247z M241.767,327.944h28.616l21.115,63.345h-71.124L241.767,327.944z M282.608,327.944h36.673l63.345,63.345h-78.903L282.608,327.944z M402.907,394.622V117.35l54.454-54.454v385.902L402.907,394.622z M313.725,54.561l-18.337,54.454h-78.903l-18.337-54.454H313.725z M198.148,457.411l18.337-54.454h78.903l18.337,54.454H198.148z"/>
+        </svg>
+        <span class="nav-wordmark" aria-hidden="true"><span class="nw-text">The Dimensional Forge</span></span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html#delivered">Delivered</a></li>
+        <li><a href="index.html#services">Services</a></li>
+        <li><a href="index.html#process">Process</a></li>
+        <li><a href="index.html#reviews">Reviews</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="portfolio.html" aria-current="page">Portfolio</a></li>
+        <li><a href="index.html#models">Shop</a></li>
+        <li><a href="index.html#book" class="nav-hire-me">Forge Together</a></li>
+      </ul>
+
+      <button id="nav-burger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+      <!-- VENN nav widget -->
+      <div id="venn-widget">
+
+        <button id="venn-toggle" aria-label="Open VENN chat">
+          <svg id="vwt-face" viewBox="-20 -20 260 260" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+            <rect x="-20" y="-50" width="260" height="340" fill="#120500"/>
+            <rect x="-18" y="56" width="30" height="84" fill="#cc4400" rx="3"/>
+            <rect x="-14" y="60" width="22" height="76" fill="#1f0800" rx="2"/>
+            <rect x="208" y="56" width="30" height="84" fill="#cc4400" rx="3"/>
+            <rect x="212" y="60" width="22" height="76" fill="#1f0800" rx="2"/>
+            <rect x="-5"  y="-14" width="4"  height="70" fill="#cc4400"/>
+            <rect x="-10" y="-18" width="14" height="7"  fill="#ff7722" rx="2"/>
+            <rect x="221" y="-14" width="4"  height="70" fill="#cc4400"/>
+            <rect x="216" y="-18" width="14" height="7"  fill="#ff7722" rx="2"/>
+            <rect x="40"  y="10"  width="140" height="12" fill="#cc4400"/>
+            <rect x="16"  y="22"  width="24"  height="12" fill="#cc4400"/>
+            <rect x="180" y="22"  width="24"  height="12" fill="#cc4400"/>
+            <rect x="10"  y="34"  width="200" height="156" fill="#1f0800"/>
+            <rect x="10"  y="34"  width="12"  height="156" fill="#cc4400"/>
+            <rect x="198" y="34"  width="12"  height="156" fill="#cc4400"/>
+            <rect x="16"  y="190" width="24"  height="12" fill="#cc4400"/>
+            <rect x="180" y="190" width="24"  height="12" fill="#cc4400"/>
+            <rect x="40"  y="202" width="140" height="12" fill="#cc4400"/>
+            <rect id="vwt-leye"   x="36"  y="58" width="56" height="44" fill="#00ee44" rx="2"/>
+            <rect id="vwt-lpupil" x="50"  y="68" width="28" height="24" fill="#002208"/>
+            <rect id="vwt-lshine" x="50"  y="68" width="9"  height="9"  fill="#aaffcc" opacity="0.65"/>
+            <rect id="vwt-reye"   x="128" y="58" width="56" height="44" fill="#00ee44" rx="2"/>
+            <rect id="vwt-rpupil" x="142" y="68" width="28" height="24" fill="#002208"/>
+            <rect id="vwt-rshine" x="142" y="68" width="9"  height="9"  fill="#aaffcc" opacity="0.65"/>
+            <g id="vwt-mouth"></g>
+          </svg>
+        </button>
+
+        <div id="venn-panel">
+          <div id="venn-panel-header">
+            <div class="venn-crt-mini">
+              <svg viewBox="-20 -20 260 260" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <radialGradient id="vwh-glow" cx="50%" cy="45%" r="55%">
+                    <stop offset="0%"   stop-color="#ff5500" stop-opacity="0.09"/>
+                    <stop offset="100%" stop-color="#ff5500" stop-opacity="0"/>
+                  </radialGradient>
+                </defs>
+                <rect x="-20" y="-50" width="260" height="340" fill="#120500"/>
+                <rect x="-18" y="56" width="30" height="84" fill="#cc4400" rx="3"/>
+                <rect x="-14" y="60" width="22" height="76" fill="#1f0800" rx="2"/>
+                <rect x="208" y="56" width="30" height="84" fill="#cc4400" rx="3"/>
+                <rect x="212" y="60" width="22" height="76" fill="#1f0800" rx="2"/>
+                <rect x="-5"  y="-14" width="4"  height="70" fill="#cc4400"/>
+                <rect class="venn-ant-l" x="-10" y="-18" width="14" height="7" fill="#ff7722" rx="2"/>
+                <rect x="221" y="-14" width="4"  height="70" fill="#cc4400"/>
+                <rect class="venn-ant-r" x="216" y="-18" width="14" height="7" fill="#ff7722" rx="2"/>
+                <rect x="40"  y="10"  width="140" height="12" fill="#cc4400"/>
+                <rect x="16"  y="22"  width="24"  height="12" fill="#cc4400"/>
+                <rect x="180" y="22"  width="24"  height="12" fill="#cc4400"/>
+                <rect x="10"  y="34"  width="200" height="156" fill="#1f0800"/>
+                <rect x="10"  y="34"  width="12"  height="156" fill="#cc4400"/>
+                <rect x="198" y="34"  width="12"  height="156" fill="#cc4400"/>
+                <rect x="16"  y="190" width="24"  height="12" fill="#cc4400"/>
+                <rect x="180" y="190" width="24"  height="12" fill="#cc4400"/>
+                <rect x="40"  y="202" width="140" height="12" fill="#cc4400"/>
+                <rect width="220" height="240" fill="url(#vwh-glow)"/>
+                <rect class="venn-eye-anim" id="vwh-leye"   x="36"  y="58" width="56" height="44" fill="#00ee44" rx="2"/>
+                <rect id="vwh-lpupil" x="50"  y="68" width="28" height="24" fill="#002208"/>
+                <rect id="vwh-lshine" x="50"  y="68" width="9"  height="9"  fill="#aaffcc" opacity="0.65"/>
+                <rect class="venn-eye-anim" id="vwh-reye"   x="128" y="58" width="56" height="44" fill="#00ee44" rx="2"/>
+                <rect id="vwh-rpupil" x="142" y="68" width="28" height="24" fill="#002208"/>
+                <rect id="vwh-rshine" x="142" y="68" width="9"  height="9"  fill="#aaffcc" opacity="0.65"/>
+                <g id="vwh-mouth"></g>
+              </svg>
+            </div>
+            <div id="venn-header-info">
+              <span id="venn-header-name">VENN</span>
+              <span id="venn-header-sub">The Dimensional Forge</span>
+              <span id="venn-header-status">● Bridge Offline</span>
+            </div>
+            <button id="venn-close" aria-label="Close">✕</button>
+          </div>
+          <div id="venn-about-bar">
+            <a href="venn-portfolio.html" target="_blank" id="venn-about-link">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              About VENN
+              <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+          </div>
+          <div id="venn-cta">
+            <p id="venn-cta-text">Chat with me on Telegram &mdash; ask a question or request a 3D-print quote.</p>
+            <a id="venn-cta-btn" href="https://t.me/Venn_SMS_Bot?start=website" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.94 4.3 18.9 19.1c-.23 1.02-.84 1.27-1.7.79l-4.7-3.47-2.27 2.18c-.25.25-.46.46-.94.46l.34-4.78L18.6 6.1c.38-.34-.08-.53-.59-.19L7.27 12.6l-4.65-1.45c-1.01-.32-1.03-1.01.21-1.5l18.2-7.02c.84-.31 1.58.2 1.31 1.67Z"/></svg>
+              Open Telegram
+            </a>
+          </div>
+        </div>
+
+      </div><!-- /venn-widget -->
+
+    </div>
+  </nav>
+
+  <!-- ── PORTFOLIO HERO ── -->
+  <section id="top" class="section pf-hero page-first">
+    <div class="container">
+      <span class="label">Portfolio</span>
+      <h1 class="section-title pf-h1">Experience &amp; <em class="grad">portfolio.</em></h1>
+      <hr class="rule" />
+      <p class="section-lead">A structured look at my work across enterprise product development, client engagements, patented inventions and the builds I make in my own lab.</p>
+      <div class="pf-jump" role="navigation" aria-label="Portfolio sections">
+        <a href="#career"><b>01</b> Career</a>
+        <a href="#clients"><b>02</b> Clients</a>
+        <a href="#patents"><b>03</b> Patents</a>
+        <a href="#cad"><b>04</b> CAD Gallery</a>
+        <a href="#lab"><b>05</b> The Forge Lab</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 01. W-2 ROLES ── -->
+  <section id="career" class="section pf-section">
+    <div class="container">
+      <span class="label">01 · W-2 Roles</span>
+      <h2 class="section-title">Career <em class="grad">milestones</em></h2>
+      <hr class="rule" />
+      <p class="section-lead">Eight years of connected hardware at Allegion, plus internships at Tesla, NASA Marshall and SonaCare.</p>
+      <div class="pf-feed">
+        <article class="pf-row">
+          <div class="pf-media"><img class="pf-cutout" src="smart-lock.webp" width="900" height="900" alt="Keypad smart deadbolt, exterior keypad and interior thumbturn assembly" loading="lazy" decoding="async" /></div>
+          <div class="pf-body">
+            <h3 class="pf-title">WiFi Smart-Lock Product Family</h3>
+            <p class="pf-role">System Engineer III → Senior System Engineer · Allegion · 2018–present</p>
+            <span class="pf-build-label">The build</span>
+            <p class="pf-build">I own the system for a family of WiFi deadbolts and lever locks, from concept to retail launch: I write the PRDs, SRDs, FRDs and ADRs that seven subsystem teams build against, maintain the ICDs between them, and coordinate those teams as a team of teams. I run the DFMEAs, SFMEAs, risk register and FRACAS process, present System Design Reviews to directors, and mentor two engineers day to day.</p>
+            <ul class="pf-tech" aria-label="Core tech"><li>Requirements (PRD/FRD/SRD/ADR)</li><li>System Architecture &amp; ICDs</li><li>DFMEA / SFMEA</li><li>FRACAS &amp; Root Cause Analysis</li><li>Integration Test</li><li>Teams of Teams</li><li>Director-Level Reviews</li></ul>
+          </div>
+        </article>
+        <article class="pf-row">
+          <div class="pf-media"><img class="pf-cutout pf-cutout-wide" src="tesla-model-x.webp" width="860" height="491" alt="Tesla Model X with its falcon-wing doors open" loading="lazy" decoding="async" /></div>
+          <div class="pf-body">
+            <h3 class="pf-title">Model S / X Body &amp; Fastener Systems</h3>
+            <p class="pf-role">Body System Engineering Intern · Tesla · 2014–2015</p>
+            <span class="pf-build-label">The build</span>
+            <p class="pf-build">Two internships. I released GD&amp;T CAD models for cast and stamped aluminum structural parts on Model S and X, and selected and validated fasteners with torque-to-failure, tensile and clamp-load testing, documenting the root cause of every failure.</p>
+            <ul class="pf-tech" aria-label="Core tech"><li>SolidWorks CAD</li><li>GD&amp;T</li><li>Fastener Testing</li><li>Structural Design</li><li>Root Cause Analysis</li></ul>
+          </div>
+        </article>
+        <article class="pf-row">
+          <div class="pf-media"><img class="pf-cutout pf-cutout-tall pf-lineart" src="rs25-engine.webp" width="492" height="960" alt="Line drawing of the RS-25 rocket engine" loading="lazy" decoding="async" /></div>
+          <div class="pf-body">
+            <h3 class="pf-title">RS-25 PID Heat Map Tool</h3>
+            <p class="pf-role">Propulsion Systems Analysis Intern · Liquid Engine Systems Branch (ER21) · NASA Marshall · 2017</p>
+            <span class="pf-build-label">The build</span>
+            <p class="pf-build">Every RS-25 hot-fire test produces data from about 6,000 sensors that has to be assessed within seven days. On a five-intern team supporting the Space Launch System’s main engine, I built the PID Heat Map Tool, a MATLAB and Python tool with a full GUI that maps which sensor parameters the assessment plots use, how often and in which plots, so engineers can see coverage gaps and redundant analysis. Our team also wrote a script template and a worked LOX-system example so the next engineers know why each plot exists and how to read it.</p>
+            <ul class="pf-tech" aria-label="Core tech"><li>MATLAB</li><li>Python</li><li>GUI Development</li><li>Data Assessment</li><li>Systems Engineering</li><li>Technical Documentation</li></ul>
+          </div>
+        </article>
+        <article class="pf-row">
+          <div class="pf-media"><img class="pf-cutout pf-cutout-tall" src="hifu-system.webp" width="804" height="952" alt="Sonablate HIFU system, with the treatment probe mounted on its articulating arm" loading="lazy" decoding="async" /></div>
+          <div class="pf-body">
+            <h3 class="pf-title">Sonablate HIFU Probe</h3>
+            <p class="pf-role">Product R&amp;D Engineering Co-Op · SonaCare Medical · 2016–2018</p>
+            <span class="pf-build-label">The build</span>
+            <p class="pf-build">I worked on the Sonablate probe, which delivers precise, focused ablative energy into the prostate. The probe housing and the entire assembly were within my design scope, including its demanding medical sealing. I took the design from concept through SolidWorks models, 3D-printed and cast urethane prototypes, fabrication, validation testing and the test reports, and I set the cable specifications and drew the 2D/3D electrical routing.</p>
+            <ul class="pf-tech" aria-label="Core tech"><li>Medical Devices</li><li>Housing &amp; Assembly Design</li><li>Medical Sealing</li><li>SolidWorks CAD</li><li>Cast Urethane</li><li>Testing &amp; Validation</li></ul>
+          </div>
+        </article>
+      </div>
+      <h3 class="pf-subhead">Also at Allegion</h3>
+      <div class="pf-mini-grid">
+          <article class="pf-mini">
+            <h4>Systems Engineering Intern Program</h4>
+            <p class="pf-role">Allegion · 2026</p>
+            <p>I ran Allegion’s systems engineering intern program end to end: I found candidates, reviewed résumés, scheduled the interviews, and owned the final call on who got hired.</p>
+            <ul class="pf-tech" aria-label="Core tech"><li>Candidate Sourcing</li><li>Interview Coordination</li><li>Hiring Decisions</li></ul>
+          </article>
+          <article class="pf-mini">
+            <h4>Independent Reviewer Agent</h4>
+            <p class="pf-role">Allegion · Azure DevOps</p>
+            <p>I’ve built an agent that performs independent reviews at system design review gates: it reads the work items and documents in Azure DevOps and writes up findings, thoroughly and cheaply.</p>
+            <ul class="pf-tech" aria-label="Core tech"><li>AI Agent Development</li><li>Azure DevOps</li><li>Design Reviews</li></ul>
+          </article>
+          <article class="pf-mini">
+            <h4>ML Models &amp; Data Pipelines</h4>
+            <p class="pf-role">Allegion · Data Scientist Cohort · 2019–2020</p>
+            <p>Alongside my systems role I joined Allegion’s data scientist cohort, where I built machine learning models and automated data pipelines that fed product and engineering strategy decisions.</p>
+            <ul class="pf-tech" aria-label="Core tech"><li>Data Analysis &amp; ML</li><li>Python</li></ul>
+          </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 02. CONSULTING ── -->
+  <section id="clients" class="section pf-section section-dark">
+    <div class="container">
+      <span class="label">02 · Consulting</span>
+      <h2 class="section-title">Client <em class="grad">engagements</em></h2>
+      <hr class="rule" />
+      <p class="section-lead">Paid client outcomes through The Dimensional Forge. Every one was quoted before work started; open any of them to see the accepted proposal.</p>
+      <div class="pf-feed">
+        <article class="pf-row">
+          <div class="pf-media"><div class="pf-panel pf-panel-stats"><div class="pf-stats"><div><span class="pf-panel-big">$2,250</span><span class="pf-panel-small">Investment</span></div><div><span class="pf-panel-big">150h</span><span class="pf-panel-small">Hours</span></div><div><span class="pf-panel-big">0–2·4</span><span class="pf-panel-small">Forge Phases</span></div></div><button type="button" class="btn btn-ghost pf-open" data-proposal="stealth-wallet">View the accepted proposal</button></div></div>
+          <div class="pf-body">
+            <h3 class="pf-title">Stealth Wallet</h3>
+            <p class="pf-role">Design through production · The Dimensional Forge · 2025</p>
+            <span class="pf-build-label">The build</span>
+            <p class="pf-build">I took a client’s wallet from sketch to production readiness: CAD, photorealistic renders, proof-of-concept prototypes, DFM/DFA, supplier quotes, tooling, a pilot run and launch prep.</p>
+            <ul class="pf-tech" aria-label="Core tech"><li>SolidWorks CAD</li><li>Rendering</li><li>DFM / DFA</li><li>Supplier Quoting</li><li>Tooling &amp; Pilot Run</li></ul>
+          </div>
+        </article>
+        <article class="pf-row">
+          <div class="pf-media"><div class="pf-panel pf-panel-stats"><div class="pf-stats"><div><span class="pf-panel-big">~$9.4K</span><span class="pf-panel-small">Investment</span></div><div><span class="pf-panel-big">235h</span><span class="pf-panel-small">Hours</span></div><div><span class="pf-panel-big">0–4</span><span class="pf-panel-small">Forge Phases</span></div></div><button type="button" class="btn btn-ghost pf-open" data-proposal="k9">View the accepted proposal</button></div></div>
+          <div class="pf-body">
+            <h3 class="pf-title">Electromechanical Product with iOS Integration</h3>
+            <p class="pf-role">Full-cycle development · The Dimensional Forge · 2025</p>
+            <span class="pf-build-label">The build</span>
+            <p class="pf-build">Full-cycle development for one client: multi-discipline architecture, 3D CAD, patent drawings, two prototype builds (a proof of concept, then a refined build in a printed enclosure), an iOS app MVP talking to the hardware, and production prep.</p>
+            <ul class="pf-tech" aria-label="Core tech"><li>System Architecture &amp; ICDs</li><li>Electromechanical Integration</li><li>Patent Drawings</li><li>iOS Integration</li><li>DFM</li></ul>
+          </div>
+        </article>
+        <article class="pf-row">
+          <div class="pf-media"><div class="pf-panel pf-panel-stats"><div class="pf-stats"><div><span class="pf-panel-big">$1,518</span><span class="pf-panel-small">Investment</span></div><div><span class="pf-panel-big">38h</span><span class="pf-panel-small">Hours</span></div><div><span class="pf-panel-big">0–2</span><span class="pf-panel-small">Forge Phases</span></div></div><button type="button" class="btn btn-ghost pf-open" data-proposal="blast-light">View the accepted proposal</button></div></div>
+          <div class="pf-body">
+            <h3 class="pf-title">Tactical Light Prototype</h3>
+            <p class="pf-role">Mechanical + electrical prototyping · The Dimensional Forge · 2025</p>
+            <span class="pf-build-label">The build</span>
+            <p class="pf-build">I took a tactical light from requirements and ideation through full CAD, mechanical and electrical architecture, a physical build and testing, and shipped a working proof of concept.</p>
+            <ul class="pf-tech" aria-label="Core tech"><li>Electrical Architecture</li><li>Electromechanical Integration</li><li>Rapid Prototyping</li><li>Li-ion Power</li><li>Soldering</li></ul>
+          </div>
+        </article>
+      </div>
+      <h3 class="pf-subhead">More client work</h3>
+      <div class="pf-mini-grid">
+          <article class="pf-mini pf-mini-client" data-proposal="shirt-folding" tabindex="0" role="button" aria-label="Open the accepted proposal: Automated Machine MVP">
+            <h4>Automated Machine MVP</h4>
+            <p class="pf-role">Client build · 2026</p>
+            <p>From the client’s reference CAD I built a working MVP with actuated panels, sequenced motion and button controls, and verified every mechanism.</p>
+            <ul class="pf-tech" aria-label="Core tech"><li>Mechanism Design</li><li>3D Printing</li><li>V&amp;V</li></ul>
+          </article>
+          <article class="pf-mini pf-mini-client" data-proposal="reverse-engineering" tabindex="0" role="button" aria-label="Open the accepted proposal: Medical Device Reverse Engineering">
+            <h4>Medical Device Reverse Engineering</h4>
+            <p class="pf-role">Client teardown · 2026</p>
+            <p>A measured, photographed teardown of a client-supplied device, parametric SolidWorks models of the key parts, and native CAD, STEP files and drawings.</p>
+            <ul class="pf-tech" aria-label="Core tech"><li>Reverse Engineering</li><li>SolidWorks CAD</li><li>Engineering Drawings</li></ul>
+          </article>
+          <article class="pf-mini pf-mini-client" data-proposal="glassboard" tabindex="0" role="button" aria-label="Open the accepted proposal: Forty Drawings, One Title Block">
+            <h4>Forty Drawings, One Title Block</h4>
+            <p class="pf-role">Client drawing package · 2026</p>
+            <p>Updated the title block and branding across 40 SolidWorks drawings, using a VBA macro for the repetitive changes.</p>
+            <ul class="pf-tech" aria-label="Core tech"><li>Engineering Drawings</li><li>VBA Automation</li></ul>
+          </article>
+          <article class="pf-mini pf-mini-client" data-proposal="pokestop" tabindex="0" role="button" aria-label="Open the accepted proposal: Custom Pokéstop LED Sign">
+            <h4>Custom Pokéstop LED Sign</h4>
+            <p class="pf-role">Client build · 2026</p>
+            <p>Acrylic cut to the silhouette, an LED neon flex front face and a spinnable pole mount, run for more than 8 hours straight before delivery.</p>
+            <ul class="pf-tech" aria-label="Core tech"><li>LED Neon Flex</li><li>Acrylic Fabrication</li><li>Runtime Testing</li></ul>
+          </article>
+          <article class="pf-mini pf-mini-client" data-proposal="gus-battle-bot" tabindex="0" role="button" aria-label="Open the accepted proposal: Battle Bot Engineering Tutoring">
+            <h4>Battle Bot Engineering Tutoring</h4>
+            <p class="pf-role">Client tutoring · 4 sessions · 2026</p>
+            <p>Four hands-on sessions with a ten-year-old: build a new battle bot from a kit and diagnose a broken one. He did all the hands-on work; I asked questions.</p>
+            <ul class="pf-tech" aria-label="Core tech"><li>Technical Mentorship</li><li>Troubleshooting</li></ul>
+          </article>
+          <article class="pf-mini pf-mini-client" data-proposal="cove-design" tabindex="0" role="button" aria-label="Open the accepted proposal: Product Strategy Session">
+            <h4>Product Strategy Session</h4>
+            <p class="pf-role">Client consultation · 2025</p>
+            <p>One live session on a client’s product goals, manufacturing approach and priorities, with the recording and a written summary of next steps.</p>
+            <ul class="pf-tech" aria-label="Core tech"><li>Product Roadmapping</li><li>Manufacturing Strategy</li></ul>
+          </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 03. INTELLECTUAL PROPERTY ── -->
+  <section id="patents" class="section pf-section">
+    <div class="container">
+      <span class="label">03 · Intellectual property</span>
+      <h2 class="section-title">Patents &amp; <em class="grad">innovations</em></h2>
+      <hr class="rule" />
+      <p class="section-lead">Two inventions, from the lock on a door to helping a person stand up.</p>
+      <div class="pf-patents">
+        <article class="pf-patent" style="--pt:var(--df-orange);">
+          <span class="pf-patent-num">US 11,962,594 · Co-inventor</span>
+          <h3 class="pf-title">Blockchain-Based Access Control</h3>
+          <span class="pf-build-label">The problem it solves</span>
+          <p class="pf-build">A method for granting and auditing physical access with credentials recorded on a distributed ledger. It started with a plain question: how does a lock prove who opened it, after the fact?</p>
+          <ul class="pf-tech" aria-label="Core tech"><li>Access Control</li><li>Distributed Ledger</li><li>Invention &amp; Patents</li></ul>
+        </article>
+        <article class="pf-patent" style="--pt:var(--df-gold);">
+          <span class="pf-patent-num">US2019/032088 · Issued Aug 24, 2019</span>
+          <h3 class="pf-title">Adjustable Passive Standing Assistance Device</h3>
+          <span class="pf-build-label">The problem it solves</span>
+          <p class="pf-build">An adjustable assistive device that helps a person stand using passive mechanics rather than powered actuation.</p>
+          <ul class="pf-tech" aria-label="Core tech"><li>Mechanism Design</li><li>Assistive Devices</li><li>Invention &amp; Patents</li></ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 04. CAD GALLERY ── -->
+  <section id="cad" class="section pf-section section-dark">
+    <div class="container">
+      <span class="label">04 · CAD</span>
+      <h2 class="section-title">CAD <em class="grad">gallery</em></h2>
+      <hr class="rule" />
+      <p class="section-lead">Models I designed in SolidWorks, from my own products to client work. Select one to explore it in 3D.</p>
+      <div class="mv cad" data-model-viewer>
+        <div class="cad-view">
+          <div class="mv-stage" role="img" aria-label="Interactive 3D model. Drag to rotate."></div>
+          <span class="mv-status" aria-live="polite"></span>
+          <span class="mv-hint">Drag to rotate</span>
+        </div>
+        <div class="mv-info cad-info" aria-live="polite">
+          <span class="mv-info-cat">Bikepacking · front rack</span>
+          <h3 class="pf-title">The Roll</h3>
+          <p class="pf-build">A 3D-printable front rack for a bikepacking roll bag. It mounts with two through straps, zip ties, or M5 bolts for a permanent install, and holds gear steady on any terrain.</p>
+        </div>
+        <div class="mv-chips cad-chips" role="group" aria-label="Choose a model"></div>
+        <script type="application/json" class="mv-data">
+[
+  {
+    "name": "The Roll",
+    "category": "Bikepacking · front rack",
+    "src": "models/the-roll.stl",
+    "summary": "A 3D-printable front rack for a bikepacking roll bag. It mounts with two through straps, zip ties, or M5 bolts for a permanent install, and holds gear steady on any terrain.",
+    "tags": [
+      "Product Design",
+      "Mounting Design",
+      "3D Printing / Additive"
+    ]
+  },
+  {
+    "name": "The Bend",
+    "category": "Bikepacking · cargo cage",
+    "src": "models/the-bend.stl",
+    "summary": "A large-capacity cargo cage that bolts to any standard water-bottle mount, with extra hole options and strap cutouts. At 90 g it’s lighter than a 157 g Blackburn Outpost cage, holds a 32 oz bottle, and I ride with it every day.",
+    "tags": [
+      "Lightweight Design",
+      "Field Testing",
+      "3D Printing / Additive"
+    ]
+  },
+  {
+    "name": "Gyarados Case",
+    "category": "Pokémon GO Plus + · protective case",
+    "src": "models/gyarados-case.stl",
+    "summary": "A Gyarados-themed protective case for the Pokémon GO Plus +. It prints with built-in snap-together parts, so there are no screws or glue, has a strap clip for a backpack, belt loop or purse, and is split into parts for multi-color AMS printing. A bonus stand turns it into a Gyarados Poké Ball display piece.",
+    "tags": [
+      "Snap-Fit Design",
+      "Multi-Color (AMS) Printing",
+      "Character Design",
+      "3D Printing / Additive"
+    ]
+  },
+  {
+    "name": "Medical Device Assembly",
+    "category": "Client project · reverse engineering",
+    "src": "models/medical-device-assembly.stl",
+    "summary": "Reverse-engineered from a client-supplied medical device: a measured, photographed teardown, then parametric SolidWorks models of the key parts that capture the critical interfaces and fit-up between mating components. Handed off as native CAD, STEP files and basic dimensioned drawings, quoted at 8 hours and delivered within a week.",
+    "tags": [
+      "Reverse Engineering",
+      "SolidWorks CAD",
+      "Fit-Up & Interfaces",
+      "Engineering Drawings"
+    ],
+    "proposal": "reverse-engineering"
+  }
+]
+        </script>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 05. INDEPENDENT R&AMP;D ── -->
+  <section id="lab" class="section pf-section">
+    <div class="container">
+      <span class="label">05 · Independent R&amp;D</span>
+      <h2 class="section-title">The Forge <em class="grad">Lab</em></h2>
+      <hr class="rule" />
+      <p class="section-lead">What I build on my own time: agents, embedded hardware, local AI and a motorcycle.</p>
+      <div class="pf-feed">
+        <article class="pf-row">
+          <div class="pf-media"><img class="pf-cutout pf-venn" src="venn-idle.svg" width="480" height="480" alt="VENN, the Forge’s pixel-art agent, with green eyes and a smile" loading="lazy" decoding="async" /></div>
+          <div class="pf-body">
+            <h3 class="pf-title">VENN Everywhere</h3>
+            <p class="pf-role">Modular agent platform · The Forge Lab</p>
+            <span class="pf-build-label">The build</span>
+            <p class="pf-build">An agent platform with fourteen bridges into the places work happens: chat, SMS, Telegram, calendars, files and my lab’s inference nodes. It helps me run the Forge, answering questions and 3D-print quotes over Telegram and here, as the chat widget in the nav.</p>
+            <ul class="pf-tech" aria-label="Core tech"><li>AI Agent Development</li><li>Agentic Workflow Design</li><li>LLM Integration</li></ul>
+            <a href="venn-portfolio.html" class="pf-link">More about VENN →</a>
+          </div>
+        </article>
+        <article class="pf-row pf-row-diagram">
+          <div class="pf-media"><figure class="rf-schematic" aria-label="Wiring schematic: LilyGO T-Display ESP32 driving a 28BYJ-48 stepper through a ULN2003 driver, with 5V, 3.3V and ground rails">
+            <svg viewBox="0 0 720 230" xmlns="http://www.w3.org/2000/svg">
+              <path class="dr-hot" d="M20 30 H700"/><text class="dr-lbl dr-lbl-hot" x="20" y="22">+5V USB</text>
+              <path class="dr-hot" d="M20 54 H700" opacity=".5"/><text class="dr-lbl" x="20" y="46">+3V3 LDO</text>
+              <path class="dr-ink" d="M20 210 H700"/><text class="dr-lbl" x="20" y="224">GND</text>
+              <rect class="dr-ink" x="70" y="80" width="150" height="100" rx="3"/>
+              <rect class="dr-axis" x="88" y="96" width="70" height="44"/>
+              <text class="dr-lbl" x="92" y="122">240×135 TFT</text>
+              <text class="dr-lbl" x="80" y="166">LilyGO T-Display · ESP32</text>
+              <path class="dr-hot" d="M120 80 V30"/><path class="dr-hot" d="M160 80 V54" opacity=".5"/><path class="dr-ink" d="M100 180 V210"/>
+              <text class="dr-lbl" x="228" y="96">GPIO 25</text><text class="dr-lbl" x="228" y="116">GPIO 26</text><text class="dr-lbl" x="228" y="136">GPIO 27</text><text class="dr-lbl" x="228" y="156">GPIO 32</text>
+              <path class="dr-ink" d="M220 100 H340 M220 120 H340 M220 140 H340 M220 160 H340"/>
+              <rect class="dr-ink" x="340" y="84" width="90" height="92" rx="3"/>
+              <text class="dr-lbl" x="352" y="108">ULN2003</text><text class="dr-lbl" x="352" y="122">Darlington</text><text class="dr-lbl" x="352" y="136">×4 of 7</text>
+              <path class="dr-hot" d="M385 84 V30"/><path class="dr-ink" d="M385 176 V210"/>
+              <path class="dr-ink" d="M430 100 H520 M430 120 H520 M430 140 H520 M430 160 H520"/>
+              <text class="dr-lbl" x="440" y="94">IN1–IN4 → OUT1–OUT4</text>
+              <circle class="dr-ink" cx="580" cy="130" r="46"/><circle class="dr-ink" cx="580" cy="130" r="8"/>
+              <path class="dr-ink" d="M534 130 a46 46 0 0 1 46 -46 M580 176 a46 46 0 0 1 -46 -46"/>
+              <path class="dr-ink" d="M520 100 L548 112 M520 120 L540 126 M520 140 L540 134 M520 160 L548 148"/>
+              <path class="dr-hot" d="M580 84 V30"/>
+              <text class="dr-lbl" x="536" y="198">28BYJ-48 · 5V · 64:1</text>
+              <path class="dr-axis" d="M626 130 H654"/><circle class="dr-axis" cx="670" cy="130" r="14"/><text class="dr-lbl" x="640" y="160">dispense gear</text>
+              <text class="dr-lbl" x="300" y="196">~240 mA/phase · fed from 5V, never 3V3</text>
+            </svg>
+          </figure></div>
+          <div class="pf-body">
+            <h3 class="pf-title">Crypto-and-QR Vending Dispenser</h3>
+            <p class="pf-role">Embedded hardware build · in progress</p>
+            <span class="pf-build-label">The build</span>
+            <p class="pf-build">A gumball machine that takes on-chain Bitcoin or a Stripe payment link. A T-Display ESP32 shows the QR code and status, watches for payment, then steps a 28BYJ-48 through a ULN2003 to turn the dispense gear one full revolution. The schematic is the real wiring; I’m building it in the open.</p>
+            <ul class="pf-tech" aria-label="Core tech"><li>ESP32</li><li>PlatformIO</li><li>Stepper Drivers</li><li>Payment Integration</li><li>Soldering</li></ul>
+          </div>
+        </article>
+        <article class="pf-row">
+          <div class="pf-media"><div class="pf-panel"><span class="pf-panel-big">0</span><span class="pf-panel-small">cloud calls</span><span class="pf-panel-note">Runs on a local model</span></div></div>
+          <div class="pf-body">
+            <h3 class="pf-title">Local-LLM Obsidian Workflows</h3>
+            <p class="pf-role">Ollama inside a vault · The Forge Lab</p>
+            <span class="pf-build-label">The build</span>
+            <p class="pf-build">Skills and a multi-step workflow inside Obsidian that turn a session transcript into a structured note package on a local model, built for a practitioner whose notes can’t go to a cloud service.</p>
+            <ul class="pf-tech" aria-label="Core tech"><li>Obsidian</li><li>Ollama</li><li>Agentic Workflow Design</li><li>LLM Integration</li></ul>
+          </div>
+        </article>
+        <article class="pf-row">
+          <div class="pf-media"><div class="pf-panel"><span class="pf-panel-big">650cc</span><span class="pf-panel-small">single cylinder</span><span class="pf-panel-note">Cyberpunk cafe-bobber</span></div></div>
+          <div class="pf-body">
+            <h3 class="pf-title">Suzuki Savage LS650 Cafe-Bobber</h3>
+            <p class="pf-role">Personal build · The Forge Lab</p>
+            <span class="pf-build-label">The build</span>
+            <p class="pf-build">My own motorcycle, a Suzuki Savage LS650 reworked into a cyberpunk cafe-bobber.</p>
+            <ul class="pf-tech" aria-label="Core tech"><li>Fabrication</li></ul>
+          </div>
+        </article>
+      </div>
+      <h3 class="pf-subhead">More from the lab</h3>
+      <div class="pf-mini-grid">
+          <article class="pf-mini">
+            <h4>Watchy Firmware &amp; Android Companion</h4>
+            <p class="pf-role">ESP32-S3 e-paper watch · in progress</p>
+            <p>Custom firmware with a survival-game “life meters” face and calendar reminders, plus an Android app that syncs over BLE, flashes firmware and switches faces.</p>
+            <ul class="pf-tech" aria-label="Core tech"><li>ESP32</li><li>Firmware</li><li>Android</li><li>BLE</li></ul>
+          </article>
+          <article class="pf-mini">
+            <h4>Earwig</h4>
+            <p class="pf-role">Offline meeting transcriber</p>
+            <p>A portable app I run from a USB drive that records meetings and writes speaker-labeled Markdown transcripts on the laptop. Nothing leaves the machine.</p>
+            <ul class="pf-tech" aria-label="Core tech"><li>Speech-to-text</li><li>Local Models</li><li>Privacy by Design</li></ul>
+          </article>
+          <article class="pf-mini">
+            <h4>Homelab Inference Stack</h4>
+            <p class="pf-role">Owned hardware</p>
+            <p>An RTX 3060 node running Ollama with Qwen3 for tool calling, a Raspberry Pi 5 running memory-consolidation jobs, and a two-tier memory design.</p>
+            <ul class="pf-tech" aria-label="Core tech"><li>Ollama</li><li>Qwen3</li><li>Raspberry Pi</li></ul>
+          </article>
+          <article class="pf-mini">
+            <h4>Automated Pet Potty Sensor</h4>
+            <p class="pf-role">Potty Spot · in development</p>
+            <p>A sensor device for pet potty training whose firmware is built as a state machine, so its behavior is defined as states and transitions before it is coded.</p>
+            <ul class="pf-tech" aria-label="Core tech"><li>State Machines</li><li>Firmware</li><li>Sensors</li></ul>
+          </article>
+          <article class="pf-mini">
+            <h4>Home Assistant Dashboard</h4>
+            <p class="pf-role">Home automation</p>
+            <p>One dashboard for my house, media server and lab, with up/down status badges so I know a server is down before anyone asks.</p>
+            <ul class="pf-tech" aria-label="Core tech"><li>Home Assistant</li><li>Dashboards</li></ul>
+          </article>
+          <article class="pf-mini">
+            <h4>Text-to-Speech MCP Server</h4>
+            <p class="pf-role">Developer tooling</p>
+            <p>A Model Context Protocol server that connects an AI coding agent to a local Node.js speech endpoint, so long-running tasks can announce when they finish.</p>
+            <ul class="pf-tech" aria-label="Core tech"><li>Node.js</li><li>MCP</li><li>LLM &amp; Agent Tooling</li></ul>
+          </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section cta-band">
+    <div class="container">
+      <h2 class="section-title">Have a project in mind?</h2>
+      <p class="section-lead">Every job is quoted before work starts. Tell me what you're building.</p>
+      <div class="hero-cta">
+        <a href="index.html#book" class="btn btn-primary">Start a Project</a>
+        <a href="index.html#delivered" class="btn btn-ghost">See Accepted Proposals</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ─────────────────────────────────────────────────────── -->
+  <footer>
+    <div class="container">
+      <div class="f-brand">The Dimensional Forge</div>
+      <p>Forging Dimensions: Utility, Fun, Community, Artistry</p>
+      <p style="margin-top:0.75rem;font-size:0.75rem;">
+        <a href="mailto:ConnectWithSean@the-dimensional-forge.net" style="color:var(--df-orange);text-decoration:none;">ConnectWithSean@the-dimensional-forge.net</a>
+        &nbsp;·&nbsp;
+        <a href="portfolio.html" style="color:var(--df-muted);text-decoration:none;">Portfolio</a>
+        &nbsp;·&nbsp;
+        <a href="The_Dimensional_Forge_Method.html" style="color:var(--df-muted);text-decoration:none;">Forge Method</a>
+        &nbsp;·&nbsp;
+        <a href="https://linkedin.com/in/seanneal19" target="_blank" style="color:var(--df-muted);text-decoration:none;">LinkedIn</a>
+        &nbsp;·&nbsp;
+        <a href="https://etsy.com/shop/DimensionalForgeProd" target="_blank" style="color:var(--df-muted);text-decoration:none;">Etsy Shop</a>
+        &nbsp;·&nbsp;
+        <a href="https://makerworld.com/en/@Dimensional.F" target="_blank" style="color:var(--df-muted);text-decoration:none;">MakerWorld</a>
+        &nbsp;·&nbsp;
+        <a href="https://cults3d.com/en/users/TheDimensionalForge/3d-models" target="_blank" style="color:var(--df-muted);text-decoration:none;">Cults3D</a>
+        &nbsp;·&nbsp;
+        <a href="https://thedimensionalforge.substack.com" target="_blank" style="color:var(--df-muted);text-decoration:none;">Substack</a>
+      </p>
+      <p style="margin-top:0.5rem;font-size:0.7rem;color:#444;">© 2024–2026 The Dimensional Forge · Sean Neal · Indianapolis, IN</p>
+    </div>
+  </footer>
+
+  <!-- ── PROPOSAL MODAL ───────────────────────────────────────────────── -->
+  <!-- ── PROPOSAL MODAL ───────────────────────────────────────────────── -->
+  <div class="pmodal-backdrop" id="pmodal-backdrop" role="dialog" aria-modal="true" aria-labelledby="pmodal-title">
+    <div class="pmodal">
+      <button class="pmodal-close" id="pmodal-close" aria-label="Close">✕ close</button>
+      <div class="pmodal-label" id="pmodal-type"></div>
+      <div class="pmodal-title" id="pmodal-title"></div>
+      <div class="pmodal-stats" id="pmodal-stats"></div>
+      <div class="pmodal-section-label">Scope of Work</div>
+      <div id="pmodal-phases"></div>
+      <div class="pmodal-section-label">Deliverables</div>
+      <div class="pmodal-deliverables" id="pmodal-deliverables"></div>
+      <div class="pmodal-section-label">Service Tags</div>
+      <div class="proposal-tags" id="pmodal-tags" style="margin-top:0.25rem;"></div>
+    </div>
+  </div>
+
+  <script src="site.js"></script>
+  <script src="proposals.js"></script>
+  <script type="module" src="model-viewer.js"></script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<svg width="480" height="480" viewBox="-20 -50 260 290" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+
+  <rect x="10" y="22" width="6" height="12" fill="#1f0800"/><rect x="204" y="22" width="6" height="12" fill="#1f0800"/>
+  <rect x="10" y="190" width="6" height="12" fill="#1f0800"/><rect x="204" y="190" width="6" height="12" fill="#1f0800"/>
+  <rect x="-18" y="56" width="30" height="84" fill="#cc4400" rx="3"/><rect x="-14" y="60" width="22" height="76" fill="#1f0800" rx="2"/>
+  <rect x="-12" y="70" width="16" height="3" fill="#cc4400" opacity="0.5"/><rect x="-12" y="80" width="16" height="3" fill="#cc4400" opacity="0.5"/>
+  <rect x="-12" y="90" width="16" height="3" fill="#cc4400" opacity="0.5"/><rect x="-12" y="100" width="16" height="3" fill="#cc4400" opacity="0.5"/>
+  <rect x="-12" y="110" width="16" height="3" fill="#cc4400" opacity="0.5"/><rect x="-12" y="120" width="16" height="3" fill="#cc4400" opacity="0.5"/>
+  <rect x="-5" y="-14" width="4" height="70" fill="#cc4400"/><rect x="-10" y="-18" width="14" height="7" fill="#ff7722" rx="2"/>
+  <rect x="208" y="56" width="30" height="84" fill="#cc4400" rx="3"/><rect x="212" y="60" width="22" height="76" fill="#1f0800" rx="2"/>
+  <rect x="216" y="70" width="16" height="3" fill="#cc4400" opacity="0.5"/><rect x="216" y="80" width="16" height="3" fill="#cc4400" opacity="0.5"/>
+  <rect x="216" y="90" width="16" height="3" fill="#cc4400" opacity="0.5"/><rect x="216" y="100" width="16" height="3" fill="#cc4400" opacity="0.5"/>
+  <rect x="216" y="110" width="16" height="3" fill="#cc4400" opacity="0.5"/><rect x="216" y="120" width="16" height="3" fill="#cc4400" opacity="0.5"/>
+  <rect x="221" y="-14" width="4" height="70" fill="#cc4400"/><rect x="216" y="-18" width="14" height="7" fill="#ff7722" rx="2"/>
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="45%" r="55%"><stop offset="0%" stop-color="#ff5500" stop-opacity="0.09"/><stop offset="100%" stop-color="#ff5500" stop-opacity="0"/></radialGradient>
+    <pattern id="scan" x="0" y="0" width="2" height="4" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="2" height="2" fill="#000"/></pattern>
+  </defs>
+  <rect x="40" y="10" width="140" height="12" fill="#cc4400"/><rect x="16" y="22" width="24" height="12" fill="#cc4400"/><rect x="180" y="22" width="24" height="12" fill="#cc4400"/>
+  <rect x="10" y="34" width="200" height="156" fill="#1f0800"/><rect x="10" y="34" width="12" height="156" fill="#cc4400"/><rect x="198" y="34" width="12" height="156" fill="#cc4400"/>
+  <rect x="16" y="190" width="24" height="12" fill="#cc4400"/><rect x="180" y="190" width="24" height="12" fill="#cc4400"/><rect x="40" y="202" width="140" height="12" fill="#cc4400"/>
+  <rect x="40" y="10" width="140" height="4" fill="#ff6622" opacity="0.6"/><rect x="10" y="34" width="200" height="156" fill="url(#scan)" opacity="0.15"/>
+  <rect width="220" height="240" fill="url(#glow)"/>
+  <rect id="leye" x="36" y="58" width="56" height="44" fill="#00ee44" rx="2"/><rect id="lpupil" x="50" y="68" width="28" height="24" fill="#002208"/><rect x="50" y="68" width="9" height="9" fill="#aaffcc" opacity="0.65"/><rect id="reye" x="128" y="58" width="56" height="44" fill="#00ee44" rx="2"/><rect id="rpupil" x="142" y="68" width="28" height="24" fill="#002208"/><rect x="142" y="68" width="9" height="9" fill="#aaffcc" opacity="0.65"/>
+  <g id="mouth"><rect x="56" y="152" width="14" height="10" fill="#00ee44"/><rect x="150" y="152" width="14" height="10" fill="#00ee44"/><rect x="70" y="162" width="80" height="10" fill="#00ee44"/></g>
+</svg>
