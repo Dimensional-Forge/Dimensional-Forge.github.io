@@ -1,1 +1,14 @@
+# Local working files (not part of the site)
 Offline Dev/
+.claude/
+
+# Headless-browser profiles and scratch files from local testing
+.chrome-*/
+_*.png
+_*.html
+
+# OS / editor clutter
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
