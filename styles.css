@@ -1537,3 +1537,12 @@ footer p { color: var(--df-muted); font-size: 0.78rem; }
 @media (max-width: 700px) { .pf-creds:has(.pf-cred-badge) { grid-template-columns: 1fr; } }
 /* About: second line under a fact (e.g. an extra certification) */
 .smith-fact .smith-fact-sub { display: block; margin-top: 0.3rem; }
+
+/* Hero on phones: the content column must fit the screen (a nowrap title was forcing it ~700px wide) */
+#hero > .container { width: 100%; min-width: 0; }
+.sp-title { flex-shrink: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+@media (max-width: 640px) {
+  #substack-pill { flex-direction: column; align-items: flex-start; gap: 0.4rem; }
+  .sp-left { flex-direction: row; gap: 0.6rem; align-items: baseline; }
+  .sp-title { white-space: normal; }
+}
