@@ -1527,11 +1527,13 @@ footer p { color: var(--df-muted); font-size: 0.78rem; }
 @media (max-width: 900px) { .pf-creds { grid-template-columns: 1fr; } }
 
 /* Credential badge card (image + details) */
-.pf-cred-badge { grid-column: span 2; display: grid; grid-template-columns: minmax(0, 220px) minmax(0, 1fr); gap: 1.5rem; align-items: center; border-left-color: var(--df-orange); }
+.pf-creds:has(.pf-cred-badge) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.pf-cred-badge { display: grid; grid-template-columns: minmax(0, 190px) minmax(0, 1fr); gap: 1.4rem; align-items: center; border-left-color: var(--df-orange); }
 .pf-cred-img img { display: block; width: 100%; height: auto; border-radius: 3px; }
 .pf-cred-id { font-family: 'JetBrains Mono', monospace; font-size: 0.66rem; color: var(--df-muted); line-height: 1.6; }
 .pf-cred-id span { word-break: break-all; color: var(--df-text); }
 .pf-cred-badge .pf-link { margin-top: 0.75rem; }
-@media (max-width: 900px) { .pf-cred-badge { grid-column: auto; grid-template-columns: 1fr; } .pf-cred-img img { max-width: 320px; } }
+@media (max-width: 1099px) { .pf-cred-badge { grid-template-columns: 1fr; } .pf-cred-img img { max-width: 320px; } }
+@media (max-width: 700px) { .pf-creds:has(.pf-cred-badge) { grid-template-columns: 1fr; } }
 /* About: second line under a fact (e.g. an extra certification) */
 .smith-fact .smith-fact-sub { display: block; margin-top: 0.3rem; }
