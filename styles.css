@@ -1452,7 +1452,8 @@ footer p { color: var(--df-muted); font-size: 0.78rem; }
 .pf-mini-client:hover, .pf-mini-client:focus-visible { border-color: var(--df-orange); transform: translateY(-2px); outline: none; }
 
 /* Patents */
-.pf-patents { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
+.pf-patents { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; }
+@media (max-width: 1099px) { .pf-patents { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .pf-patent { background: var(--df-steel); border: 1px solid var(--df-brush); border-top: 3px solid var(--pt); border-radius: 2px; padding: 2rem; }
 .pf-patent-num { display: block; font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--pt); margin-bottom: 0.7rem; }
 .pf-patent .pf-title { margin-bottom: 1.25rem; }
@@ -1515,3 +1516,4 @@ footer p { color: var(--df-muted); font-size: 0.78rem; }
   .cad-view .mv-stage { aspect-ratio: 4 / 3; }
 }
 .pf-link-btn { appearance: none; background: none; border: 0; padding: 0; cursor: pointer; display: inline-block; }
+.pf-title-sub { display: block; margin-top: 0.35rem; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; letter-spacing: 0.08em; color: var(--df-orange); }
