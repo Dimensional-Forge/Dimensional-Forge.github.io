@@ -27,6 +27,7 @@ html { scroll-behavior: smooth; }
   --df-brush:   #2E2E2E;
   --df-text:    #F5F5F5;
   --df-muted:   #A0A0A0;
+  --df-display: 'Audiowide', sans-serif;
   --df-grad:    linear-gradient(90deg, #EE4236 0%, #F0782D 50%, #FAAC3D 100%);
   --df-grad-45: linear-gradient(135deg, #EE4236 0%, #F0782D 50%, #FAAC3D 100%);
 }
@@ -62,15 +63,108 @@ a { color: inherit; text-decoration: none; }
 .btn-ghost:hover { background: rgba(240,120,45,0.08); transform: translateY(-2px); }
 
 /* NAV */
-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(0,0,0,0.92); backdrop-filter: blur(14px); border-bottom: 1px solid var(--df-brush); padding: 0.85rem 0; }
-nav .inner { display: flex; align-items: center; justify-content: space-between; max-width: 1080px; margin: 0 auto; padding: 0 2rem; }
-.nav-logo { display: flex; align-items: center; height: 36px; flex-shrink: 0; }
-.nav-logo svg { height: 32px; width: auto; display: block; }
-.nav-links { display: flex; gap: 1.1rem; list-style: none; }
-.nav-links a { color: var(--df-muted); font-family: 'Audiowide', sans-serif; font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; transition: color 0.2s; }
+/* Site nav (kept in sync with styles.css) */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(0,0,0,0.92);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--df-brush);
+  padding: 0.85rem 0;
+}
+nav .inner {
+  display: flex; align-items: center; justify-content: space-between;
+  max-width: 1080px; margin: 0 auto; padding: 0 2rem;
+}
+.nav-logo {
+  display: flex; align-items: center;
+  text-decoration: none;
+  height: 36px;
+  flex-shrink: 0;
+}
+.nav-logo svg { height: 36px; width: auto; }
+.nav-links { display: flex; gap: 1.1rem; list-style: none; flex-wrap: nowrap; }
+.nav-links a {
+  color: var(--df-muted);
+  text-decoration: none;
+  font-family: 'Audiowide', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: color 0.2s;
+  white-space: nowrap;
+}
 .nav-links a:hover { color: var(--df-orange); }
-.nav-back { border: 1px solid var(--df-orange); font-family: 'Audiowide', sans-serif; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.12em; padding: 0.45rem 1rem; border-radius: 2px; flex-shrink: 0; background: linear-gradient(90deg, #EE4236, #F0782D, #FAAC3D, #F0782D, #EE4236); background-size: 300% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: hire-me-cycle 6s linear infinite; }
-.nav-back:hover { border-color: var(--df-gold); -webkit-text-fill-color: transparent; }
+#nav-burger {
+  display: none; flex-direction: column; justify-content: center; gap: 5px;
+  width: 40px; height: 40px; margin-left: auto; padding: 0 9px;
+  background: none; border: 1px solid var(--df-brush); border-radius: 2px;
+  cursor: pointer; flex-shrink: 0;
+}
+#nav-burger span { display: block; height: 2px; background: var(--df-orange); border-radius: 1px; transition: transform 0.2s, opacity 0.2s; }
+#nav-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+#nav-burger.open span:nth-child(2) { opacity: 0; }
+#nav-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+/* Tight zone: keep all links on one row before the burger takes over */
+@media (max-width: 1199px) {
+  .nav-links { gap: 0.7rem; }
+  .nav-links a { font-size: 0.6rem; letter-spacing: 0.08em; }
+}
+@media (min-width: 900px) and (max-width: 1019px) {
+  .nav-links { gap: 0.5rem; }
+  .nav-links a { font-size: 0.56rem; letter-spacing: 0.05em; }
+  nav .inner { padding: 0 1.25rem; }
+}
+/* Burger zone: links become a dropdown panel under the fixed nav */
+@media (max-width: 899px) {
+  .nav-links {
+    display: none;
+    position: absolute; top: 100%; left: 0; right: 0;
+    flex-direction: column; gap: 0;
+    background: #000;
+    border-bottom: 1px solid var(--df-brush);
+    padding: 0.5rem 0;
+  }
+  .nav-links.open { display: flex; }
+  .nav-links a { display: block; padding: 0.85rem 2rem; font-size: 0.72rem; }
+  #nav-burger { display: flex; }
+}
+.nav-hire-me {
+  background: linear-gradient(90deg, #EE4236, #F0782D, #FAAC3D, #F0782D, #EE4236);
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: hire-me-cycle 6s linear infinite;
+}
+.nav-hire-me:hover { -webkit-text-fill-color: transparent !important; }
+@keyframes hire-me-cycle {
+  0%   { background-position: 0% center; }
+  100% { background-position: 300% center; }
+}
+/* Nav wordmark beside the logo: shown where the link row has room */
+.nav-logo { gap: 0.85rem; }
+.nav-wordmark { display: flex; align-items: center; height: 36px; padding-left: 0.85rem; border-left: 1px solid var(--df-brush); font-family: var(--df-display); font-size: 0.8rem; line-height: 1; letter-spacing: 0.16em; text-transform: uppercase; white-space: nowrap; color: var(--df-text); padding-top: 2px; }
+/* One continuous red → gold sweep across the whole name, like the hero's gradient text */
+.nav-wordmark .nw-text { background: var(--df-grad); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+/* Group the links on the right, next to VENN, instead of floating mid-bar */
+@media (min-width: 900px) { .nav-links { margin-left: auto; margin-right: 1.75rem; } }
+@media (min-width: 1340px) { nav .inner { max-width: 1280px; } }
+@media (min-width: 900px) and (max-width: 1339px) { .nav-wordmark { display: none; } }
+@media (max-width: 899px) { .nav-wordmark { font-size: 0.6rem; letter-spacing: 0.08em; padding-left: 0.6rem; height: 28px; } .nav-logo { gap: 0.6rem; margin-right: 0.75rem; } .nav-logo svg { height: 30px; } }
+@media (max-width: 419px) { .nav-wordmark { font-size: 0.54rem; letter-spacing: 0.05em; } }
+@media (max-width: 339px) { .nav-wordmark { display: none; } }
+/* Mobile nav: logo + name on the left, then VENN, then the hamburger (opens the links) */
+@media (max-width: 899px) {
+  nav .inner { gap: 0.6rem; }
+  .nav-logo { margin-right: auto; min-width: 0; }
+  #venn-widget { order: 2; }
+  #nav-burger { order: 3; }
+}
+.hero-jump { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem; margin: 0 0 2.5rem; }
+.hero-jump a { display: inline-flex; align-items: center; gap: 0.55rem; padding: 0.6rem 1rem; border: 1px solid var(--df-brush); border-radius: 2px; background: var(--df-steel); color: var(--df-text); text-decoration: none; font-family: var(--df-display); font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase; transition: border-color 0.2s, color 0.2s; }
+.hero-jump a b { font-family: 'JetBrains Mono', monospace; font-weight: 500; color: var(--df-orange); }
+.hero-jump a:hover { border-color: var(--df-orange); color: var(--df-orange); }
 @keyframes hire-me-cycle { 0% { background-position: 0% center; } 100% { background-position: 300% center; } }
 
 /* HERO */
@@ -269,7 +363,6 @@ footer p { color: var(--df-muted); font-size: 0.78rem; }
 
 /* RESPONSIVE */
 @media (max-width: 768px) {
-  .nav-links { display: none; }
   .phase-body-grid { grid-template-columns: 1fr; gap: 1.25rem; }
   .principles-grid { grid-template-columns: repeat(2, 1fr); }
 }
@@ -290,19 +383,27 @@ footer p { color: var(--df-muted); font-size: 0.78rem; }
 <nav>
   <div class="inner">
     <a href="index.html" class="nav-logo" aria-label="The Dimensional Forge">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="40 40 430 430" style="height:32px;width:32px;border-radius:4px;" aria-hidden="true">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="40 40 430 430" style="border-radius:4px;" aria-hidden="true">
         <defs><linearGradient id="ng" x1="0%" y1="0%" x2="100%" y2="100%"><stop stop-color="#EE4236" offset="0"/><stop stop-color="#FAAC3D" offset="1"/></linearGradient></defs>
         <rect x="40" y="40" width="430" height="430" fill="#111"/>
         <path fill="url(#ng)" d="M42.843,48.727c1.185,445.12-1.883,411.585,1.389,418.13c0.278,0.278,0.278,0.278,0.278,0.556c0.278,0.278,0.278,0.278,0.556,0.278c6.219,3.109-11.301,0.187,145.026,1.389H322.06c157.166-0.305,140.352,0.947,145.026-1.389c0.278,0,0.278-0.278,0.556-0.278c0.278-0.278,0.278-0.278,0.278-0.556c0.278-0.556,0.833-0.833,0.833-1.389c0.768-2.303,0.555-416.847,0.549-416.947v-1.43c0-2.337-1.915-4.221-4.252-4.182l-1.377,0.023c0,0-24.026,0.189-141.612-0.04H190.091C81.12,43.731,56.366,42.623,49.509,42.853h-2.578c-2.223,0-4.033,1.786-4.063,4.009L42.843,48.727z M326.227,457.411l-18.337-54.454h86.682l54.454,54.454H326.227z M62.847,457.411l54.454-54.454h86.682l-18.337,54.454H62.847z M185.646,54.561l18.337,54.454h-86.682L62.847,54.561H185.646z M449.027,54.561l-54.454,54.454H307.89l18.337-54.454H449.027z M327.894,319.609V192.642l63.345-63.345v253.379L327.894,319.609z M195.926,315.997V195.976h120.021v120.022H195.926z M183.979,192.364v126.967l-63.067,63.345V129.297L183.979,192.364z M382.626,120.962l-63.345,63.345h-36.673l21.115-63.345H382.626z M270.106,184.029H241.49l-21.115-63.345h70.846L270.106,184.029z M229.265,184.029h-36.951l-63.067-63.067h78.903L229.265,184.029z M108.966,117.35v277.272l-54.454,54.454V62.896L108.966,117.35z M129.247,391.01l63.345-63.345h36.673L208.15,391.01H129.247z M241.767,327.944h28.616l21.115,63.345h-71.124L241.767,327.944z M282.608,327.944h36.673l63.345,63.345h-78.903L282.608,327.944z M402.907,394.622V117.35l54.454-54.454v385.902L402.907,394.622z M313.725,54.561l-18.337,54.454h-78.903l-18.337-54.454H313.725z M198.148,457.411l18.337-54.454h78.903l18.337,54.454H198.148z"/>
       </svg>
+      <span class="nav-wordmark" aria-hidden="true"><span class="nw-text">The Dimensional Forge</span></span>
     </a>
     <ul class="nav-links">
-      <li><a href="#philosophy">Philosophy</a></li>
-      <li><a href="#glance">Overview</a></li>
-      <li><a href="#loop">The Loop</a></li>
-      <li><a href="#journey">Phases</a></li>
+      <li><a href="index.html#services">Services</a></li>
+      <li><a href="index.html#process">Process</a></li>
+      <li><a href="index.html#delivered">Delivered</a></li>
+      <li><a href="index.html#reviews">Reviews</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="portfolio.html">Portfolio</a></li>
+      <li><a href="index.html#models">Shop</a></li>
+      <li><a href="index.html#book" class="nav-hire-me">Forge Together</a></li>
     </ul>
-    <a href="index.html#book" class="nav-back">Forge Together</a>
+
+    <button id="nav-burger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
 
     <!-- VENN nav widget -->
     <div id="venn-widget">
@@ -412,6 +513,12 @@ footer p { color: var(--df-muted); font-size: 0.78rem; }
     <h1 class="hero-title">The Forge<br>Method</h1>
     <p class="hero-sub">Agile Systems Engineering &nbsp;·&nbsp; Physical Products</p>
     <p class="hero-desc">The discipline of <strong>systems engineering</strong> (architecture, interfaces, verification, validation) run with <strong>agile's short, iterative build-test-learn loops</strong>. One full lifecycle that scales to the work in front of it.</p>
+    <div class="hero-jump" role="navigation" aria-label="On this page">
+      <a href="#philosophy"><b>01</b> Philosophy</a>
+      <a href="#glance"><b>02</b> Overview</a>
+      <a href="#loop"><b>03</b> The Loop</a>
+      <a href="#journey"><b>04</b> Phases</a>
+    </div>
     <a href="#glance" class="hero-scroll">
       <span class="hero-scroll-text">See the process</span>
       <div class="scroll-chevron"></div>
@@ -1008,9 +1115,13 @@ footer p { color: var(--df-muted); font-size: 0.78rem; }
   <footer>
     <div class="container">
       <div class="f-brand">The Dimensional Forge</div>
-      <p>Forging Dimensions: Utility, Fun, Artistry!</p>
+      <p>Forging Dimensions: Utility, Fun, Community, Artistry</p>
       <p style="margin-top:0.75rem;font-size:0.75rem;">
         <a href="mailto:ConnectWithSean@the-dimensional-forge.net" style="color:var(--df-orange);text-decoration:none;">ConnectWithSean@the-dimensional-forge.net</a>
+        &nbsp;·&nbsp;
+        <a href="index.html" style="color:var(--df-muted);text-decoration:none;">Home</a>
+        &nbsp;·&nbsp;
+        <a href="portfolio.html" style="color:var(--df-muted);text-decoration:none;">Portfolio</a>
         &nbsp;·&nbsp;
         <a href="https://linkedin.com/in/seanneal19" target="_blank" style="color:var(--df-muted);text-decoration:none;">LinkedIn</a>
         &nbsp;·&nbsp;
@@ -1025,5 +1136,22 @@ footer p { color: var(--df-muted); font-size: 0.78rem; }
       <p style="margin-top:0.5rem;font-size:0.7rem;color:#444;">© 2024–2026 The Dimensional Forge · Sean Neal · Indianapolis, IN</p>
     </div>
   </footer>
+<script>
+  // Mobile nav burger (same behavior as the main site)
+  (function () {
+    const burger = document.getElementById('nav-burger');
+    const list = document.querySelector('.nav-links');
+    if (!burger || !list) return;
+    burger.addEventListener('click', () => {
+      const open = list.classList.toggle('open');
+      burger.classList.toggle('open', open);
+      burger.setAttribute('aria-expanded', open);
+      burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    });
+    list.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      list.classList.remove('open'); burger.classList.remove('open'); burger.setAttribute('aria-expanded', 'false');
+    }));
+  })();
+</script>
 </body>
 </html>
