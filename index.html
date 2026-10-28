@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Dimensional Forge — Product Development Consulting · Indianapolis, IN</title>
+  <title>The Dimensional Forge — Sean Neal · Product Development On Demand · Indianapolis</title>
   <meta name="description" content="Senior product development engineering on demand for inventors, startups, and small businesses — systems architecture, CAD, rapid prototyping, DFM, and V&V from an Indianapolis-based consultant." />
   <link rel="canonical" href="https://dimensional-forge.github.io/" />
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
@@ -1099,6 +1099,230 @@
     .venn-eye-anim { animation: venn-eye-pulse 2.8s ease-in-out infinite; }
     .venn-ant-l    { animation: venn-ant-l 3.6s ease-in-out infinite; }
     .venn-ant-r    { animation: venn-ant-r 3.6s ease-in-out infinite 1.8s; }
+  
+    /* ═══════════════════════════════════════════════════════
+       REFRESH LAYER — 2026-10 restructure
+       Anchors kept: DF mark, black, red→gold gradient, mono // labels,
+       embers and Audiowide titles. Evolved: sheet layout
+       Audiowide reserved for wordmark, labels and buttons; sheet layout
+       for the portfolio; line-art diagrams drawn in the gradient.
+       ═══════════════════════════════════════════════════════ */
+    :root { --df-display: 'Audiowide', sans-serif; }
+    .section { padding: 5.5rem 0; }
+
+    /* Titles stay Audiowide */
+    .section-title, .hero-title, .tl-role, .svc h3, .comm-card h3,
+    .proposal-title, .rv-form-title, .platform-logo, .svc-pt-heading,
+    .book-card h3, .spec-block .spec-title, .lnk-label {
+      font-family: var(--df-display);
+    }
+    .section-title { font-size: clamp(1.5rem, 3.5vw, 2.2rem); text-transform: uppercase; letter-spacing: 0.06em; line-height: 1.2; max-width: 26ch; text-wrap: balance; }
+    .label { font-size: 0.62rem; }
+    .rule { margin: 0.9rem 0 1.6rem; }
+    .section-lead { font-size: 1rem; max-width: 58ch; margin-bottom: 2.5rem; }
+    
+
+    /* ── Hero ─────────────────────────────────────────────── */
+    #hero { min-height: 100vh; min-height: 100svh; padding-top: 90px; padding-bottom: 2.5rem; box-sizing: border-box; }
+    .hero-logo { width: clamp(90px, 9vw, 120px); margin-bottom: 1.5rem; }
+    .hero-title { font-size: clamp(2rem, 4.5vw, 3.4rem); text-transform: uppercase; letter-spacing: 0.06em; line-height: 1.1; max-width: 680px; text-wrap: balance; }
+    .hero-title em { font-style: normal; background: var(--df-grad); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero-desc { font-size: clamp(0.95rem, 1.5vw, 1.08rem); max-width: 56ch; }
+    .hero-desc strong { color: var(--df-text); font-weight: 500; }
+    .hero-sub { font-size: 0.68rem; }
+    .hero-stats { gap: 2rem 2.75rem; border-top: 1px solid var(--df-brush); padding-top: 1.75rem; }
+    /* Desktop: large logo in a right column beside the copy; stats + pill run full width below */
+    @media (min-width: 900px) {
+      .hero-content { display: grid; grid-template-columns: minmax(0, 1fr) clamp(220px, 26vw, 320px); column-gap: clamp(2rem, 4vw, 3.5rem); align-items: start; }
+      .hero-content > * { grid-column: 1; }
+      .hero-content > .hero-logo { grid-column: 2; grid-row: 1 / span 4; align-self: center; width: 100%; margin: 0; }
+      .hero-content > .hero-stats, .hero-content > #substack-pill { grid-column: 1 / -1; }
+    }
+    
+
+    /* ── Drawings (shared) ────────────────────────────────── */
+    .dr-ink  { stroke: var(--df-text); fill: none; stroke-width: 1.1; stroke-linecap: round; stroke-linejoin: round; }
+    .dr-axis { stroke: var(--df-muted); fill: none; stroke-width: 0.7; stroke-dasharray: 3 3; opacity: 0.6; stroke-linecap: round; }
+    .dr-hot  { stroke: url(#dfs); fill: none; stroke-width: 1.4; stroke-linecap: round; }
+    .tb-glyph .dr-hot, .rf-schematic .dr-hot { stroke: var(--df-orange); }
+    .dr-fill { fill: var(--df-orange); }
+    .dr-boundary { fill: none; stroke: url(#dfs); stroke-width: 1.3; stroke-dasharray: 7 5; }
+    .dr-beam { fill: none; stroke: var(--df-orange); stroke-width: 2; stroke-linecap: round; }
+    .dr-mid { text-anchor: middle; }
+    .dr-lbl  { font-family: 'JetBrains Mono', monospace; font-size: 10px; fill: var(--df-muted); }
+    .dr-lbl-hot { fill: var(--df-orange); }
+    .dr-balloon path { stroke: var(--df-orange); fill: none; stroke-width: 1.2; }
+    .dr-balloon circle { fill: var(--df-black); stroke: var(--df-orange); stroke-width: 1.2; }
+    .dr-balloon text { font-family: 'JetBrains Mono', monospace; font-size: 11px; fill: var(--df-gold); text-anchor: middle; dominant-baseline: central; }
+
+    .rf-drawing { margin: 0 0 1.5rem; max-width: 100%; }
+    .rf-drawing svg { width: 100%; height: auto; display: block; overflow: visible; }
+    .rf-drawing figcaption { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-top: 0.5rem; }
+    .rf-drawing .mono { font-size: 0.65rem; color: var(--df-muted); letter-spacing: 0.06em; }
+    @media (prefers-reduced-motion: no-preference) {
+      .rf-drawing .dr-ink, .rf-drawing .dr-hot { stroke-dasharray: 1200; stroke-dashoffset: 1200; animation: rf-draw 2.2s ease-out forwards; }
+      .rf-drawing .dr-balloon { opacity: 0; animation: rf-fade 0.5s ease-out 1.9s forwards; }
+      @keyframes rf-draw { to { stroke-dashoffset: 0; } }
+      @keyframes rf-fade { to { opacity: 1; } }
+    }
+
+    /* ── BOM strip ────────────────────────────────────────── */
+    .rf-bom { display: grid; grid-template-columns: repeat(6, 1fr); border-top: 1px solid var(--df-brush); border-bottom: 1px solid var(--df-brush); margin-bottom: 1rem; }
+    .rf-bom a { display: flex; flex-direction: column; gap: 0.3rem; padding: 1.1rem 1rem 1.1rem 0; margin-right: 1rem; text-decoration: none; color: var(--df-text); border-left: 1px solid var(--df-brush); padding-left: 1rem; min-width: 0; }
+    .rf-bom a:first-child { border-left: 0; padding-left: 0; }
+    .rf-bom .mono { font-size: 0.65rem; color: var(--df-orange); letter-spacing: 0.08em; }
+    .rf-bom b { font-family: var(--df-display); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; line-height: 1.3; }
+    .rf-bom span:last-child { font-size: 0.78rem; color: var(--df-muted); line-height: 1.45; }
+    .rf-bom .concepts { display: flex; flex-direction: column; gap: 0.2rem; margin-top: 0.15rem; }
+    .rf-bom .concepts i { font-style: normal; }
+    .rf-bom .concepts i::before { content: '›'; color: var(--df-orange); margin-right: 0.4rem; }
+    .rf-bom a:hover b { background: var(--df-grad); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+
+    /* ── Sheets ───────────────────────────────────────────── */
+    .sheet { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 2rem 3.5rem; padding: 4rem 0; border-bottom: 1px solid var(--df-brush); scroll-margin-top: 90px; }
+    .sheet:last-of-type { border-bottom: 0; }
+    .sheet-flip { grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); }
+    .sheet-flip .tb { order: 2; }
+    .tb { position: sticky; top: 92px; align-self: start; }
+    .tb h3 { font-family: var(--df-display); font-size: clamp(1.1rem, 2vw, 1.5rem); text-transform: uppercase; letter-spacing: 0.06em; line-height: 1.25; margin: 0.4rem 0 0.9rem; text-wrap: balance; }
+    .tb-sub { color: var(--df-muted); font-size: 0.92rem; line-height: 1.65; max-width: 32ch; margin-bottom: 1.4rem; }
+    .tb-glyph { width: min(100%, 220px); margin-bottom: 1.4rem; }
+    .tb-glyph svg { width: 100%; height: auto; display: block; overflow: visible; }
+    .works { min-width: 0; }
+    .wk { display: grid; grid-template-columns: minmax(0, 1fr) 9.5rem; gap: 0.5rem 1.5rem; padding: 1.4rem 0; border-top: 1px solid var(--df-brush); }
+    .wk:first-child { border-top: 0; padding-top: 0; }
+    .wk h4 { font-family: var(--df-display); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.06em; line-height: 1.4; color: var(--df-text); margin: 0.25rem 0 0.5rem; text-wrap: balance; }
+    .wk p { color: var(--df-muted); font-size: 0.88rem; line-height: 1.65; max-width: 62ch; }
+    .wk .fig { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: var(--df-muted); text-align: right; line-height: 1.5; padding-top: 0.3rem; }
+    .wk .fig b { display: block; font-family: var(--df-display); font-size: 1rem; background: var(--df-grad); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-variant-numeric: tabular-nums; }
+    .wk-flag { background: var(--df-steel); border: 1px solid var(--df-brush); border-left: 3px solid var(--df-orange); border-radius: 2px; padding: 1.5rem; margin: 0 -1.5rem; }
+    .wk-flag + .wk { border-top: 0; }
+    .rf-link { display: inline-block; margin-top: 0.6rem; font-family: 'Audiowide', sans-serif; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--df-gold); text-decoration: none; }
+    .rf-link:hover { color: var(--df-orange); }
+    .rf-schematic { margin: 0 0 1.4rem; overflow-x: auto; }
+    .rf-schematic svg { width: 100%; min-width: 520px; height: auto; display: block; }
+    .rf-schematic + .wk { border-top: 1px solid var(--df-brush); padding-top: 1.4rem; }
+
+
+    /* ── Services toolbox (the capability blocks from About) ── */
+    .toolbox { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 1rem; margin-top: 2.5rem; }
+    .toolbox .spec-block { margin: 0; }
+
+    /* ── The Smith (about + experience + community) ───────── */
+    .smith-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 3rem 4rem; align-items: start; }
+    .smith-bio p { color: var(--df-muted); font-size: 0.95rem; line-height: 1.75; margin-bottom: 1rem; max-width: 52ch; }
+    .smith-bio p strong { color: var(--df-text); font-weight: 500; }
+    .smith-bio .hero-cta { margin: 1.5rem 0 0; }
+    .smith-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem 1.5rem; margin-top: 2rem; border-top: 1px solid var(--df-brush); padding-top: 1.5rem; }
+    .smith-fact b { display: block; font-family: var(--df-display); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--df-text); }
+    .smith-fact span { font-size: 0.8rem; color: var(--df-muted); }
+    .smith-grid .timeline { padding-left: 1.5rem; }
+    #community .cards { margin-top: 0; }
+    #community { padding-top: 0; }
+    #community .cards { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+
+    /* ── Responsive ───────────────────────────────────────── */
+    @media (max-width: 960px) {
+      .sheet, .sheet-flip { grid-template-columns: 1fr; padding: 3rem 0; }
+      .sheet-flip .tb { order: 0; }
+      .tb { position: static; }
+      .rf-bom { grid-template-columns: 1fr 1fr; }
+      .rf-bom a { border-left: 0; padding-left: 0; border-top: 1px solid var(--df-brush); }
+      .rf-bom a:nth-child(-n+2) { border-top: 0; }
+      .smith-grid { grid-template-columns: 1fr; }
+      .proposal-card { grid-template-columns: minmax(0, 1fr) auto; }
+      .proposal-stats { grid-column: 1 / -1; }
+      .proposal-tags, .proposal-card::after { display: none; }
+    }
+    @media (max-width: 640px) {
+      .fires-row { grid-template-columns: 1fr; }
+      .rf-bom { grid-template-columns: 1fr; }
+      .rf-bom a, .rf-bom a:nth-child(-n+2) { border-top: 1px solid var(--df-brush); }
+      .rf-bom a:first-child { border-top: 0; }
+      .wk { grid-template-columns: 1fr; }
+      .wk .fig { text-align: left; display: flex; gap: 0.5rem; align-items: baseline; padding-top: 0; }
+      .wk .fig b { display: inline; }
+      .wk-flag { margin: 0; padding: 1.2rem; }
+      .smith-facts { grid-template-columns: 1fr; }
+    }
+
+    .tb .spec-block { margin-top: 1.2rem; padding: 1.1rem 1.2rem; }
+    .tb .spec-block .spec-title { font-size: 0.62rem; }
+    .tb .spec-item { font-size: 0.8rem; }
+    .smith-bio .spec-block { margin-top: 1.5rem; }
+    #community { padding-top: 5.5rem; }
+    /* ── Sheet subsections + client rows ──────────────────── */
+    .sub-k { display: block; font-family: 'Audiowide', sans-serif; font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--df-gold); padding: 1.6rem 0 0.2rem; }
+    .sub-k:first-child { padding-top: 0; }
+    .sub-k + .wk { border-top: 0; padding-top: 0.9rem; }
+    .wk-client { cursor: pointer; position: relative; transition: background 0.15s; margin: 0 -0.75rem; padding-left: 0.75rem; padding-right: 0.75rem; border-radius: 2px; }
+    .wk-client:hover, .wk-client:focus-visible { background: var(--df-steel); outline: none; }
+    .wk-client:focus-visible { box-shadow: inset 0 0 0 1px var(--df-orange); }
+    .wk-client h4::after { content: '  ↗'; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--df-orange); opacity: 0; transition: opacity 0.15s; }
+    .wk-client:hover h4::after { opacity: 1; }
+    .wk-client .fig b { color: var(--df-gold); background: none; -webkit-text-fill-color: var(--df-gold); }
+
+    /* ── Proof strip ──────────────────────────────────────── */
+    #delivered { padding-bottom: 1rem; }
+    .proof-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1px; background: var(--df-brush); border: 1px solid var(--df-brush); }
+    .proof-strip > div { background: var(--df-black); padding: 1.5rem 1.4rem; display: flex; flex-direction: column; gap: 0.3rem; }
+    .proof-strip b { font-family: var(--df-display); font-size: 1.5rem; line-height: 1; background: var(--df-grad); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-variant-numeric: tabular-nums; }
+    .proof-strip span { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--df-muted); }
+
+    /* ── Reviews as named testimonials ────────────────────── */
+    #reviews { padding-top: 2.5rem; }
+    .rv-list { max-height: none; overflow: visible; display: grid; grid-template-columns: 1fr; gap: 1rem; }
+    .rv-card { position: relative; padding: 1.6rem 1.6rem 1.4rem 2.4rem; border-left: 3px solid var(--df-orange); }
+    .rv-card::before { content: '\201C'; position: absolute; left: 0.9rem; top: 0.9rem; font-family: Georgia, serif; font-size: 2.2rem; line-height: 1; color: var(--df-orange); opacity: 0.8; }
+    .rv-card-text { font-size: 1rem; color: var(--df-text); line-height: 1.65; order: -1; margin-bottom: 0.9rem; }
+    .rv-card { display: flex; flex-direction: column; }
+    .rv-card-header { margin: 0; }
+    .rv-card-name { font-family: var(--df-display); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; }
+    .rv-card-date { margin: 0.2rem 0 0; }
+
+    /* ── Reviews as a grid: summary band on top, masonry cards below ── */
+    #reviews .rv-layout { grid-template-columns: 1fr; gap: 2rem; }
+    .rv-summary { position: static; display: grid; grid-template-columns: auto minmax(0, 1fr) minmax(0, 1fr); gap: 2.5rem; align-items: center; text-align: left; }
+    .rv-score-block { text-align: center; }
+    .rv-score-block .rv-count { margin-bottom: 0; }
+    .rv-cta p { color: var(--df-muted); font-size: 0.85rem; margin: 0 0 1rem; }
+    .rv-cta .rv-form-title { margin-bottom: 0.5rem; }
+    .rv-list { display: block; columns: 3 280px; column-gap: 1rem; margin-bottom: 0; }
+    .rv-card { break-inside: avoid; margin-bottom: 1rem; }
+    .rv-card.rv-hidden { display: none; }
+    .rv-more { display: flex; margin: 0.5rem auto 0; }
+    .rv-more[hidden] { display: none; }
+    @media (max-width: 900px) {
+      .rv-summary { grid-template-columns: 1fr; gap: 1.75rem; }
+    }
+
+
+    /* ── Values row (hero) ───────────────────────────── */
+    .values { list-style: none; display: flex; flex-wrap: wrap; gap: 0.5rem 0; margin: 0.5rem 0 0; padding: 1.1rem 0 0; border-top: 1px solid var(--df-brush); max-width: 560px; }
+    .values li { font-family: 'Audiowide', sans-serif; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--df-text); white-space: nowrap; }
+    .values li:not(:last-child)::after { content: '/'; color: var(--df-orange); margin: 0 0.55rem; opacity: 0.85; }
+
+    /* ── Skill box mapped to rows ────────────────────── */
+    .skill-box .skill-hint { font-size: 0.72rem; color: var(--df-muted); margin: -0.25rem 0 0.6rem; }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+    .skill { font: inherit; font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem; transition: border-color 0.15s, color 0.15s; }
+    .skill .n { color: var(--df-orange); font-size: 0.6rem; }
+    .skill:hover, .skill.on { border-color: var(--df-orange); color: var(--df-text); }
+    .skill:focus-visible { outline: 2px solid var(--df-orange); outline-offset: 2px; }
+    .also { margin-top: 0.8rem; font-size: 0.75rem; color: var(--df-muted); line-height: 1.5; }
+    .also span { color: var(--df-text); opacity: 0.75; }
+    .row-tags { display: flex; flex-wrap: wrap; gap: 0.25rem 0; margin-top: 0.6rem; }
+    .rtag { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; color: var(--df-muted); }
+    .rtag { white-space: nowrap; }
+    .rtag:not(:last-child)::after { content: '·'; margin: 0 0.45rem; color: var(--df-muted); opacity: 0.5; }
+    .rtag.hit { color: var(--df-orange); }
+    .sheet .wk { transition: opacity 0.2s; }
+    .sheet.filtering .wk { opacity: 0.28; }
+    .sheet.filtering .wk.is-match { opacity: 1; }
+    .lead-map .spec-item > span { display: flex; flex-direction: column; }
+    .lead-map .where { font-size: 0.72rem; color: var(--df-orange); }
+    .smith-bio .also { font-size: 0.75rem; margin: 0.8rem 0 0; max-width: none; }
+    @media (prefers-reduced-motion: reduce) { .sheet .wk { transition: none; } }
   </style>
 </head>
 <body>
@@ -1122,16 +1346,14 @@
         </svg>
       </a>
       <ul class="nav-links">
-        <li><a href="#about">About</a></li>
-        <li><a href="#experience">Experience</a></li>
         <li><a href="#services">Services</a></li>
-        <li><a href="The_Dimensional_Forge_Method.html">Method</a></li>
-        <li><a href="#work">Work</a></li>
         <li><a href="#delivered">Delivered</a></li>
         <li><a href="#reviews">Reviews</a></li>
-        <li><a href="#models">Designs</a></li>
-        <li><a href="#community">Community</a></li>
         <li><a href="#book" class="nav-hire-me">Forge Together</a></li>
+        <li><a href="#work">Portfolio</a></li>
+        <li><a href="The_Dimensional_Forge_Method.html">Method</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#models">Shop</a></li>
       </ul>
 
       <button id="nav-burger" aria-label="Open menu" aria-expanded="false">
@@ -1258,17 +1480,17 @@
         </svg>
       </div>
 
-      <h1 class="hero-title">Product Development<br>— On Demand</h1>
-      <p class="hero-desc">For inventors, startups, hobbyists, and small businesses that need experienced product development.</p>
+      <h1 class="hero-title">Where ideas are <em>forged into reality.</em></h1>
+      <p class="hero-desc">I’m <strong>Sean Neal</strong>, a Senior Systems Engineer in Indianapolis. I help inventors, startups and small businesses turn an idea into a product they can hold: people and project leadership, systems, mechanical, electrical, software and AI from one forge, with every job quoted before work starts.</p>
 
       <p class="hero-sub">
         Indianapolis, IN &nbsp;·&nbsp; Est. 2024 &nbsp;·&nbsp;
-        <span>Forging Dimensions: Utility, Fun, Artistry!</span>
+        <span>Forging Dimensions: Utility, Fun, Community, Artistry</span>
       </p>
 
       <div class="hero-cta">
         <a href="#book" class="btn btn-primary">Start a Project</a>
-        <a href="#work" class="btn btn-ghost">View My Work</a>
+        <a href="#delivered" class="btn btn-ghost">See Client Work</a>
         <a href="print-estimator.html" class="btn btn-ghost">3D Print On Demand</a>
       </div>
 
@@ -1306,307 +1528,77 @@
     </div>
   </section>
 
-  <!-- ── ABOUT ──────────────────────────────────────────────────────── -->
-  <section id="about" class="section section-dark">
-    <div class="container">
-      <span class="label">About</span>
-      <h2 class="section-title">The Forge Is the Philosophy</h2>
-      <hr class="rule" />
-      <div class="grid">
-        <div>
-          <p>
-            <strong>Sean Neal</strong> is a Senior Systems Engineer and product development consultant based in Indianapolis. Background spans NASA Marshall Space Flight Center, Tesla (two internships), SonaCare Medical, and 8 years delivering connected hardware products at Allegion.
-          </p>
-          <p>
-            The Dimensional Forge is a consulting practice for inventors, startups, and small businesses that need senior engineering leadership — end-to-end, from initial concept through architecture, prototyping, validation, and manufacturing readiness.
-          </p>
-          <p>
-            One engineer. Full lifecycle. No hand-holding required from your side.
-          </p>
-          <div style="margin-top:1.5rem;display:flex;gap:0.75rem;flex-wrap:wrap;">
-            <a href="#book" class="btn btn-primary">Start a Project</a>
-            <a href="#services" class="btn btn-ghost">View Services</a>
-          </div>
-        </div>
-        <div>
-          <div class="spec-block">
-            <div class="spec-title">Systems Engineering</div>
-            <div style="display:flex;flex-wrap:wrap;gap:0.35rem;margin-top:0.25rem;">
-              <span class="wtag">Requirements (PRD/FRD/SRD/ADR)</span>
-              <span class="wtag">Systems Thinking</span>
-              <span class="wtag">System Architecture &amp; ICDs</span>
-              <span class="wtag">DFMEA / SFMEA</span>
-              <span class="wtag">V&amp;V Planning &amp; Execution</span>
-              <span class="wtag">FRACAS &amp; Root Cause Analysis</span>
-              <span class="wtag">A3 · 8D · 5-Whys</span>
-              <span class="wtag">Risk Register Management</span>
-              <span class="wtag">Configuration Management</span>
-              <span class="wtag">Stakeholder Management</span>
-            </div>
-          </div>
-          <div class="spec-block">
-            <div class="spec-title">Leadership &amp; Management</div>
-            <div style="display:flex;flex-wrap:wrap;gap:0.35rem;margin-top:0.25rem;">
-              <span class="wtag">Cross-Functional Teams</span>
-              <span class="wtag">Teams of Teams</span>
-              <span class="wtag">Director-Level Reviews</span>
-              <span class="wtag">Organizational Influence</span>
-              <span class="wtag">Risk-Based Decision Making</span>
-              <span class="wtag">Talent Development</span>
-              <span class="wtag">Engineering Team Coaching</span>
-              <span class="wtag">Talent Pipeline Development</span>
-              <span class="wtag">ERG Founding &amp; Leadership</span>
-              <span class="wtag">Technical Mentorship</span>
-              <span class="wtag">Curriculum Design &amp; Delivery</span>
-              <span class="wtag">Product Roadmapping</span>
-            </div>
-          </div>
-          <div class="spec-block">
-            <div class="spec-title">Design &amp; Fabrication</div>
-            <div style="display:flex;flex-wrap:wrap;gap:0.35rem;margin-top:0.25rem;">
-              <span class="wtag">SolidWorks CAD</span>
-              <span class="wtag">GD&amp;T</span>
-              <span class="wtag">DFM</span>
-              <span class="wtag">3D Printing / Additive</span>
-              <span class="wtag">Rapid Prototyping</span>
-              <span class="wtag">Electromechanical Integration</span>
-            </div>
-          </div>
-          <div class="spec-block">
-            <div class="spec-title">Tools &amp; Methods</div>
-            <div style="display:flex;flex-wrap:wrap;gap:0.35rem;margin-top:0.25rem;">
-              <span class="wtag">Python</span>
-              <span class="wtag">MATLAB</span>
-              <span class="wtag">Data Analysis &amp; ML</span>
-              <span class="wtag">AI Agent Development</span>
-              <span class="wtag">Agentic Workflow Design</span>
-              <span class="wtag">LLM Integration</span>
-              <span class="wtag">Prompt Engineering</span>
-              <span class="wtag">Azure DevOps</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── EXPERIENCE ─────────────────────────────────────────────────── -->
-  <section id="experience" class="section">
-    <div class="container">
-      <span class="label">Experience</span>
-      <h2 class="section-title">The Career Record</h2>
-      <hr class="rule" />
-      <div class="tl-wrap">
-        <div class="timeline">
-          <div class="tl-item">
-            <div class="tl-date">June 2024 — Present</div>
-            <div class="tl-role">CEO & Lead Product Dev Engineer</div>
-            <div class="tl-org">The Dimensional Forge</div>
-            <div class="tl-note">Multi-pillar creative and engineering brand. Consulting, content, products, community.</div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-date">June 2018 — Present</div>
-            <div class="tl-role">Senior System Engineer</div>
-            <div class="tl-org">Allegion US</div>
-            <div class="tl-note">8+ years in enterprise IoT access control. Data Scientist Cohort (2019-2020). Co-holder of blockchain access control patent.</div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-date">Dec 2020 — Present</div>
-            <div class="tl-role">Freelance Product Dev Engineer</div>
-            <div class="tl-org">Etsy — DimensionalForgeProd</div>
-            <div class="tl-note">Top Rated on Upwork, 100% Job Success. Custom manufactured products and engineering consulting.</div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-date">May 2016 — Feb 2018</div>
-            <div class="tl-role">Product R&D Engineering Co-Op</div>
-            <div class="tl-org">SonaCare Medical</div>
-            <div class="tl-note">Medical device R&D for HIFU surgical systems.</div>
-          </div>
-        </div>
-        <div class="timeline">
-          <div class="tl-item">
-            <div class="tl-date">May — Aug 2017</div>
-            <div class="tl-role">Propulsion Systems Analysis Intern</div>
-            <div class="tl-org">NASA Marshall Space Flight Center</div>
-            <div class="tl-note">RS-25 rocket engine hot-fire test data analysis. Main engine of the Space Launch System.</div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-date">May — Aug 2015</div>
-            <div class="tl-role">Body System Engineering Intern</div>
-            <div class="tl-org">Tesla — Palo Alto</div>
-            <div class="tl-note">Vehicle body systems engineering at Tesla HQ. Second Tesla internship after R&D Materials (Fremont, 2014).</div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-date">2014 — 2018</div>
-            <div class="tl-role">B.S. Mechanical Engineering</div>
-            <div class="tl-org">IUPUI + Ivy Tech</div>
-            <div class="tl-note">MechE degree plus Technical Certificate in Design Technology. FIRST Indiana District Chairman's Team Award.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- ── SERVICES ───────────────────────────────────────────────────── -->
-  <section id="services" class="section">
+<section id="services" class="section section-dark">
     <div class="container">
-      <span class="label">Consulting Services</span>
-      <h2 class="section-title">Senior Product Development — On Demand</h2>
+      <span class="label">Services</span>
+      <h2 class="section-title">Senior product development, on demand</h2>
       <hr class="rule" />
-      <p class="section-lead">For inventors, startups, hobbyists, and small businesses that need experienced product development.</p>
+      <p class="section-lead">Ten services from one engineer. I run only the Forge Method phases your project needs, and I tell you up front what it will cost.</p>
       <div class="grid">
         <div class="svc">
           <span class="svc-icon">// SYS_ARCH</span>
           <h3>Systems Architecture</h3>
-          <p>End-to-end product architecture from concept to production. Requirements decomposition, interface definitions, system-level design reviews.</p>
+          <p>I define the whole product before anyone builds a piece of it: requirements decomposition, interfaces between subsystems, and system-level design reviews from concept to production.</p>
         </div>
         <div class="svc">
           <span class="svc-icon">// MECH_DESIGN</span>
           <h3>Mechanical & Electromechanical Design</h3>
-          <p>SolidWorks CAD, GD&T, tolerance analysis, and electromechanical integration for multi-discipline products.</p>
+          <p>SolidWorks CAD, GD&amp;T and tolerance analysis for parts that have to fit, move and be manufactured, including the electromechanical assemblies where they meet the electronics.</p>
         </div>
         <div class="svc">
           <span class="svc-icon">// PROTO_DFM</span>
           <h3>Rapid Prototyping & DFM</h3>
-          <p>Fast iteration from idea to physical part, with design-for-manufacturability guidance built in from the start — not tacked on at the end.</p>
+          <p>Fast iterations from idea to physical part, with manufacturability designed in from the first print instead of patched in at the end.</p>
         </div>
         <div class="svc">
           <span class="svc-icon">// DOCS</span>
           <h3>PRD / FRD / SRD Writing</h3>
-          <p>Clear, structured technical documentation — product requirement docs, functional specs, and system requirement documents that teams can actually build from.</p>
+          <p>Product, functional and system requirement documents your team can build from and test against.</p>
         </div>
         <div class="svc">
           <span class="svc-icon">// RISK_ANALYSIS</span>
           <h3>DFMEA / SFMEA</h3>
-          <p>Systematic failure mode identification and risk mitigation before your product reaches a customer. Design and system-level FMEA execution.</p>
+          <p>I look for the ways your product can fail, at the design and system level, and design them out before a customer finds them.</p>
         </div>
         <div class="svc">
           <span class="svc-icon">// V_AND_V</span>
           <h3>Verification & Validation</h3>
-          <p>V&V planning, test protocol development, and results analysis. Documented evidence your product meets its requirements.</p>
+          <p>Test plans, protocols and results that show, with evidence, that your product does what its requirements say.</p>
         </div>
         <div class="svc">
           <span class="svc-icon">// ROADMAP</span>
           <h3>Technical Roadmapping</h3>
-          <p>From napkin sketch to phased roadmap — with realistic milestones and resource budgeting aligned to your actual constraints.</p>
+          <p>A phased plan from where you are today to a shippable product, with milestones and budgets sized to your real constraints.</p>
         </div>
         <div class="svc">
           <span class="svc-icon">// COST_MODEL</span>
           <h3>Budgeting & Cost Modeling</h3>
-          <p>Bottom-up cost models, BOM costing, margin analysis. Know whether your product makes business sense before you commit to tooling.</p>
+          <p>Bottom-up cost and BOM models with margin checks, so you know whether the product makes business sense before you pay for tooling.</p>
         </div>
         <div class="svc">
           <span class="svc-icon">// DATA_SCI</span>
           <h3>Data Science & Analytics</h3>
-          <p>Python and MATLAB-based analysis, ML applications, and data pipeline development for engineering and product decisions.</p>
+          <p>Python and MATLAB analysis that turns test and product data into engineering decisions.</p>
+        </div>
+        <div class="svc" style="grid-column: 1 / -1;">
+          <span class="svc-icon">// LEAD_MENTOR</span>
+          <h3>Leadership & Mentorship</h3>
+          <p>I lead cross-functional teams of teams, facilitate design reviews, and mentor engineers and students through hands-on technical coaching.</p>
         </div>
         <a href="The_Dimensional_Forge_Method.html" class="svc-process-teaser">
           <div class="svc-pt-body">
             <span class="svc-icon">// THE_METHOD</span>
-            <div class="svc-pt-heading">See How We Work</div>
-            <div class="svc-pt-desc">From napkin sketch to on-the-shelf product — a full overview of how we approach every engagement, and everything in between.</div>
+            <div class="svc-pt-heading">See How I Work</div>
+            <div class="svc-pt-desc">Six phases from napkin sketch to on-the-shelf product. Every engagement uses only the phases it needs.</div>
           </div>
           <div class="svc-pt-arrow">→</div>
         </a>
       </div>
-      <p class="services-rate">Starting at <strong>$55 / hr</strong> — no cost surprises, no retainer required.</p>
+      <p class="services-rate">Starting at <strong>$55 / hr</strong> with no-guess costing: every job is quoted before it starts, and there’s no retainer.</p>
       <div class="services-cta">
         <a href="#book" class="btn btn-primary">Start a Project</a>
         <a href="#book" class="btn btn-ghost">Book a Discovery Call</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── WORK ──────────────────────────────────────────────────────── -->
-  <section id="work" class="section section-dark">
-    <div class="container">
-      <span class="label">Portfolio</span>
-      <h2 class="section-title">Work Done</h2>
-      <hr class="rule" />
-      <p class="section-lead">Selected projects across aerospace, medical devices, automotive, IoT hardware, and product consulting.</p>
-      <div class="work-grid">
-
-        <div class="work-card">
-          <div class="work-header">
-            <span class="work-org">Allegion US</span>
-            <span class="work-year">2018 — Present</span>
-          </div>
-          <h3>WiFi Smart Lock Product Family</h3>
-          <p>End-to-end product ownership for a family of WiFi-enabled deadbolts and lever locks — concept through retail launch. Coordinated hardware, firmware, mobile app, and cloud teams using a teams-of-teams approach. Led DFMEA/SFMEA sessions, System Design Reviews for director-level stakeholders, and full V&amp;V planning in Azure DevOps. Embedded structured root-cause methods (5-Whys, A3, 8D) directly into design review culture.</p>
-          <div class="work-tags">
-            <span class="wtag">Connected Hardware</span>
-            <span class="wtag">Systems Engineering</span>
-            <span class="wtag">DFMEA / SFMEA</span>
-            <span class="wtag">V&amp;V</span>
-            <span class="wtag">Cross-Functional</span>
-            <span class="wtag">IoT</span>
-          </div>
-        </div>
-
-        <div class="work-card">
-          <div class="work-header">
-            <span class="work-org">NASA — Marshall Space Flight Center</span>
-            <span class="work-year">2017</span>
-          </div>
-          <h3>RS-25 Engine Hot-Fire Data Analysis Tool</h3>
-          <p>Analyzed large raw data sets from RS-25 rocket engine hot-fire tests to identify operational anomalies. Built a reusable MATLAB/Python data analysis tool with a full GUI — designed for long-term use by future Marshall engineers, not just the duration of the internship. The RS-25 is the main engine of the Space Launch System.</p>
-          <div class="work-tags">
-            <span class="wtag">MATLAB</span>
-            <span class="wtag">Python</span>
-            <span class="wtag">Data Analysis</span>
-            <span class="wtag">Aerospace</span>
-            <span class="wtag">GUI Development</span>
-          </div>
-        </div>
-
-        <div class="work-card">
-          <div class="work-header">
-            <span class="work-org">SonaCare Medical</span>
-            <span class="work-year">2016 — 2018</span>
-          </div>
-          <h3>HIFU Surgical Device — Component Design Cycle</h3>
-          <p>Led medical device components through the full early design cycle: concept, SolidWorks modeling, 3D-printed and cast urethane prototyping, fabrication, validation testing, and test report authorship. Set cable specifications and created 2D/3D electrical routing diagrams. Managed task breakdown and timelines for product realization.</p>
-          <div class="work-tags">
-            <span class="wtag">Medical Devices</span>
-            <span class="wtag">SolidWorks</span>
-            <span class="wtag">Prototyping</span>
-            <span class="wtag">3D Printing</span>
-            <span class="wtag">V&amp;V</span>
-          </div>
-        </div>
-
-        <div class="work-card">
-          <div class="work-header">
-            <span class="work-org">Tesla</span>
-            <span class="work-year">2014 — 2015</span>
-          </div>
-          <h3>Model S / X Body &amp; Fastener Systems</h3>
-          <p>Two internships across Fremont and Palo Alto. Designed and released 3D CAD models using GD&amp;T best practices; coordinated development of cast and stamped aluminum structural parts for Model S and X. Separately: fastener selection and validation across cross-functional teams — Torque to Failure, Tensile, and Clamp Load testing with full root cause documentation.</p>
-          <div class="work-tags">
-            <span class="wtag">SolidWorks</span>
-            <span class="wtag">GD&amp;T</span>
-            <span class="wtag">Structural Design</span>
-            <span class="wtag">Automotive</span>
-            <span class="wtag">Testing &amp; Validation</span>
-          </div>
-        </div>
-
-        <div class="work-card work-card--accent">
-          <div class="work-header">
-            <span class="work-org">The Dimensional Forge — Consulting</span>
-            <span class="work-year">2020 — Present</span>
-          </div>
-          <h3>Product Development for Inventors &amp; Startups</h3>
-          <p>Ongoing freelance consulting delivering end-to-end product development: requirement decomposition, DFMEA/SFMEA, V&amp;V planning, prototyping, and manufacturing readiness. Top Rated status on Upwork with 100% Job Success Score. Top Design Award from Cults3D (2023). Custom-engineered products sold via Etsy. Rising Talent — Upwork (2025).</p>
-          <div class="work-tags">
-            <span class="wtag">Consulting</span>
-            <span class="wtag">3D Printing</span>
-            <span class="wtag">Product Dev</span>
-            <span class="wtag">Top Rated</span>
-            <span class="wtag">100% Job Success</span>
-          </div>
-        </div>
-
       </div>
     </div>
   </section>
@@ -1739,7 +1731,7 @@
             <div class="pstat"><span class="pstat-val">17.5h</span><span class="pstat-lbl">Hours</span></div>
             <div class="pstat"><span class="pstat-val">4</span><span class="pstat-lbl">Sessions</span></div>
           </div>
-          <p class="proposal-desc">Hands-on engineering tutoring for a 10-year-old: two parallel projects — build a new battle bot from a kit and diagnose/repair a broken one. Gus leads all hands-on work; Sean guides with questions only.</p>
+          <p class="proposal-desc">Hands-on engineering tutoring for a 10-year-old: two parallel projects — build a new battle bot from a kit and diagnose/repair a broken one. Gus leads all hands-on work; I guide with questions only.</p>
           <div class="proposal-tags">
             <span class="wtag">Engineering Tutoring</span>
             <span class="wtag">Mentorship</span>
@@ -1806,134 +1798,44 @@
     </div>
   </section>
 
-  <!-- ── REVIEWS ──────────────────────────────────────────────────────── -->
-  <section id="reviews" class="section section-dark">
+<section id="reviews" class="section">
     <div class="container">
       <span class="label">Reviews</span>
-      <h2 class="section-title">What Clients Say</h2>
+      <h2 class="section-title">What clients say</h2>
       <hr class="rule" />
       <div class="rv-layout">
 
-        <!-- Left: summary + card list -->
-        <div>
-          <div class="rv-summary" id="rv-summary">
+        <!-- Summary band: score · distribution · leave a review -->
+        <div class="rv-summary" id="rv-summary">
+          <div class="rv-score-block">
             <div class="rv-big-score" id="rv-score">—</div>
             <div class="rv-stars-display" id="rv-stars-display"></div>
             <div class="rv-count" id="rv-count">No reviews yet</div>
-            <div class="rv-bars" id="rv-bars"></div>
           </div>
-        </div>
-
-        <!-- Right: reviews + form -->
-        <div>
-          <div class="rv-list" id="rv-list">
-            <!-- populated by JS -->
-          </div>
-
-          <div class="rv-form-wrap" style="text-align:center;">
+          <div class="rv-bars" id="rv-bars"></div>
+          <div class="rv-cta">
             <div class="rv-form-title">Share Your Experience</div>
-            <p style="color:var(--df-muted);font-size:0.88rem;margin-bottom:1.5rem;">Worked with The Dimensional Forge? I'd love to hear from you.</p>
+            <p>Worked with me? Tell me how it went, good or bad. Every review gets posted here as written.</p>
             <a href="https://forms.gle/AnAGkn4zsfMRNmru5" target="_blank" rel="noopener" class="btn btn-primary" style="justify-content:center;">Leave a Review Here ↗</a>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- ── 3D MODELS ────────────────────────────────────────────────────── -->
-  <section id="models" class="section">
-    <div class="container">
-      <span class="label">3D Print Shop</span>
-      <h2 class="section-title">Open &amp; Closed Designs</h2>
-      <hr class="rule" />
-      <p class="section-lead">Free open-source designs on MakerWorld. Paid premium models and award-winning prints on Cults3D. All designed and tested in-house.</p>
-
-      <div class="models-layout">
-
-        <!-- MakerWorld -->
-        <div class="platform-card">
-          <div class="platform-card-header">
-            <div class="platform-logo">🌐 MakerWorld</div>
-            <div class="platform-url">makerworld.com/en/@Dimensional.F</div>
-          </div>
-          <div class="platform-card-body">
-            <p class="platform-desc">Bambu Lab's model platform. Optimized print profiles, community downloads, and the full free Dimensional Forge catalog. Every design here is open — download and print at no cost.</p>
-            <div class="platform-badges">
-              <span class="pbadge pbadge-free">Free Downloads Only</span>
-            </div>
-            <div class="platform-cta">
-              <a href="https://makerworld.com/en/@Dimensional.F" target="_blank" class="btn btn-primary" style="flex:1;justify-content:center;">Browse MakerWorld</a>
-            </div>
-          </div>
+        <!-- Review cards (masonry grid) -->
+        <div class="rv-list" id="rv-list">
+          <!-- populated by JS -->
         </div>
-
-        <!-- Cults3D -->
-        <div class="platform-card">
-          <div class="platform-card-header">
-            <div class="platform-logo">🏆 Cults3D</div>
-            <div class="platform-url">cults3d.com/en/users/TheDimensionalForge</div>
-          </div>
-          <div class="platform-card-body">
-            <p class="platform-desc">Full model catalog on Cults3D — the world's largest independent 3D printing marketplace. Home of the 2023 Top Design Award win. Paid models, free releases, and the complete back catalog.</p>
-            <div class="platform-badges">
-              <span class="pbadge pbadge-free">Free Downloads</span>
-              <span class="pbadge pbadge-paid">Paid Models</span>
-              <span class="pbadge pbadge-award">🏅 Top Design Award 2023</span>
-            </div>
-            <div class="platform-cta">
-              <a href="https://cults3d.com/en/users/TheDimensionalForge/3d-models" target="_blank" class="btn btn-primary" style="flex:1;justify-content:center;">Browse Cults3D</a>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Custom model commission CTA -->
-      <div class="models-commission">
-        <p><strong>Need something custom?</strong> If you don't see what you're looking for, I take custom model commissions — functional parts, enclosures, fixtures, artistic pieces. Designed in SolidWorks, printed and tested before delivery.</p>
-        <a href="#book" class="btn btn-primary">Commission a Model</a>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ── COMMUNITY ──────────────────────────────────────────────────── -->
-  <section id="community" class="section">
-    <div class="container">
-      <span class="label">Community</span>
-      <h2 class="section-title">Beyond the Bench</h2>
-      <hr class="rule" />
-      <p class="section-lead">Engineering isn't just about building products. It's about building people.</p>
-      <div class="cards">
-        <div class="comm-card">
-          <span class="glyph">🤖</span>
-          <h3>FRC Team 6956 — Sham-Rock-Botics</h3>
-          <span class="role">Co-Lead Mentor · FIRST Robotics Competition · 6 Years</span>
-          <p>Mentoring high school students through the full engineering cycle — challenge reveal to competition day. Teaching not just technical skills, but how to collaborate under pressure and recover from failure.</p>
-        </div>
-        <div class="comm-card">
-          <span class="glyph">📐</span>
-          <h3>MEPI — Minority Engineering Program of Indianapolis</h3>
-          <span class="role">Co-Leader & Lecturer · 1 Year</span>
-          <p>Co-revamped the 8th-grade curriculum in 2019 to include Arduino programming, robotics, and real mechanical engineering challenges. Building pathways for underrepresented students into engineering careers.</p>
-        </div>
-        <div class="comm-card">
-          <span class="glyph">🏳️‍🌈</span>
-          <h3>Allegion Pride Alliance</h3>
-          <span class="role">Founder & Servant Leader · LGBTQIA+ ERG · 6 Years</span>
-          <p>Founded and leads Allegion's LGBTQIA+ employee resource group. Led the company's Indy Pride 2024 presence. Manages a team of 6 volunteers driving visibility and belonging inside a global enterprise.</p>
-        </div>
+        <button type="button" class="btn btn-ghost rv-more" id="rv-more" hidden></button>
       </div>
     </div>
   </section>
 
   <!-- ── BOOK ──────────────────────────────────────────────────────── -->
-  <section id="book" class="section section-dark">
+<section id="book" class="section section-dark">
     <div class="container">
       <span class="label">Forge Together</span>
-      <h2 class="section-title">Start a Project</h2>
+      <h2 class="section-title">Start a project</h2>
       <hr class="rule" />
-      <p class="section-lead">Three ways in — send a project brief, book a discovery call, or just call/text directly.</p>
+      <p class="section-lead">Three ways in: send a project brief, book a discovery call, or call or text me directly. Every inquiry gets a reply from me, not an auto-responder.</p>
       <div class="book-layout">
 
         <!-- Inquiry form -->
@@ -1961,6 +1863,7 @@
                 <option>Technical Roadmapping</option>
                 <option>Budgeting &amp; Cost Modeling</option>
                 <option>Data Science &amp; Analytics</option>
+                <option>Leadership &amp; Mentorship</option>
                 <option>AI / LLM Integration</option>
                 <option>Other / Not Sure Yet</option>
               </select>
@@ -2038,11 +1941,394 @@
     </div>
   </section>
 
+  <!-- ── WORK (five disciplines) ──────────────────────────────────────── -->
+  <section id="work" class="section rf-work">
+    <div class="container">
+      <span class="label">Portfolio</span>
+      <h2 class="section-title">Work across six disciplines</h2>
+      <hr class="rule" />
+      <p class="section-lead">My career, client and personal work. Select a client project to open its proposal.</p>
+
+      <figure class="rf-drawing" aria-label="Assembly drawing: a requirements document feeds a system boundary box that encloses the gear train, ESP32 board, code sheet and node graph, carried by a row of people along its base, with balloon callouts 1 to 6">
+        <svg viewBox="0 0 760 340" xmlns="http://www.w3.org/2000/svg" role="img">
+          <defs><linearGradient id="dfs" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#EE4236"/><stop offset=".5" stop-color="#F0782D"/><stop offset="1" stop-color="#FAAC3D"/></linearGradient></defs>
+          <g transform="translate(70 140)"><path class="dr-ink" d="M-26 -36 h40 l12 12 v60 h-52 z M14 -36 v12 h12"/><path class="dr-hot" d="M-16 -12 h30 M-16 -2 h22 M-16 8 h30"/><path class="dr-axis" d="M-16 18 h18"/></g>
+          <text class="dr-lbl dr-mid" x="70" y="214">REQUIREMENTS</text>
+          <path class="dr-beam" d="M104 140 H132 M126 134 l6 6 l-6 6"/>
+          <g class="dr-balloon"><path d="M70 75 L70 100"/><circle cx="70" cy="64" r="11"/><text x="70" y="64">2</text></g>
+          <rect class="dr-boundary" x="140" y="36" width="604" height="276" rx="4"/>
+          <g transform="translate(217 140)"><circle class="dr-ink" r="44"/><circle class="dr-ink" r="34"/><circle class="dr-ink" r="9"/><path class="dr-ink" d="M-5 -9 h10 v18 h-10 z"/><g class="dr-ink"><path d="M0 -44 l-5.0 -8 h10 z" transform="rotate(0)"/><path d="M0 -44 l-5.0 -8 h10 z" transform="rotate(30)"/><path d="M0 -44 l-5.0 -8 h10 z" transform="rotate(60)"/><path d="M0 -44 l-5.0 -8 h10 z" transform="rotate(90)"/><path d="M0 -44 l-5.0 -8 h10 z" transform="rotate(120)"/><path d="M0 -44 l-5.0 -8 h10 z" transform="rotate(150)"/><path d="M0 -44 l-5.0 -8 h10 z" transform="rotate(180)"/><path d="M0 -44 l-5.0 -8 h10 z" transform="rotate(210)"/><path d="M0 -44 l-5.0 -8 h10 z" transform="rotate(240)"/><path d="M0 -44 l-5.0 -8 h10 z" transform="rotate(270)"/><path d="M0 -44 l-5.0 -8 h10 z" transform="rotate(300)"/><path d="M0 -44 l-5.0 -8 h10 z" transform="rotate(330)"/></g><path class="dr-axis" d="M-56 0 h112 M0 -56 v112"/><g transform="translate(58 -30)"><circle class="dr-ink" r="16"/><circle class="dr-ink" r="4"/><g class="dr-ink"><path d="M0 -16 l-3.5 -6 h7 z" transform="rotate(0)"/><path d="M0 -16 l-3.5 -6 h7 z" transform="rotate(45)"/><path d="M0 -16 l-3.5 -6 h7 z" transform="rotate(90)"/><path d="M0 -16 l-3.5 -6 h7 z" transform="rotate(135)"/><path d="M0 -16 l-3.5 -6 h7 z" transform="rotate(180)"/><path d="M0 -16 l-3.5 -6 h7 z" transform="rotate(225)"/><path d="M0 -16 l-3.5 -6 h7 z" transform="rotate(270)"/><path d="M0 -16 l-3.5 -6 h7 z" transform="rotate(315)"/></g></g></g>
+          <text class="dr-lbl dr-mid" x="231" y="214">MECHANICAL</text>
+          <g class="dr-balloon"><path d="M231 75 L231 90"/><circle cx="231" cy="64" r="11"/><text x="231" y="64">3</text></g>
+          <g transform="translate(372 140)"><rect class="dr-ink" x="-56" y="-36" width="112" height="72" rx="3"/><rect class="dr-ink" x="-40" y="-22" width="40" height="30"/><path class="dr-ink" d="M-40 -14 h-9 M-40 -6 h-9 M-40 2 h-9 M0 -14 h9 M0 -6 h9 M0 2 h9"/><circle class="dr-ink" cx="30" cy="-20" r="6"/><circle class="dr-ink" cx="30" cy="12" r="6"/><path class="dr-hot" d="M-56 20 h112 M-56 28 h112"/></g>
+          <text class="dr-lbl dr-mid" x="372" y="214">ELECTRICAL</text>
+          <g class="dr-balloon"><path d="M372 75 L372 100"/><circle cx="372" cy="64" r="11"/><text x="372" y="64">4</text></g>
+          <g transform="translate(513 140)"><path class="dr-ink" d="M-34 -44 h52 l16 16 v72 h-68 z M18 -44 v16 h16"/><path class="dr-axis" d="M-22 -18 h38 M-22 -6 h28 M-14 6 h32 M-14 18 h22 M-22 30 h38"/><path class="dr-hot" d="M-27 -20 l-5 10 l5 10 M27 -20 l5 10 l-5 10"/></g>
+          <text class="dr-lbl dr-mid" x="513" y="214">SOFTWARE</text>
+          <g class="dr-balloon"><path d="M513 75 L513 92"/><circle cx="513" cy="64" r="11"/><text x="513" y="64">5</text></g>
+          <g transform="translate(654 144)"><path class="dr-ink" d="M0 0 L0 -40 M0 0 L-36 -12 M0 0 L36 -12 M0 0 L-24 32 M0 0 L24 32 M0 -40 L-36 -12 M0 -40 L36 -12 M-24 32 L24 32"/><circle class="dr-fill" r="6"/><circle class="dr-ink" cx="0" cy="-40" r="5"/><circle class="dr-ink" cx="-36" cy="-12" r="5"/><circle class="dr-ink" cx="36" cy="-12" r="5"/><circle class="dr-ink" cx="-24" cy="32" r="5"/><circle class="dr-ink" cx="24" cy="32" r="5"/></g>
+          <text class="dr-lbl dr-mid" x="654" y="214">AI</text>
+          <g class="dr-balloon"><path d="M654 75 L654 99"/><circle cx="654" cy="64" r="11"/><text x="654" y="64">6</text></g>
+          <path class="dr-beam" d="M171 240 H713"/>
+          <g transform="translate(195 0)"><circle class="dr-ink" cx="0" cy="258" r="7"/><path class="dr-ink" d="M0 265 V286 M0 286 l-8 17 M0 286 l8 17 M0 270 l-9 -30 M0 270 l9 -30"/></g>
+          <g transform="translate(266 0)"><circle class="dr-ink" cx="0" cy="258" r="7"/><path class="dr-ink" d="M0 265 V286 M0 286 l-8 17 M0 286 l8 17 M0 270 l-9 -30 M0 270 l9 -30"/></g>
+          <g transform="translate(336 0)"><circle class="dr-ink" cx="0" cy="258" r="7"/><path class="dr-ink" d="M0 265 V286 M0 286 l-8 17 M0 286 l8 17 M0 270 l-9 -30 M0 270 l9 -30"/></g>
+          <g transform="translate(407 0)"><circle class="dr-ink" cx="0" cy="258" r="7"/><path class="dr-ink" d="M0 265 V286 M0 286 l-8 17 M0 286 l8 17 M0 270 l-9 -30 M0 270 l9 -30"/></g>
+          <g transform="translate(477 0)"><circle class="dr-ink" cx="0" cy="258" r="7"/><path class="dr-ink" d="M0 265 V286 M0 286 l-8 17 M0 286 l8 17 M0 270 l-9 -30 M0 270 l9 -30"/></g>
+          <g transform="translate(548 0)"><circle class="dr-ink" cx="0" cy="258" r="7"/><path class="dr-ink" d="M0 265 V286 M0 286 l-8 17 M0 286 l8 17 M0 270 l-9 -30 M0 270 l9 -30"/></g>
+          <g transform="translate(618 0)"><circle class="dr-ink" cx="0" cy="258" r="7"/><path class="dr-ink" d="M0 265 V286 M0 286 l-8 17 M0 286 l8 17 M0 270 l-9 -30 M0 270 l9 -30"/></g>
+          <g transform="translate(689 0)"><circle class="dr-ink" cx="0" cy="258" r="7"/><path class="dr-ink" d="M0 265 V286 M0 286 l-8 17 M0 286 l8 17 M0 270 l-9 -30 M0 270 l9 -30"/></g>
+          <g class="dr-balloon"><path d="M81 266 L169 242"/><circle cx="70" cy="270" r="11"/><text x="70" y="270">1</text></g>
+          <text class="dr-lbl dr-lbl-hot" x="148" y="330">SYSTEM BOUNDARY · BUILT BY THE TEAM, TO THE REQUIREMENTS, VERIFIED AGAINST THEM</text>
+          </svg>
+        <figcaption><span class="mono">SHT 1 OF 1 · SYSTEM ASSEMBLY · SCALE NTS</span></figcaption>
+      </figure>
+
+      <div class="rf-bom" role="navigation" aria-label="Disciplines">
+        <a href="#leadership"><span class="mono">ITEM 1</span><b>People &amp; Project Leadership</b><span class="concepts"><i>Team leadership</i><i>Hiring</i><i>Mentoring &amp; coaching</i><i>Planning &amp; scheduling</i><i>Stakeholder alignment</i></span></a>
+        <a href="#systems"><span class="mono">ITEM 2</span><b>Systems</b><span class="concepts"><i>Requirements</i><i>Architecture</i><i>Risk analysis</i><i>Verification &amp; validation</i></span></a>
+        <a href="#mechanical"><span class="mono">ITEM 3</span><b>Mechanical</b><span class="concepts"><i>Technical design</i><i>Mechanisms</i><i>Analysis &amp; tolerancing</i><i>Materials &amp; manufacturing</i></span></a>
+        <a href="#electrical"><span class="mono">ITEM 4</span><b>Electrical</b><span class="concepts"><i>Circuit design</i><i>Embedded control</i><i>Power systems</i><i>Wiring &amp; integration</i><i>Soldering</i></span></a>
+        <a href="#software"><span class="mono">ITEM 5</span><b>Software</b><span class="concepts"><i>Firmware</i><i>Applications</i><i>Data analysis</i><i>Tooling &amp; automation</i></span></a>
+        <a href="#ai"><span class="mono">ITEM 6</span><b>AI</b><span class="concepts"><i>Agents</i><i>LLM integration</i><i>Local models</i><i>Workflow automation</i></span></a>
+      </div>
+
+      <article class="sheet" id="leadership">
+        <div class="tb">
+          <span class="label">// ITEM 1 · PEOPLE &amp; PROJECT LEADERSHIP</span>
+          <h3>Led to deliver, mentored to grow</h3>
+          <p class="tb-sub">I lead engineering teams today: coordinating teams of teams, hiring and mentoring engineers and students, and running every project against a plan and a quote.</p>
+          <div class="tb-glyph" aria-hidden="true"><svg viewBox="0 0 220 120"><path class="dr-hot" d="M20 34 H200"/><circle class="dr-ink" cx="50" cy="50" r="7"/><path class="dr-ink" d="M50 57 V82 M50 82 l-8 18 M50 82 l8 18 M50 64 l-10 -28 M50 64 l10 -28"/><circle class="dr-ink" cx="110" cy="50" r="7"/><path class="dr-ink" d="M110 57 V82 M110 82 l-8 18 M110 82 l8 18 M110 64 l-10 -28 M110 64 l10 -28"/><circle class="dr-ink" cx="170" cy="50" r="7"/><path class="dr-ink" d="M170 57 V82 M170 82 l-8 18 M170 82 l8 18 M170 64 l-10 -28 M170 64 l10 -28"/><text class="dr-lbl" x="20" y="116">TEAM OF TEAMS</text></svg></div>
+          <div class="spec-block skill-box">
+            <div class="spec-title">People &amp; project leadership</div>
+            <p class="skill-hint">Tap a skill to see where I used it.</p>
+            <div class="skill-tags"><button type="button" class="wtag skill" data-skill="Cross-Functional Teams">Cross-Functional Teams<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Teams of Teams">Teams of Teams<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Director-Level Reviews">Director-Level Reviews<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Design Review Facilitation">Design Review Facilitation<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Stakeholder Management">Stakeholder Management<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Mentoring &amp; Coaching">Mentoring &amp; Coaching<span class="n">3</span></button><button type="button" class="wtag skill" data-skill="Talent Development">Talent Development<span class="n">2</span></button><button type="button" class="wtag skill" data-skill="Talent Pipeline Development">Talent Pipeline Development<span class="n">3</span></button><button type="button" class="wtag skill" data-skill="Candidate Sourcing">Candidate Sourcing<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Résumé Screening">Résumé Screening<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Interview Coordination">Interview Coordination<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Hiring Decisions">Hiring Decisions<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="ERG Founding &amp; Leadership">ERG Founding &amp; Leadership<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Organizational Influence">Organizational Influence<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Engineering Team Coaching">Engineering Team Coaching<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Technical Mentorship">Technical Mentorship<span class="n">2</span></button><button type="button" class="wtag skill" data-skill="Curriculum Design &amp; Delivery">Curriculum Design &amp; Delivery<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Systems Thinking">Systems Thinking<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Troubleshooting">Troubleshooting<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Product Roadmapping">Product Roadmapping<span class="n">2</span></button><button type="button" class="wtag skill" data-skill="Manufacturing Strategy">Manufacturing Strategy<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Project Scoping">Project Scoping<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Estimating">Estimating<span class="n">1</span></button></div>
+            <p class="also"><span>Also experienced in:</span> Risk-Based Decision Making</p>
+          </div>
+        </div>
+        <div class="works">
+          <span class="sub-k">Career</span>
+          <div class="wk" data-skills="Cross-Functional Teams|Teams of Teams|Director-Level Reviews|Design Review Facilitation|Stakeholder Management|Mentoring &amp; Coaching|Talent Development"><div><span class="work-org">Allegion · Senior System Engineer · 2018–present</span><h4>Leading seven subsystem teams</h4><p>On the WiFi lock family I coordinate seven subsystem leads across hardware, firmware, mechanical, mobile app, cloud, security and business interfaces as a team of teams, and keep integration on schedule through CV, DV and PV. I present System Design Reviews to directors and drive open decisions to closure, and I mentor two engineers day to day on systems thinking, documentation quality and review readiness.</p><div class="row-tags"><span class="rtag">Cross-Functional Teams</span><span class="rtag">Teams of Teams</span><span class="rtag">Director-Level Reviews</span><span class="rtag">Design Review Facilitation</span><span class="rtag">Stakeholder Management</span><span class="rtag">Mentoring &amp; Coaching</span><span class="rtag">Talent Development</span></div></div><div class="fig"><b>7</b>subsystem teams</div></div>
+          <div class="wk" data-skills="Talent Pipeline Development|Candidate Sourcing|Résumé Screening|Interview Coordination|Hiring Decisions"><div><span class="work-org">Allegion · Systems Engineering Intern Program · 2026</span><h4>Running the intern program, sourcing to hire</h4><p>I ran Allegion’s systems engineering intern program end to end: I found candidates, reviewed résumés, scheduled the interviews, and owned the final call on who got hired.</p><div class="row-tags"><span class="rtag">Talent Pipeline Development</span><span class="rtag">Candidate Sourcing</span><span class="rtag">Résumé Screening</span><span class="rtag">Interview Coordination</span><span class="rtag">Hiring Decisions</span></div></div><div class="fig"><b>Final</b>hiring call</div></div>
+          <div class="wk" data-skills="ERG Founding &amp; Leadership|Organizational Influence"><div><span class="work-org">Allegion Pride Alliance · Founder · since 2022</span><h4>Building an ERG from the ground up</h4><p>I founded Allegion’s Indianapolis LGBTQIA+ employee resource group: I set its strategic agenda, recruited and lead a team of six volunteers, and serve as corporate liaison and Inclusion &amp; Diversity Chair. We ran Allegion’s presence at Indy Pride 2024.</p><div class="row-tags"><span class="rtag">ERG Founding &amp; Leadership</span><span class="rtag">Organizational Influence</span></div></div><div class="fig"><b>6</b>volunteers led</div></div>
+          <span class="sub-k">Community</span>
+          <div class="wk" data-skills="Engineering Team Coaching|Talent Development|Talent Pipeline Development|Technical Mentorship|Mentoring &amp; Coaching"><div><span class="work-org">FIRST Robotics · FRC Team 6956 · Co-Lead Mentor · since 2019</span><h4>Sham-Rock-Botics</h4><p>I co-lead about 20 high school students through a six-week design, build and compete season every year, against a deadline that doesn’t move. I coach design, fabrication and project execution under pressure, and how to recover when something breaks. The team won the 2021 FIRST Indiana District Chairman’s Team Award.</p><div class="row-tags"><span class="rtag">Engineering Team Coaching</span><span class="rtag">Talent Development</span><span class="rtag">Talent Pipeline Development</span><span class="rtag">Technical Mentorship</span><span class="rtag">Mentoring &amp; Coaching</span></div></div><div class="fig"><b>~20</b>students a season</div></div>
+          <div class="wk" data-skills="Curriculum Design &amp; Delivery|Talent Pipeline Development|Systems Thinking"><div><span class="work-org">Minority Engineering Program of Indianapolis · Co-Leader &amp; Lecturer · since 2019</span><h4>Rebuilding the 8th-grade curriculum</h4><p>In 2019 I rebuilt MEPI’s 8th-grade engineering curriculum around Arduino, robotics and hands-on systems thinking, replacing an outdated program. I’ve designed and taught it every year since, to open a path into engineering for students who are underrepresented in it.</p><div class="row-tags"><span class="rtag">Curriculum Design &amp; Delivery</span><span class="rtag">Talent Pipeline Development</span><span class="rtag">Systems Thinking</span></div></div><div class="fig"><b>2019</b>rebuilt</div></div>
+          <span class="sub-k">Client</span>
+          <div class="wk wk-client" data-skills="Technical Mentorship|Mentoring &amp; Coaching|Troubleshooting" data-proposal="gus-battle-bot" tabindex="0" role="button" aria-label="Open the accepted proposal: Battle bot engineering tutoring"><div><span class="work-org">Client tutoring · 2026-04</span><h4>Battle bot engineering tutoring</h4><p>Four hands-on sessions with a ten-year-old: build a new battle bot from a kit and diagnose a broken one. He did every bit of the hands-on work; I only asked questions.</p><div class="row-tags"><span class="rtag">Technical Mentorship</span><span class="rtag">Mentoring &amp; Coaching</span><span class="rtag">Troubleshooting</span></div></div><div class="fig"><b>~$700</b>17.5 h · 4 sessions</div></div>
+          <div class="wk wk-client" data-skills="Product Roadmapping|Manufacturing Strategy" data-proposal="cove-design" tabindex="0" role="button" aria-label="Open the accepted proposal: Product strategy session"><div><span class="work-org">Client consultation · 2025-07</span><h4>Product strategy session</h4><p>One live session on a client’s product goals, manufacturing approach and priorities. They left with a session plan, the recording and a written summary of next steps.</p><div class="row-tags"><span class="rtag">Product Roadmapping</span><span class="rtag">Manufacturing Strategy</span></div></div><div class="fig"><b>$220</b>4 h · phase 0</div></div>
+          <span class="sub-k">Forge</span>
+          <div class="wk" data-skills="Project Scoping|Estimating|Product Roadmapping"><div><span class="work-org">The Dimensional Forge · every engagement</span><h4>Running projects on the Forge Method</h4><p>Every client project runs on the same six-phase method, from discovery to handoff. I scope only the phases the project needs and quote the hours and cost before work starts, so the client knows the plan and the price up front.</p><div class="row-tags"><span class="rtag">Project Scoping</span><span class="rtag">Estimating</span><span class="rtag">Product Roadmapping</span></div><a class="rf-link" href="The_Dimensional_Forge_Method.html">See the Forge Method</a></div><div class="fig"><b>0–5</b>phases</div></div>
+        </div>
+      </article>
+
+      <article class="sheet sheet-flip" id="systems">
+        <div class="tb">
+          <span class="label">// ITEM 2 · SYSTEMS</span>
+          <h3>Built to the requirements, proven against them</h3>
+          <p class="tb-sub">I own connected products end to end: the requirements, the architecture, the failure analysis and the verification that put hardware, firmware, mobile and cloud on a shelf together. Everything in items 2–5 is built to these documents.</p>
+          <div class="tb-glyph" aria-hidden="true"><svg viewBox="0 0 220 120"><path class="dr-ink" d="M20 20 L70 60 L110 100 L150 60 L200 20"/><path class="dr-axis" d="M40 20 H180 M60 40 H160 M84 60 H136"/><circle class="dr-fill" cx="20" cy="20" r="3"/><circle class="dr-fill" cx="200" cy="20" r="3"/><text class="dr-lbl" x="10" y="12">PRD</text><text class="dr-lbl" x="186" y="12">V&amp;V</text><text class="dr-lbl" x="90" y="116">build</text></svg></div>
+          <div class="spec-block skill-box">
+            <div class="spec-title">Systems engineering</div>
+            <p class="skill-hint">Tap a skill to see where I used it.</p>
+            <div class="skill-tags"><button type="button" class="wtag skill" data-skill="Requirements (PRD/FRD/SRD/ADR)">Requirements (PRD/FRD/SRD/ADR)<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="System Architecture &amp; ICDs">System Architecture &amp; ICDs<span class="n">2</span></button><button type="button" class="wtag skill" data-skill="DFMEA / SFMEA">DFMEA / SFMEA<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="V&amp;V Planning &amp; Execution">V&amp;V Planning &amp; Execution<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="A3 · 8D · 5-Whys">A3 · 8D · 5-Whys<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Azure DevOps">Azure DevOps<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Connected Hardware / IoT">Connected Hardware / IoT<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="FRACAS &amp; Root Cause Analysis">FRACAS &amp; Root Cause Analysis<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Risk Register Management">Risk Register Management<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Configuration Management">Configuration Management<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Systems Thinking">Systems Thinking<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Integration Test">Integration Test<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Requirement Change Control">Requirement Change Control<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Access Control">Access Control<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Distributed Ledger">Distributed Ledger<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Invention &amp; Patents">Invention &amp; Patents<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Electromechanical Integration">Electromechanical Integration<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Patent Drawings">Patent Drawings<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="IOS Integration">IOS Integration<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Rapid Prototyping">Rapid Prototyping<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="DFM">DFM<span class="n">1</span></button></div>
+            
+          </div>
+        </div>
+        <div class="works">
+          <span class="sub-k">Career</span>
+          <div class="wk" data-skills="Requirements (PRD/FRD/SRD/ADR)|System Architecture &amp; ICDs|DFMEA / SFMEA|V&amp;V Planning &amp; Execution|A3 · 8D · 5-Whys|Azure DevOps|Connected Hardware / IoT|FRACAS &amp; Root Cause Analysis|Risk Register Management|Configuration Management|Systems Thinking|Integration Test|Requirement Change Control"><div><span class="work-org">Allegion · System Engineer III, then Senior System Engineer · 2018–present</span><h4>WiFi smart-lock product family</h4><p>I own the system for a family of WiFi deadbolts and lever locks, from concept through CV, DV and PV to retail launch. I write the PRDs, SRDs, FRDs and ADRs that seven subsystem teams build against, maintain the ICDs between them, and coordinate those teams as a team of teams. I run the DFMEAs, SFMEAs, risk register and FRACAS process, handle configuration management and integration test, and present System Design Reviews to directors. I made 5-Whys, A3, 8D and fishbone analysis standard practice in our design reviews, and I mentor two engineers day to day.</p><div class="row-tags"><span class="rtag">Requirements (PRD/FRD/SRD/ADR)</span><span class="rtag">System Architecture &amp; ICDs</span><span class="rtag">DFMEA / SFMEA</span><span class="rtag">V&amp;V Planning &amp; Execution</span><span class="rtag">A3 · 8D · 5-Whys</span><span class="rtag">Teams of Teams</span><span class="rtag">Director-Level Reviews</span><span class="rtag">Azure DevOps</span><span class="rtag">Connected Hardware / IoT</span><span class="rtag">Cross-Functional Teams</span><span class="rtag">Stakeholder Management</span><span class="rtag">FRACAS &amp; Root Cause Analysis</span><span class="rtag">Risk Register Management</span><span class="rtag">Configuration Management</span><span class="rtag">Systems Thinking</span><span class="rtag">Integration Test</span><span class="rtag">Requirement Change Control</span><span class="rtag">Design Review Facilitation</span><span class="rtag">Mentoring &amp; Coaching</span></div></div><div class="fig"><b>7</b>subsystem teams</div></div>
+          <span class="sub-k">Patent</span>
+          <div class="wk" data-skills="Access Control|Distributed Ledger|Invention &amp; Patents"><div><span class="work-org">US 11,962,594 · co-inventor</span><h4>Blockchain-based access control</h4><p>I co-invented a method for granting and auditing physical access with credentials recorded on a distributed ledger. It started with a plain question: how does a lock prove who opened it, after the fact?</p><div class="row-tags"><span class="rtag">Access Control</span><span class="rtag">Distributed Ledger</span><span class="rtag">Invention &amp; Patents</span></div></div><div class="fig"><b>US</b>11,962,594</div></div>
+          <span class="sub-k">Client</span>
+          <div class="wk wk-client" data-skills="System Architecture &amp; ICDs|Electromechanical Integration|Patent Drawings|IOS Integration|Rapid Prototyping|DFM" data-proposal="k9" tabindex="0" role="button" aria-label="Open the accepted proposal: Electromechanical product with iOS integration"><div><span class="work-org">Client program · 2025-12</span><h4>Electromechanical product with iOS integration</h4><p>Full-cycle development for one client: multi-discipline architecture, 3D CAD, patent drawings, two prototype builds (a proof of concept, then a refined build in a printed enclosure), an iOS app MVP talking to the hardware, and production prep.</p><div class="row-tags"><span class="rtag">System Architecture &amp; ICDs</span><span class="rtag">Electromechanical Integration</span><span class="rtag">Patent Drawings</span><span class="rtag">IOS Integration</span><span class="rtag">Rapid Prototyping</span><span class="rtag">DFM</span></div></div><div class="fig"><b>~$9.4K</b>235 h · phases 0–4</div></div>
+        </div>
+      </article>
+
+      <article class="sheet" id="mechanical">
+        <div class="tb">
+          <span class="label">// ITEM 3 · MECHANICAL</span>
+          <h3>Engineered to fit, move and be made</h3>
+          <p class="tb-sub">I design parts, mechanisms and assemblies in SolidWorks: gear trains, hinges, slides, enclosures and fastener stacks. I tolerance them with GD&amp;T, prove them on the printer, and draw them so a shop can build them.</p>
+          <div class="tb-glyph" aria-hidden="true"><svg viewBox="0 0 220 120"><path class="dr-axis" d="M10 60 h200"/><path class="dr-ink" d="M20 60 v-22 h40 v22 M20 60 h40 M60 49 h30"/><circle class="dr-ink" cx="90" cy="49" r="4"/><path class="dr-ink" d="M94 49 h20 l10 -14 h30 l10 14 h20 M184 49 v-16 h18 v16"/><path class="dr-hot" d="M20 70 v6 M60 70 v6 M20 73 h40"/><text class="dr-lbl" x="22" y="90">40.0 ±0.1</text><path class="dr-axis" d="M114 36 l10 -14 M144 36 l10 -14"/><text class="dr-lbl" x="120" y="18">R2 TYP</text></svg></div>
+          <div class="spec-block skill-box">
+            <div class="spec-title">Design &amp; fabrication</div>
+            <p class="skill-hint">Tap a skill to see where I used it.</p>
+            <div class="skill-tags"><button type="button" class="wtag skill" data-skill="SolidWorks CAD">SolidWorks CAD<span class="n">5</span></button><button type="button" class="wtag skill" data-skill="GD&amp;T">GD&amp;T<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Fastener Testing">Fastener Testing<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="FRACAS &amp; Root Cause Analysis">FRACAS &amp; Root Cause Analysis<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Structural Design">Structural Design<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Automotive">Automotive<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="3D Printing / Additive">3D Printing / Additive<span class="n">3</span></button><button type="button" class="wtag skill" data-skill="Cast Urethane">Cast Urethane<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Testing &amp; Validation">Testing &amp; Validation<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Medical Devices">Medical Devices<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Invention &amp; Patents">Invention &amp; Patents<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Mechanism Design">Mechanism Design<span class="n">3</span></button><button type="button" class="wtag skill" data-skill="Assistive Devices">Assistive Devices<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Rendering">Rendering<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="DFM">DFM<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Supplier Quoting">Supplier Quoting<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Tooling &amp; Pilot Run">Tooling &amp; Pilot Run<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Electromechanical Integration">Electromechanical Integration<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="V&amp;V Planning &amp; Execution">V&amp;V Planning &amp; Execution<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Reverse Engineering">Reverse Engineering<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Engineering Drawings">Engineering Drawings<span class="n">2</span></button><button type="button" class="wtag skill" data-skill="VBA Automation">VBA Automation<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Fabrication">Fabrication<span class="n">1</span></button></div>
+            <p class="also"><span>Also experienced in:</span> Fusion 360, SLA Printing</p>
+          </div>
+        </div>
+        <div class="works">
+          <span class="sub-k">Career</span>
+          <div class="wk" data-skills="SolidWorks CAD|GD&amp;T|Fastener Testing|FRACAS &amp; Root Cause Analysis|Structural Design|Automotive"><div><span class="work-org">Tesla · Fremont and Palo Alto · 2014–2015</span><h4>Model S / X body and fastener systems</h4><p>Two internships. I released GD&amp;T CAD models for cast and stamped aluminum structural parts on Model S and X, and selected and validated fasteners with torque-to-failure, tensile and clamp-load testing, documenting the root cause of every failure.</p><div class="row-tags"><span class="rtag">SolidWorks CAD</span><span class="rtag">GD&amp;T</span><span class="rtag">Fastener Testing</span><span class="rtag">FRACAS &amp; Root Cause Analysis</span><span class="rtag">Structural Design</span><span class="rtag">Automotive</span></div></div><div class="fig"><b>3</b>test types</div></div>
+          <div class="wk" data-skills="SolidWorks CAD|3D Printing / Additive|Cast Urethane|Testing &amp; Validation|Medical Devices"><div><span class="work-org">SonaCare Medical · 2016–2018</span><h4>HIFU surgical device components</h4><p>I took medical device components through the early design cycle: concept, SolidWorks models, 3D-printed and cast urethane prototypes, fabrication, validation testing and the test reports. I also set cable specifications and drew the 2D/3D electrical routing.</p><div class="row-tags"><span class="rtag">SolidWorks CAD</span><span class="rtag">3D Printing / Additive</span><span class="rtag">Cast Urethane</span><span class="rtag">Testing &amp; Validation</span><span class="rtag">Medical Devices</span></div></div><div class="fig"><b>2 yrs</b>product R&amp;D</div></div>
+          <span class="sub-k">Patent</span>
+          <div class="wk" data-skills="Invention &amp; Patents|Mechanism Design|Assistive Devices"><div><span class="work-org">US2019/032088 · issued Aug 24, 2019</span><h4>Adjustable passive standing assistance device</h4><p>A patented, adjustable assistive device that helps a person stand using passive mechanics rather than powered actuation.</p><div class="row-tags"><span class="rtag">Invention &amp; Patents</span><span class="rtag">Mechanism Design</span><span class="rtag">Assistive Devices</span></div></div><div class="fig"><b>2019</b>patent</div></div>
+          <span class="sub-k">Client</span>
+          <div class="wk wk-client" data-skills="SolidWorks CAD|Rendering|DFM|Supplier Quoting|Tooling &amp; Pilot Run" data-proposal="stealth-wallet" tabindex="0" role="button" aria-label="Open the accepted proposal: Stealth wallet, design through production"><div><span class="work-org">Client product · 2025-06</span><h4>Stealth wallet, design through production</h4><p>I took a client’s wallet from sketch to production readiness: CAD, photorealistic renders, proof-of-concept prototypes, DFM/DFA, supplier quotes, tooling, a pilot run and launch prep.</p><div class="row-tags"><span class="rtag">SolidWorks CAD</span><span class="rtag">Rendering</span><span class="rtag">DFM</span><span class="rtag">Supplier Quoting</span><span class="rtag">Tooling &amp; Pilot Run</span></div></div><div class="fig"><b>$2,250</b>150 h · phases 0–2, 4</div></div>
+          <div class="wk wk-client" data-skills="Mechanism Design|3D Printing / Additive|Electromechanical Integration|V&amp;V Planning &amp; Execution" data-proposal="shirt-folding" tabindex="0" role="button" aria-label="Open the accepted proposal: Automated machine MVP"><div><span class="work-org">Client build · 2026-05</span><h4>Automated machine MVP</h4><p>From the client’s reference CAD I built a working MVP with actuated panels, sequenced motion and button controls: a design review, CAD changes, a full 3D-printed build, and structured verification of every mechanism.</p><div class="row-tags"><span class="rtag">Mechanism Design</span><span class="rtag">3D Printing / Additive</span><span class="rtag">Electromechanical Integration</span><span class="rtag">V&amp;V Planning &amp; Execution</span></div></div><div class="fig"><b>$2,255</b>41 h · phases 0, 2</div></div>
+          <div class="wk wk-client" data-skills="Reverse Engineering|SolidWorks CAD|Engineering Drawings" data-proposal="reverse-engineering" tabindex="0" role="button" aria-label="Open the accepted proposal: Medical device reverse engineering"><div><span class="work-org">Client teardown · 2026-09</span><h4>Medical device reverse engineering</h4><p>I took apart a client-supplied medical device with measured photos at every step, modeled the key parts parametrically in SolidWorks, and handed back native CAD, STEP files and dimensioned drawings.</p><div class="row-tags"><span class="rtag">Reverse Engineering</span><span class="rtag">SolidWorks CAD</span><span class="rtag">Engineering Drawings</span></div></div><div class="fig"><b>$400</b>8 h · phases 0, 2, 5</div></div>
+          <div class="wk wk-client" data-skills="Engineering Drawings|SolidWorks CAD|VBA Automation" data-proposal="glassboard" tabindex="0" role="button" aria-label="Open the accepted proposal: Forty drawings, one title block"><div><span class="work-org">Client drawing package · 2026-03</span><h4>Forty drawings, one title block</h4><p>I updated the title block and branding across 40 SolidWorks drawings, using a VBA macro for the repetitive changes, and delivered one clean, organized package.</p><div class="row-tags"><span class="rtag">Engineering Drawings</span><span class="rtag">SolidWorks CAD</span><span class="rtag">VBA Automation</span></div></div><div class="fig"><b>~$240</b>6 h · phases 0, 2, 5</div></div>
+          <span class="sub-k">Forge &amp; personal</span>
+          <div class="wk" data-skills="Mechanism Design|3D Printing / Additive"><div><span class="work-org">The Dimensional Forge · Cults3D · 2023</span><h4>Furniture-style print with drawers, hinges and slides</h4><p>A functional, load-bearing printed product with working drawers, hinges and slides, designed and tested in-house before release. It earned a Cults3D Top Design Award.</p><div class="row-tags"><span class="rtag">Mechanism Design</span><span class="rtag">3D Printing / Additive</span></div></div><div class="fig"><b>2023</b>Top Design Award</div></div>
+          <div class="wk" data-skills="Fabrication"><div><span class="work-org">Personal build</span><h4>Suzuki Savage LS650 cafe-bobber</h4><p>My own motorcycle, a Suzuki Savage LS650 reworked into a cyberpunk cafe-bobber.</p><div class="row-tags"><span class="rtag">Fabrication</span></div></div><div class="fig"><b>650cc</b>single cylinder</div></div>
+        </div>
+      </article>
+
+      <article class="sheet sheet-flip" id="electrical">
+        <div class="tb">
+          <span class="label">// ITEM 4 · ELECTRICAL</span>
+          <h3>Wired, powered and programmed to run</h3>
+          <p class="tb-sub">I wire microcontrollers to motor drivers, sensors and LEDs, and work out the power budget and the firmware before the first solder joint.</p>
+          <div class="tb-glyph" aria-hidden="true"><svg viewBox="0 0 220 120"><path class="dr-hot" d="M10 30 h60"/><path class="dr-ink" d="M70 30 l8 -8 l8 16 l8 -16 l8 16 l8 -16 l8 8 h20 M138 30 v30 M138 70 v30 M126 60 h24 M126 70 h24 M138 100 h50"/><path class="dr-axis" d="M180 100 h8 M184 104 h8 M186 108 h4"/><text class="dr-lbl" x="10" y="22">5V</text><text class="dr-lbl" x="150" y="68">C1</text><text class="dr-lbl" x="84" y="58">R1 220Ω</text></svg></div>
+          <div class="spec-block skill-box">
+            <div class="spec-title">Electrical &amp; embedded</div>
+            <p class="skill-hint">Tap a skill to see where I used it.</p>
+            <div class="skill-tags"><button type="button" class="wtag skill" data-skill="Electrical Architecture">Electrical Architecture<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Electromechanical Integration">Electromechanical Integration<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Rapid Prototyping">Rapid Prototyping<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="DFM">DFM<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Li-ion Power">Li-ion Power<span class="n">3</span></button><button type="button" class="wtag skill" data-skill="Soldering">Soldering<span class="n">4</span></button><button type="button" class="wtag skill" data-skill="LED Neon Flex">LED Neon Flex<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Acrylic Fabrication">Acrylic Fabrication<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Runtime Testing">Runtime Testing<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="ESP32">ESP32<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="PlatformIO">PlatformIO<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Stepper Drivers">Stepper Drivers<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Payment Integration">Payment Integration<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="State Machines">State Machines<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Firmware">Firmware<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Sensors">Sensors<span class="n">1</span></button></div>
+            <p class="also"><span>Also experienced in:</span> Servos</p>
+          </div>
+        </div>
+        <div class="works">
+          <figure class="rf-schematic" aria-label="Wiring schematic: LilyGO T-Display ESP32 driving a 28BYJ-48 stepper through a ULN2003 driver, with 5V, 3.3V and ground rails">
+            <svg viewBox="0 0 720 230" xmlns="http://www.w3.org/2000/svg">
+              <path class="dr-hot" d="M20 30 H700"/><text class="dr-lbl dr-lbl-hot" x="20" y="22">+5V USB</text>
+              <path class="dr-hot" d="M20 54 H700" opacity=".5"/><text class="dr-lbl" x="20" y="46">+3V3 LDO</text>
+              <path class="dr-ink" d="M20 210 H700"/><text class="dr-lbl" x="20" y="224">GND</text>
+              <rect class="dr-ink" x="70" y="80" width="150" height="100" rx="3"/>
+              <rect class="dr-axis" x="88" y="96" width="70" height="44"/>
+              <text class="dr-lbl" x="92" y="122">240×135 TFT</text>
+              <text class="dr-lbl" x="80" y="166">LilyGO T-Display · ESP32</text>
+              <path class="dr-hot" d="M120 80 V30"/><path class="dr-hot" d="M160 80 V54" opacity=".5"/><path class="dr-ink" d="M100 180 V210"/>
+              <text class="dr-lbl" x="228" y="96">GPIO 25</text><text class="dr-lbl" x="228" y="116">GPIO 26</text><text class="dr-lbl" x="228" y="136">GPIO 27</text><text class="dr-lbl" x="228" y="156">GPIO 32</text>
+              <path class="dr-ink" d="M220 100 H340 M220 120 H340 M220 140 H340 M220 160 H340"/>
+              <rect class="dr-ink" x="340" y="84" width="90" height="92" rx="3"/>
+              <text class="dr-lbl" x="352" y="108">ULN2003</text><text class="dr-lbl" x="352" y="122">Darlington</text><text class="dr-lbl" x="352" y="136">×4 of 7</text>
+              <path class="dr-hot" d="M385 84 V30"/><path class="dr-ink" d="M385 176 V210"/>
+              <path class="dr-ink" d="M430 100 H520 M430 120 H520 M430 140 H520 M430 160 H520"/>
+              <text class="dr-lbl" x="440" y="94">IN1–IN4 → OUT1–OUT4</text>
+              <circle class="dr-ink" cx="580" cy="130" r="46"/><circle class="dr-ink" cx="580" cy="130" r="8"/>
+              <path class="dr-ink" d="M534 130 a46 46 0 0 1 46 -46 M580 176 a46 46 0 0 1 -46 -46"/>
+              <path class="dr-ink" d="M520 100 L548 112 M520 120 L540 126 M520 140 L540 134 M520 160 L548 148"/>
+              <path class="dr-hot" d="M580 84 V30"/>
+              <text class="dr-lbl" x="536" y="198">28BYJ-48 · 5V · 64:1</text>
+              <path class="dr-axis" d="M626 130 H654"/><circle class="dr-axis" cx="670" cy="130" r="14"/><text class="dr-lbl" x="640" y="160">dispense gear</text>
+              <text class="dr-lbl" x="300" y="196">~240 mA/phase · fed from 5V, never 3V3</text>
+            </svg>
+          </figure>
+          <span class="sub-k">Client</span>
+          <div class="wk wk-client" data-skills="Electrical Architecture|Electromechanical Integration|Rapid Prototyping|DFM|Li-ion Power|Soldering" data-proposal="blast-light" tabindex="0" role="button" aria-label="Open the accepted proposal: Tactical light prototype"><div><span class="work-org">Client build · 2025-12</span><h4>Tactical light prototype</h4><p>I took a tactical light from requirements and ideation through full CAD, mechanical and electrical architecture, a physical build and testing, and shipped a working proof of concept.</p><div class="row-tags"><span class="rtag">Electrical Architecture</span><span class="rtag">Electromechanical Integration</span><span class="rtag">Rapid Prototyping</span><span class="rtag">DFM</span><span class="rtag">Li-ion Power</span><span class="rtag">Soldering</span></div></div><div class="fig"><b>$1,518</b>38 h · phases 0–2</div></div>
+          <div class="wk wk-client" data-skills="LED Neon Flex|Acrylic Fabrication|Runtime Testing|Li-ion Power|Soldering" data-proposal="pokestop" tabindex="0" role="button" aria-label="Open the accepted proposal: Custom Pokéstop LED sign"><div><span class="work-org">Client build · 2026-04</span><h4>Custom Pokéstop LED sign</h4><p>Acrylic cut to the silhouette, an LED neon flex front face and a spinnable pole mount, run for more than 8 hours straight before it went to the client.</p><div class="row-tags"><span class="rtag">LED Neon Flex</span><span class="rtag">Acrylic Fabrication</span><span class="rtag">Runtime Testing</span><span class="rtag">Li-ion Power</span><span class="rtag">Soldering</span></div></div><div class="fig"><b>~$230</b>5.75 h · phases 0, 3, 5</div></div>
+          <span class="sub-k">Forge &amp; personal</span>
+          <div class="wk" data-skills="ESP32|PlatformIO|Stepper Drivers|Payment Integration|Li-ion Power|Soldering"><div><span class="work-org">The Dimensional Forge · in progress</span><h4>Crypto-and-QR vending dispenser</h4><p>A gumball machine that takes on-chain Bitcoin or a Stripe payment link. A T-Display ESP32 shows the QR code and status, watches for payment, then steps a 28BYJ-48 through a ULN2003 to turn the dispense gear one full revolution. The schematic above is the real wiring. It isn’t finished yet, and I’m building it in the open.</p><div class="row-tags"><span class="rtag">ESP32</span><span class="rtag">PlatformIO</span><span class="rtag">Stepper Drivers</span><span class="rtag">Payment Integration</span><span class="rtag">Li-ion Power</span><span class="rtag">Soldering</span></div></div><div class="fig"><b>1 rev</b>per payment</div></div>
+          <div class="wk" data-skills="State Machines|Firmware|Sensors|Soldering"><div><span class="work-org">Potty Spot · in development</span><h4>Automated pet potty sensor</h4><p>A sensor device for pet potty training whose firmware is built as a state machine, so its behavior is defined as states and transitions before it is coded.</p><div class="row-tags"><span class="rtag">State Machines</span><span class="rtag">Firmware</span><span class="rtag">Sensors</span><span class="rtag">Soldering</span></div></div><div class="fig"><b>FSM</b>firmware</div></div>
+        </div>
+      </article>
+
+      <article class="sheet" id="software">
+        <div class="tb">
+          <span class="label">// ITEM 5 · SOFTWARE</span>
+          <h3>Written to run where the hardware is</h3>
+          <p class="tb-sub">I write firmware, a companion Android app, dashboards and engineering tools.</p>
+          <div class="tb-glyph" aria-hidden="true"><svg viewBox="0 0 220 120"><path class="dr-hot" d="M30 30 l-14 30 l14 30 M190 30 l14 30 l-14 30"/><path class="dr-axis" d="M50 46 h60 M50 60 h90 M62 74 h70 M50 88 h40"/><circle class="dr-ink" cx="170" cy="60" r="18"/><path class="dr-ink" d="M170 48 v12 l8 6"/></svg></div>
+          <div class="spec-block skill-box">
+            <div class="spec-title">Software</div>
+            <p class="skill-hint">Tap a skill to see where I used it.</p>
+            <div class="skill-tags"><button type="button" class="wtag skill" data-skill="Python">Python<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="MATLAB">MATLAB<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Data Analysis">Data Analysis<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="GUI Development">GUI Development<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Aerospace">Aerospace<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Data Analysis &amp; ML">Data Analysis &amp; ML<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="ESP32">ESP32<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Firmware">Firmware<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Android">Android<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="BLE">BLE<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="C / C++">C / C++<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Soldering">Soldering<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Speech-to-text">Speech-to-text<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Local Models">Local Models<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Privacy by Design">Privacy by Design<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Home Assistant">Home Assistant<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Dashboards">Dashboards<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Node.js">Node.js<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="MCP">MCP<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="LLM &amp; Agent Tooling">LLM &amp; Agent Tooling<span class="n">1</span></button></div>
+            <p class="also"><span>Also experienced in:</span> Kotlin</p>
+          </div>
+        </div>
+        <div class="works">
+          <span class="sub-k">Career</span>
+          <div class="wk" data-skills="Python|MATLAB|Data Analysis|GUI Development|Aerospace"><div><span class="work-org">NASA Marshall Space Flight Center · 2017</span><h4>RS-25 hot-fire data analysis tool</h4><p>I analyzed raw hot-fire test data from the RS-25, the main engine of the Space Launch System, to find operational anomalies, and built a MATLAB and Python tool with a full GUI so engineers at Marshall could keep using it after my internship ended.</p><div class="row-tags"><span class="rtag">Python</span><span class="rtag">MATLAB</span><span class="rtag">Data Analysis</span><span class="rtag">GUI Development</span><span class="rtag">Aerospace</span></div></div><div class="fig"><b>2017</b>propulsion</div></div>
+          <div class="wk" data-skills="Data Analysis &amp; ML"><div><span class="work-org">Allegion · Data Scientist Cohort · 2019–2020</span><h4>ML models and data pipelines</h4><p>Alongside my systems role I joined Allegion’s data scientist cohort, where I built machine learning models and automated data pipelines that fed product and engineering strategy decisions.</p><div class="row-tags"><span class="rtag">Data Analysis &amp; ML</span></div></div><div class="fig"><b>ML</b>2019–2020</div></div>
+          <span class="sub-k">Forge &amp; personal</span>
+          <div class="wk" data-skills="ESP32|Firmware|Android|BLE|C / C++|Soldering"><div><span class="work-org">ESP32-S3 e-paper watch · in progress</span><h4>Watchy firmware and Android companion</h4><p>Custom firmware for an open-source e-paper watch, including a survival-game “life meters” face and calendar reminders, plus an Android companion app that syncs over BLE, flashes new firmware and switches watch faces.</p><div class="row-tags"><span class="rtag">ESP32</span><span class="rtag">Firmware</span><span class="rtag">Android</span><span class="rtag">BLE</span><span class="rtag">C / C++</span><span class="rtag">Soldering</span></div></div><div class="fig"><b>BLE</b>watch ↔ phone</div></div>
+          <div class="wk" data-skills="Speech-to-text|Local Models|Privacy by Design"><div><span class="work-org">Offline meeting transcriber</span><h4>Earwig</h4><p>A portable app I run from a USB drive that records meetings and writes speaker-labeled Markdown transcripts on the laptop. Nothing leaves the machine.</p><div class="row-tags"><span class="rtag">Speech-to-text</span><span class="rtag">Local Models</span><span class="rtag">Privacy by Design</span></div></div><div class="fig"><b>0</b>cloud calls</div></div>
+          <div class="wk" data-skills="Home Assistant|Dashboards"><div><span class="work-org">Home automation</span><h4>Home Assistant dashboard</h4><p>One dashboard for my house, media server and lab, with up/down status badges so I know a server is down before anyone asks.</p><div class="row-tags"><span class="rtag">Home Assistant</span><span class="rtag">Dashboards</span></div></div><div class="fig"><b>1</b>dashboard</div></div>
+          <div class="wk" data-skills="Node.js|MCP|LLM &amp; Agent Tooling"><div><span class="work-org">Developer tooling</span><h4>Text-to-speech MCP server</h4><p>A Model Context Protocol server that connects an AI coding agent to a local Node.js speech endpoint, so long-running tasks can announce when they finish.</p><div class="row-tags"><span class="rtag">Node.js</span><span class="rtag">MCP</span><span class="rtag">LLM &amp; Agent Tooling</span></div></div><div class="fig"><b>MCP</b>bridge</div></div>
+        </div>
+      </article>
+
+      <article class="sheet sheet-flip" id="ai">
+        <div class="tb">
+          <span class="label">// ITEM 6 · AI</span>
+          <h3>Prompted, connected and run on my own hardware</h3>
+          <p class="tb-sub">I build agents the way I build hardware: interfaces first, failure modes named, and running on machines I own when the data is private.</p>
+          <div class="tb-glyph" aria-hidden="true"><svg viewBox="0 0 220 120"><path class="dr-ink" d="M110 60 L40 30 M110 60 L50 95 M110 60 L170 25 M110 60 L180 90 M110 60 L110 110"/><circle class="dr-fill" cx="110" cy="60" r="7"/><circle class="dr-ink" cx="40" cy="30" r="6"/><circle class="dr-ink" cx="50" cy="95" r="6"/><circle class="dr-ink" cx="170" cy="25" r="6"/><circle class="dr-ink" cx="180" cy="90" r="6"/><circle class="dr-ink" cx="110" cy="110" r="6"/></svg></div>
+          <div class="spec-block skill-box">
+            <div class="spec-title">AI &amp; agents</div>
+            <p class="skill-hint">Tap a skill to see where I used it.</p>
+            <div class="skill-tags"><button type="button" class="wtag skill" data-skill="AI Agent Development">AI Agent Development<span class="n">2</span></button><button type="button" class="wtag skill" data-skill="Prompt Engineering">Prompt Engineering<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Azure DevOps">Azure DevOps<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Design Reviews">Design Reviews<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="LLM &amp; Agent Tooling">LLM &amp; Agent Tooling<span class="n">2</span></button><button type="button" class="wtag skill" data-skill="Agentic Workflow Design">Agentic Workflow Design<span class="n">2</span></button><button type="button" class="wtag skill" data-skill="LLM Integration">LLM Integration<span class="n">2</span></button><button type="button" class="wtag skill" data-skill="Machine Learning">Machine Learning<span class="n">2</span></button><button type="button" class="wtag skill" data-skill="Obsidian">Obsidian<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Ollama">Ollama<span class="n">2</span></button><button type="button" class="wtag skill" data-skill="Qwen3">Qwen3<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Raspberry Pi">Raspberry Pi<span class="n">1</span></button><button type="button" class="wtag skill" data-skill="Memory Architecture">Memory Architecture<span class="n">1</span></button></div>
+            
+          </div>
+        </div>
+        <div class="works">
+          <span class="sub-k">Career</span>
+          <div class="wk" data-skills="AI Agent Development|Prompt Engineering|Azure DevOps|Design Reviews|LLM &amp; Agent Tooling"><div><span class="work-org">Allegion</span><h4>Independent Reviewer agent for Azure DevOps</h4><p>I’ve built an agent that performs independent reviews at system design review gates: it reads the work items and documents in Azure DevOps and writes up findings. It’s built to be thorough and cheap to run, because a reviewer that costs more than the review isn’t worth having.</p><div class="row-tags"><span class="rtag">AI Agent Development</span><span class="rtag">Prompt Engineering</span><span class="rtag">Azure DevOps</span><span class="rtag">Design Reviews</span><span class="rtag">LLM &amp; Agent Tooling</span></div></div><div class="fig"><b>SYSDR</b>phase gates</div></div>
+          <span class="sub-k">Forge &amp; personal</span>
+          <div class="wk" data-skills="AI Agent Development|Agentic Workflow Design|LLM Integration|Machine Learning|LLM &amp; Agent Tooling"><div><span class="work-org">Modular agent platform</span><h4>VENN Everywhere</h4><p>An agent platform with fourteen bridges into the places work happens: chat, SMS, Telegram, calendars, files and my lab’s inference nodes. It helps me run the Forge, answering questions and 3D-print quotes over Telegram and here, as the chat widget in the nav.</p><div class="row-tags"><span class="rtag">AI Agent Development</span><span class="rtag">Agentic Workflow Design</span><span class="rtag">LLM Integration</span><span class="rtag">Machine Learning</span><span class="rtag">LLM &amp; Agent Tooling</span></div><a class="rf-link" href="venn-portfolio.html">See the VENN portfolio</a></div><div class="fig"><b>14</b>bridges</div></div>
+          <div class="wk" data-skills="Obsidian|Ollama|Agentic Workflow Design|LLM Integration|Machine Learning"><div><span class="work-org">Ollama inside a vault</span><h4>Local-LLM Obsidian workflows</h4><p>Skills and a multi-step workflow inside Obsidian that turn a session transcript into a structured note package on a local model, built for a practitioner whose notes can’t go to a cloud service.</p><div class="row-tags"><span class="rtag">Obsidian</span><span class="rtag">Ollama</span><span class="rtag">Agentic Workflow Design</span><span class="rtag">LLM Integration</span><span class="rtag">Machine Learning</span></div></div><div class="fig"><b>local</b>only</div></div>
+          <div class="wk" data-skills="Ollama|Qwen3|Raspberry Pi|Memory Architecture"><div><span class="work-org">Owned hardware</span><h4>Homelab inference stack</h4><p>An RTX 3060 node running Ollama with Qwen3 for tool calling, a Raspberry Pi 5 running memory-consolidation jobs, and a two-tier memory design: one global profile plus notes per project.</p><div class="row-tags"><span class="rtag">Ollama</span><span class="rtag">Qwen3</span><span class="rtag">Raspberry Pi</span><span class="rtag">Memory Architecture</span></div></div><div class="fig"><b>12 GB</b>VRAM</div></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ── ABOUT (bio + experience) ────────────────────────────────────── -->
+  <section id="about" class="section">
+    <div class="container">
+      <span class="label">About</span>
+      <h2 class="section-title">About Sean Neal</h2>
+      <hr class="rule" />
+      <div class="smith-grid">
+        <div class="smith-bio">
+          <p>I’m <strong>Sean Neal</strong>, a Senior Systems Engineer and product development consultant in Indianapolis. I analyzed rocket-engine test data at NASA Marshall Space Flight Center, interned twice at Tesla, did medical device R&amp;D at SonaCare, and have spent eight years delivering connected hardware at Allegion, where I carried a WiFi smart-lock family from concept to retail shelves.</p>
+          <p>I started The Dimensional Forge so that experience could work for inventors, startups and small businesses who need senior engineering without a big firm’s overhead: from first concept through architecture, prototyping, validation and manufacturing readiness. When something goes wrong on a project I own it, say so plainly, and fix it.</p>
+          <p>Outside my day job I mentor FIRST Robotics Team 6956, co-lead the Minority Engineering Program of Indianapolis, and founded Allegion’s Pride Alliance; that work lives in the People &amp; Project Leadership section. My leadership philosophy is simple: people first, systems second, ego last.</p>
+          <ul class="values" aria-label="My values">
+            <li>Community</li>
+            <li>Authenticity</li>
+            <li>Courage</li>
+            <li>Integrity</li>
+            <li>Empathy</li>
+            <li>Vulnerability</li>
+            <li>Imagination</li>
+            <li>Hope</li>
+            <li>Pragmatism</li>
+            <li>Leadership</li>
+          </ul>
+          <div class="smith-facts">
+            <div class="smith-fact"><b>B.S. Mechanical Engineering</b><span>IUPUI + Ivy Tech, 2018</span></div>
+            <div class="smith-fact"><b>2 patents</b><span>Blockchain access control (US 11,962,594) and a passive standing-assist device (US2019/032088)</span></div>
+            <div class="smith-fact"><b>Cults3D Top Design</b><span>2023 award</span></div>
+            <div class="smith-fact"><b>Upwork Top Rated</b><span>100% Job Success</span></div>
+          </div>
+          <div class="hero-cta">
+            <a href="https://www.linkedin.com/in/seanneal19/" target="_blank" rel="noopener" class="btn btn-primary">LinkedIn Profile ↗</a>
+            <a href="#book" class="btn btn-ghost">Start a Project</a>
+          </div>
+        </div>
+        <div class="tl-wrap">
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-date">June 2024 — Present</div>
+            <div class="tl-role">CEO & Lead Product Dev Engineer</div>
+            <div class="tl-org">The Dimensional Forge</div>
+            <div class="tl-note">My product development and fabrication practice: consulting, products, content and community.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-date">July 2024 — Present</div>
+            <div class="tl-role">Senior System Engineer</div>
+            <div class="tl-org">Allegion US</div>
+            <div class="tl-note">I own the system for a WiFi lock family and coordinate seven subsystem teams. Ran the 2026 systems engineering intern program. Co-inventor on the blockchain access control patent.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-date">June 2018 — July 2024</div>
+            <div class="tl-role">System Engineer III</div>
+            <div class="tl-org">Allegion US</div>
+            <div class="tl-note">Requirements, architecture, ICDs, integration and V&amp;V for a multi-product family. Data Scientist Cohort, 2019–2020.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-date">Dec 2020 — Present</div>
+            <div class="tl-role">Freelance Product Dev Engineer</div>
+            <div class="tl-org">Etsy — DimensionalForgeProd</div>
+            <div class="tl-note">Top Rated on Upwork, 100% Job Success. Custom manufactured products and engineering consulting.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-date">May 2016 — Feb 2018</div>
+            <div class="tl-role">Product R&D Engineering Co-Op</div>
+            <div class="tl-org">SonaCare Medical</div>
+            <div class="tl-note">Medical device R&D for HIFU surgical systems.</div>
+          </div>
+        </div>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-date">May — Aug 2017</div>
+            <div class="tl-role">Propulsion Systems Analysis Intern</div>
+            <div class="tl-org">NASA Marshall Space Flight Center</div>
+            <div class="tl-note">RS-25 rocket engine hot-fire test data analysis. Main engine of the Space Launch System.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-date">May — Aug 2015</div>
+            <div class="tl-role">Body System Engineering Intern</div>
+            <div class="tl-org">Tesla — Palo Alto</div>
+            <div class="tl-note">Released CAD for cast and stamped aluminum structural parts on Model S and X. Followed my R&amp;D Materials &amp; Fastener Engineering internship in Fremont (Aug–Dec 2014).</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-date">2014 — 2018</div>
+            <div class="tl-role">B.S. Mechanical Engineering</div>
+            <div class="tl-org">IUPUI + Ivy Tech</div>
+            <div class="tl-note">MechE degree plus a Technical Certificate in Drafting &amp; Design Technology from Ivy Tech (2014). FIRST Indiana District Chairman's Team Award.</div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SHOP ───────────────────────────────────────────────────────── -->
+<section id="models" class="section">
+    <div class="container">
+      <span class="label">Shop</span>
+      <h2 class="section-title">Designs, prints and commissions</h2>
+      <hr class="rule" />
+      <p class="section-lead">Free, open designs on MakerWorld. Paid models on Cults3D, including my 2023 Top Design Award winner. I design and test every one myself.</p>
+
+      <div class="models-layout">
+
+        <!-- MakerWorld -->
+        <div class="platform-card">
+          <div class="platform-card-header">
+            <div class="platform-logo">🌐 MakerWorld</div>
+            <div class="platform-url">makerworld.com/en/@Dimensional.F</div>
+          </div>
+          <div class="platform-card-body">
+            <p class="platform-desc">Bambu Lab’s model platform, with tuned print profiles and my full free catalog. Every design here is open to download and print at no cost.</p>
+            <div class="platform-badges">
+              <span class="pbadge pbadge-free">Free Downloads Only</span>
+            </div>
+            <div class="platform-cta">
+              <a href="https://makerworld.com/en/@Dimensional.F" target="_blank" class="btn btn-primary" style="flex:1;justify-content:center;">Browse MakerWorld</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cults3D -->
+        <div class="platform-card">
+          <div class="platform-card-header">
+            <div class="platform-logo">🏆 Cults3D</div>
+            <div class="platform-url">cults3d.com/en/users/TheDimensionalForge</div>
+          </div>
+          <div class="platform-card-body">
+            <p class="platform-desc">My full catalog on Cults3D, an independent 3D-printing marketplace: paid models, free releases, and the 2023 Top Design Award winner.</p>
+            <div class="platform-badges">
+              <span class="pbadge pbadge-free">Free Downloads</span>
+              <span class="pbadge pbadge-paid">Paid Models</span>
+              <span class="pbadge pbadge-award">🏅 Top Design Award 2023</span>
+            </div>
+            <div class="platform-cta">
+              <a href="https://cults3d.com/en/users/TheDimensionalForge/3d-models" target="_blank" class="btn btn-primary" style="flex:1;justify-content:center;">Browse Cults3D</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Custom model commission CTA -->
+      <div class="models-commission">
+        <p><strong>Need something custom?</strong> If you don't see what you're looking for, I take custom model commissions — functional parts, enclosures, fixtures, artistic pieces. Designed in SolidWorks, printed and tested before delivery.</p>
+        <a href="#book" class="btn btn-primary">Commission a Model</a>
+      </div>
+
+    </div>
+  </section>
+
+
   <!-- ── FOOTER ─────────────────────────────────────────────────────── -->
   <footer>
     <div class="container">
       <div class="f-brand">The Dimensional Forge</div>
-      <p>Forging Dimensions: Utility, Fun, Artistry!</p>
+      <p>Forging Dimensions: Utility, Fun, Community, Artistry</p>
       <p style="margin-top:0.75rem;font-size:0.75rem;">
         <a href="mailto:ConnectWithSean@the-dimensional-forge.net" style="color:var(--df-orange);text-decoration:none;">ConnectWithSean@the-dimensional-forge.net</a>
         &nbsp;·&nbsp;
@@ -2133,9 +2419,26 @@
               <span class="rv-card-name">${escHtml(r.name)}</span>
               <span class="rv-card-stars">${starsHtml(r.rating)}</span>
             </div>
-            <div class="rv-card-date">${r.date}${r.project ? ' &nbsp;·&nbsp; ' + escHtml(r.project) : ''}</div>
-            <div class="rv-card-text">${escHtml(r.text)}</div>
+            <div class="rv-card-date">${escHtml(r.date)}${r.project ? ' &nbsp;·&nbsp; ' + escHtml(r.project) : ''}</div>
+            ${String(r.text || '').trim() ? `<div class="rv-card-text">${escHtml(r.text)}</div>` : ''}
           </div>`).join('');
+
+      // Show the newest few; the rest sit behind "Show all"
+      const RV_INITIAL = 6;
+      const cards = list.querySelectorAll('.rv-card');
+      const moreBtn = document.getElementById('rv-more');
+      let expanded = false;
+      const applyLimit = () => {
+        cards.forEach((c, i) => c.classList.toggle('rv-hidden', !expanded && i >= RV_INITIAL));
+        moreBtn.textContent = expanded ? 'Show fewer' : `Show all ${cards.length} reviews`;
+      };
+      moreBtn.hidden = cards.length <= RV_INITIAL;
+      moreBtn.onclick = () => {
+        expanded = !expanded;
+        applyLimit();
+        if (!expanded) document.getElementById('reviews').scrollIntoView({ behavior: 'smooth' });
+      };
+      applyLimit();
 
       const total = reviews.length;
       const avg   = total ? (reviews.reduce((s, r) => s + parseFloat(r.rating), 0) / total) : 0;
@@ -2203,7 +2506,8 @@
     // Nav active state
     const secs = document.querySelectorAll('section[id]');
     const links = document.querySelectorAll('.nav-links a');
-    secs.forEach(s => new IntersectionObserver(entries => {
+    // Band at mid-viewport: works for sections taller than the screen (e.g. #work)
+    const navObs = new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (e.isIntersecting) {
           links.forEach(a => a.style.color = '');
@@ -2211,7 +2515,8 @@
           if (a) a.style.color = '#F0782D';
         }
       });
-    }, { threshold: 0.35 }).observe(s));
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    secs.forEach(s => navObs.observe(s));
 
     // Substack latest post pill — data written daily by GitHub Actions
     (async () => {
@@ -2475,8 +2780,9 @@
     backdrop.addEventListener('click', e => { if (e.target === backdrop) closeProposal(); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeProposal(); });
 
-    document.querySelectorAll('.proposal-card').forEach(card => {
+    document.querySelectorAll('[data-proposal]').forEach(card => {
       card.addEventListener('click', () => openProposal(card.dataset.proposal));
+      card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openProposal(card.dataset.proposal); } });
     });
   </script>
 
@@ -2661,6 +2967,38 @@
     setTimeout(tBlink, 2500 + Math.random() * 2000);
     runBadgeCycle();
   })();
+  </script>
+
+  <script>
+    // Skill → project mapping: hover/focus previews, click pins.
+    document.querySelectorAll('.sheet').forEach(sheet => {
+      const rows = sheet.querySelectorAll('.wk');
+      const btns = sheet.querySelectorAll('.skill');
+      let pinned = null;
+      const show = s => {
+        sheet.classList.add('filtering');
+        rows.forEach(r => {
+          const hit = (r.dataset.skills || '').split('|').includes(s);
+          r.classList.toggle('is-match', hit);
+          r.querySelectorAll('.rtag').forEach(t => t.classList.toggle('hit', hit && t.textContent === s));
+        });
+        btns.forEach(b => b.classList.toggle('on', b.dataset.skill === s));
+      };
+      const clear = () => {
+        sheet.classList.remove('filtering');
+        rows.forEach(r => { r.classList.remove('is-match'); r.querySelectorAll('.rtag').forEach(t => t.classList.remove('hit')); });
+        btns.forEach(b => b.classList.remove('on'));
+      };
+      btns.forEach(b => {
+        const s = b.dataset.skill;
+        b.addEventListener('mouseenter', () => { if (!pinned) show(s); });
+        b.addEventListener('mouseleave', () => { pinned ? show(pinned) : clear(); });
+        b.addEventListener('focus', () => { if (!pinned) show(s); });
+        b.addEventListener('blur', () => { pinned ? show(pinned) : clear(); });
+        b.setAttribute('aria-pressed', 'false');
+        b.addEventListener('click', () => { pinned = (pinned === s) ? null : s; pinned ? show(pinned) : clear(); btns.forEach(x => x.setAttribute('aria-pressed', x.dataset.skill === pinned)); });
+      });
+    });
   </script>
 </body>
 </html>
