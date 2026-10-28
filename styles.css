@@ -1517,3 +1517,11 @@ footer p { color: var(--df-muted); font-size: 0.78rem; }
 }
 .pf-link-btn { appearance: none; background: none; border: 0; padding: 0; cursor: pointer; display: inline-block; }
 .pf-title-sub { display: block; margin-top: 0.35rem; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; letter-spacing: 0.08em; color: var(--df-orange); }
+
+/* Education & credentials row under the patents */
+.pf-creds { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+.pf-cred { background: var(--df-steel); border: 1px solid var(--df-brush); border-left: 3px solid var(--df-gold); border-radius: 2px; padding: 1.3rem 1.4rem; }
+.pf-cred-k { display: block; font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--df-gold); margin-bottom: 0.55rem; }
+.pf-cred h4 { font-family: var(--df-display); font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.05em; line-height: 1.35; color: var(--df-text); margin-bottom: 0.5rem; }
+.pf-cred p { color: var(--df-muted); font-size: 0.84rem; line-height: 1.6; }
+@media (max-width: 900px) { .pf-creds { grid-template-columns: 1fr; } }
